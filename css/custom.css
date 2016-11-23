@@ -1,0 +1,15 @@
+/* custom.css */
+
+.standard-bg {
+	background-size: cover;
+	background-position: center;
+}
+
+.logo {
+	background-image: url("../logo.jpg");
+}
+
+body {
+	/* Add 70px to the top of the body to prevent the navbar from clipping it. */
+	padding-top: 70px;
+}
