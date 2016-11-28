@@ -1,5 +1,8 @@
 #!/bin/bash
 
+WEBROOT="/var/www/html"
+WORKINGDIR=`pwd`
+
 # Exit on any error non-zero
 set -e
 
@@ -25,16 +28,20 @@ done
 
 DATE=$(date +"%Y%m%d%H%M")
 
-echo -e "\nRunning setup..."
+echo -e "\nRunning setup...\n"
+
+echo "Configuring mysql-server..."
 # Pre-populate the root password for mysql-server before install
-PKG_OK=$(dpkg-query -W --showformat='${Status}\n' mysql-server|grep "install ok installed")
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' mysql-server|grep "install ok installed") || true
 echo Checking for mysql-server: $PKG_OK
 if [ "" == "$PKG_OK" ]; then
 debconf-set-selections <<< "mysql-server mysql-server/root_password password $MYSQLROOTPASSWD"
 debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $MYSQLROOTPASSWD"
 
 # Get mysql-server core
+echo ""
 apt-get -y install mysql-server
+echo ""
 fi
 
 
@@ -45,8 +52,8 @@ echo "Database $MAINDB already exists"
 else
 echo "Database not found, creating..."
 mysql -uroot -p${MYSQLROOTPASSWD} -e "CREATE DATABASE ${MAINDB} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
-mysql -uroot -p${MYSQLROOTPASSWD} -e "CREATE USER ${MAINDB}@localhost IDENTIFIED BY '${PASSWDDB}';"
-mysql -uroot -p${MYSQLROOTPASSWD} -e "GRANT ALL PRIVILEGES ON ${MAINDB}.* TO '${MAINDB}'@'localhost';"
+#mysql -uroot -p${MYSQLROOTPASSWD} -e "CREATE USER ${MAINDB}@localhost IDENTIFIED BY '${PASSWDDB}';"
+#mysql -uroot -p${MYSQLROOTPASSWD} -e "GRANT ALL PRIVILEGES ON ${MAINDB}.* TO '${MAINDB}'@'localhost';"
 mysql -uroot -p${MYSQLROOTPASSWD} -e "FLUSH PRIVILEGES;"
 fi
 
@@ -115,7 +122,20 @@ CREATE TABLE OutDonationTable (
 		);"
 fi
 
+echo -e "Mysql-server config complete.\n"
 
+# Pre-populate the root password for apache2 before install
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' apache2|grep "install ok installed") || true
+echo Checking for apache2: $PKG_OK
+if [ "" == "$PKG_OK" ]; then
+# Get apache2
+apt-get -y install apache2 php5
+fi
 
+cd $WEBROOT
+echo "Packing up old webroot..."
+tar czf oldwebroot-$DATE.tar.gz * --exclude="oldwebroot[.]*" || true
+echo "Installing new web components..."
+cp $WORKINGDIR/html/* $WEBROOT/ -r
 
-
+echo -e "\nDone\n"
