@@ -129,7 +129,9 @@ PKG_OK=$(dpkg-query -W --showformat='${Status}\n' apache2|grep "install ok insta
 echo Checking for apache2: $PKG_OK
 if [ "" == "$PKG_OK" ]; then
 # Get apache2
+echo ""
 apt-get -y install apache2 php5
+echo ""
 fi
 
 cd $WEBROOT
