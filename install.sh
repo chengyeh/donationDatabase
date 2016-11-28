@@ -3,27 +3,40 @@
 # Exit on any error non-zero
 set -e
 
+echo -e ""
+
 # You need to be root, sorry.
 if [[ $EUID -ne 0 ]]; then
 echo "This script requires elevated privileges to run. Are you root?"
 exit
 fi
 
-MYSQLINSTALLED=true
-command -v mysql >/dev/null 2>&1 || {echo "Mysql not installed" && MYSQLINSTALLED=false}
+while true
+do
+	echo "Create/Provide MySQL root password:"
+	read -s -p "Password: " MYSQLROOTPASSWD
+	echo
+	read -s -p "Password (again): " MYSQLROOTPASSWD2
+	echo
+	[ "$MYSQLROOTPASSWD" = "$MYSQLROOTPASSWD2" ] && break
+	echo "Passwords do not match."
+done
 
-echo 'Create MySQL root password:'
-read -s MYSQLROOTPASSWD
 
 DATE=$(date +"%Y%m%d%H%M")
 
+echo -e "\nRunning setup..."
 # Pre-populate the root password for mysql-server before install
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' mysql-server|grep "install ok installed")
+echo Checking for mysql-server: $PKG_OK
+if [ "" == "$PKG_OK" ]; then
 debconf-set-selections <<< "mysql-server mysql-server/root_password password $MYSQLROOTPASSWD"
 debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $MYSQLROOTPASSWD"
 
 # Get mysql-server core
-
 apt-get -y install mysql-server
+fi
+
 
 MAINDB="donation"
 RESULT=`mysqlshow --user=root --password=${MYSQLROOTPASSWD} $MAINDB | grep -v Wildcard | grep -o $MAINDB` || true;
@@ -37,6 +50,10 @@ mysql -uroot -p${MYSQLROOTPASSWD} -e "GRANT ALL PRIVILEGES ON ${MAINDB}.* TO '${
 mysql -uroot -p${MYSQLROOTPASSWD} -e "FLUSH PRIVILEGES;"
 fi
 
+
+if [ $(mysql -N -s -u root -p${MYSQLROOTPASSWD} -e "select count(*) from information_schema.tables where table_schema='$MAINDB' and table_name='DonorTable';") -eq 1 ]; then
+	echo "DonorTable already exists."
+else
 echo "Creating DonorTable..."
 mysql -uroot -p${MYSQLROOTPASSWD} $MAINDB -e "
 CREATE TABLE DonorTable(
@@ -48,8 +65,11 @@ CREATE TABLE DonorTable(
 		Address VARCHAR(50),
 		PRIMARY KEY ( DonorID )
 		);"
+fi
 
-
+if [ $(mysql -N -s -u root -p${MYSQLROOTPASSWD} -e "select count(*) from information_schema.tables where table_schema='$MAINDB' and table_name='DoneeTable';") -eq 1 ]; then
+	echo "DoneeTable already exists."
+else
 	echo "Creating DoneeTable..."
 	mysql -uroot -p${MYSQLROOTPASSWD} $MAINDB -e "
 CREATE TABLE DoneeTable (
@@ -64,6 +84,11 @@ CREATE TABLE DoneeTable (
 		Ethnicity VARCHAR(24),
 		PRIMARY KEY ( DoneeID )
 		);"
+fi
+
+if [ $(mysql -N -s -u root -p${MYSQLROOTPASSWD} -e "select count(*) from information_schema.tables where table_schema='$MAINDB' and table_name='IncDonationTable';") -eq 1 ]; then
+	echo "IncDonationTable already exists."
+else
 
 	echo "Creating IncDonationTable..."
 	mysql -uroot -p${MYSQLROOTPASSWD} $MAINDB -e "
@@ -74,7 +99,11 @@ CREATE TABLE IncDonationTable (
 		Amount INT NOT NULL,
 		PRIMARY KEY ( RefNum )
 		);"
+fi
 
+if [ $(mysql -N -s -u root -p${MYSQLROOTPASSWD} -e "select count(*) from information_schema.tables where table_schema='$MAINDB' and table_name='OutDonationTable';") -eq 1 ]; then
+	echo "OutDonationTable already exists."
+else
 	echo "Creating OutDonationTable..."
 	mysql -uroot -p${MYSQLROOTPASSWD} $MAINDB -e "
 CREATE TABLE OutDonationTable (
@@ -84,3 +113,9 @@ CREATE TABLE OutDonationTable (
 		Amount INT NOT NULL,
 		PRIMARY KEY ( RefNum )
 		);"
+fi
+
+
+
+
+
