@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang = "en">
+
+<head>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> -->
+	<!-- The following 3 meta tags *must* come first! -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first! -->
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="bootstrap/css/custom.css" rel="stylesheet"> <!-- load our css after bootstrap -->
+	<title>User Page</title>
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+	<div class="container topbar">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">Donation database</a>
+		</div>
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav">
+				<li><a href="#">Sign Up</a></li>
+				<li><a href="#home">Home</a></li>
+				<li><a href="#donate">Donate</a></li>
+				<li><a href="#getinvolved">Get Involved</a></li>
+				<li class="dropdown"><a href="#about">About Us</a>
+					<ul class="dropdown-menu">
+						<li><a href="#contact">Contact Us</a></li>
+						<li><a href="#newsletter">Newsletter</a></li>
+					</ul>
+				</li>
+				<li class="active"><a href="#request">Request Services</a></li>
+			</ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div class="container">
+	<h3>Insert Item</h3> <br>
+	<form>
+		<b>Item Information</b><br> <br>
+		Item Name* 
+		<input type="text" class="form-control input" name="itemname"> <br>
+		Item Quantity*
+		<input type="number" class="form-control input" name="itemquantity" min="0" scale="1"> <br>
+		<hr>
+		<b>Donor Information</b> <br> <br>
+		Donor Reference ID*
+		<input type="text" class="form-control input" name="donorid"><br>
+		<b>Or</b> <br>
+		First Name* 
+		<input type="text" class="form-control input" name="firstname"><br>
+		Last Name* 
+		<input type="text" class="form-control input" name="lastname"><br>
+		Company* 
+		<input type="text" class="form-control input" name="company"><br>
+		Address* 
+		<input type="text" class="form-control input" name="address"><br>
+		City* 
+		<input type="text" class="form-control input" name="city"><br>
+		State* 
+		<input type="text" class="form-control input" name="state"><br>
+		Zip* 
+		<input type="text" class="form-control input" name="zip"><br>
+		Phone* 
+		<input type="text" class="form-control input" name="phone"><br>
+		Email* 
+		<input type="text" class="form-control input" name="email"><br>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button class="btn btn-default">Enter Item</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="container">
+	<h3>Remove Item</h3><br>
+	<form>
+		<b>Item Information</b><br><br>
+		Item Name* 
+		<input type="text" class="form-control input" name="itemname"> <br>
+		Item Quantity*
+		<input type="number" class="form-control input" name="itemquantity" min="0" scale="1"> <br>
+		Retype Item Name*
+		<input type="number" class="form-control input" name="retypename" min="0" scale="1"> <br>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button class="btn btn-default">Remove Item</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<hr> <br>
+
+<div class="form-group">
+	<div class="col-sm-offset-1 col-sm-10">
+		<button class="btn btn-default">Generate Inventory Report</button>
+	</div>
+</div> <br> <br>
+<script type="text/javscript" source="js/bootstrap.min.js"></script>
+
+</body>
+</html>
