@@ -9,9 +9,8 @@ $reference = $_GET["reference"];
 $donorId = $_GET["donorid"];
 $firstName = $_GET["firstname"];
 $lastName = $_GET["lastname"];
-$company = $_GET["company"];
 $address = $_GET["address"];
-$phone = $_GET["zip"];
+$phone = $_GET["phone"];
 $email = $_GET["email"];
 
  //NOT SURE WHOSE EECS AACOUNT WE"RE GOING TO USE FOR HOSTING THE DATABASES SO I LEFT ALL RELEVANT FIELD EMPTY FOR THE TIME BEING
@@ -22,19 +21,31 @@ if ($mysqli->connect_errno)
 	exit();
 }
 
-$date = CURDATE() + 0;
-
-$updateDate = "UPDATE Incoming Donations SET Date='$date' WHERE Reference_ID='$reference'";
+$updateDate = "UPDATE dd_indonation SET date_completed=NOW() WHERE id='$reference'";
 
 if($result = $mysqli->query($updateDate))
 {
 }
 
-$updateItem = "UPDATE Inventory SET Quantity=Quantity+'$itemQuantity' WHERE Donor_ID='$itemId'";
+$updateValue = "UPDATE dd_indonation SET value='$itemValue' WHERE id='$reference'";
+
+if($result = $mysqli->query($updateValue))
+{
+}
+
+$updateReceived = "UPDATE dd_indonation SET amount_received='$itemQuantity' WHERE id='$reference'";
+
+if($result = $mysqli->query($updateReceived))
+{
+}
+
+$updateItem = "UPDATE dd_inventory SET amount=amount+'$itemQuantity' WHERE id='$itemName'";
 
 if($result = $mysqli->query($updateItem))
 {
 }
 
 $mysqli->close();
+
+header("Location:https://people.eecs.ku.edu/~mbechtel/donationDatabase/html/user.html");
 ?>

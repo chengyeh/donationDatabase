@@ -45,7 +45,7 @@
 
 <div class="container">
 	<h3>Item Requesting Form</h3> <br>
-	<form>
+	<form action="donee.php">
 		<table class="table table-striped">
 			<tr>
 				<th>Item</th>
@@ -55,27 +55,27 @@
 			<tr>
 				<td>{Item 1}</td>
 				<td>{Category 1}</td>
-				<td><input type="number" value="item1" min="0" scale="1"></td>
+				<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
 			</tr>
 			<tr>
 				<td>{Item 2}</td>
 				<td>{Category 2}</td>
-				<td><input type="number" value="item2" min="0" scale="1"></td>
+				<td><input type="number" value="item2" name="second" min="0" scale="1"></td>
 			</tr>
 			<tr>
 				<td>{Item 3}</td>
 				<td>{Category 3}</td>
-				<td><input type="number" value="item3" min="0" scale="1"></td>
+				<td><input type="number" value="item3" name="third" min="0" scale="1"></td>
 			</tr>
 			<tr>
 				<td>{Item 4}</td>
 				<td>{Category 4}</td>
-				<td><input type="number" value="item4" min="0" scale="1"></td>
+				<td><input type="number" value="item4" name="fourth min="0" scale="1"></td>
 			</tr>
 			<tr>
 				<td>{Item 5}</td>
 				<td>{Category 5}</td>
-				<td><input type="number" value="item5" min="0" scale="1"></td>
+				<td><input type="number" value="item5" name="fifth" min="0" scale="1"></td>
 			</tr>
 		</table>
 		<hr>
@@ -86,6 +86,9 @@
 			</div>
 		</div>
 		<hr>
+		
+		<input type="submit" value="Request Donation">
+		
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
 				<button class="btn btn-default">Submit</button>
