@@ -1,0 +1,58 @@
+# initializes database with parameters extracted from install.sh
+
+CREATE DATABASE donation;
+
+USE donation;
+
+CREATE TABLE DonorTable (
+	DonorID INT NOT NULL AUTO_INCREMENT,
+	FirstName VARCHAR(24) NOT NULL,
+	LastName VARCHAR(24) NOT NULL,
+	Telephone INT(10),
+	Email VARCHAR(50) NOT NULL,
+	Address VARCHAR(50),
+	PRIMARY KEY ( DonorID )
+);
+
+CREATE TABLE DoneeTable (
+	DoneeID INT NOT NULL AUTO_INCREMENT,
+	FirstName VARCHAR(24) NOT NULL,
+	LastName VARCHAR(24) NOT NULL,
+	Telephone INT(10),
+	Email VARCHAR(50) NOT NULL,
+	Address VARCHAR(50),
+	Age INT,
+	Gender VARCHAR(6),
+	Ethnicity VARCHAR(24),
+	PRIMARY KEY ( DoneeID )
+);
+
+CREATE TABLE IncDonationTable (
+	RefNum INT NOT NULL AUTO_INCREMENT,
+	DonorID INT NOT NULL,
+	Item VARCHAR(30) NOT NULL,
+	Amount INT NOT NULL,
+	PRIMARY KEY ( RefNum )
+);
+
+CREATE TABLE OutDonationTable (
+	RefNum INT NOT NULL,
+	DoneeID INT NOT NULL,
+	Item VARCHAR(30) NOT NULL,
+	Amount INT NOT NULL,
+	PRIMARY KEY ( RefNum )
+);
+
+CREATE TABLE Users (
+	UserID INT(11) NOT NULL AUTO_INCREMENT,
+	FirstName VARCHAR(24) DEFAULT NULL,
+	LastName VARCHAR(24) DEFAULT NULL,
+	Telephone INT(10) DEFAULT NULL,
+	Email VARCHAR(50) NOT NULL,
+	Address VARCHAR(50) DEFAULT NULL,
+	City VARCHAR(50) DEFAULT NULL,
+	State VARCHAR(24) DEFAULT NULL,
+	Zip CHAR(5) DEFAULT NULL,
+	Password CHAR(64) NOT NULL,
+	PRIMARY KEY ( UserID )
+)
