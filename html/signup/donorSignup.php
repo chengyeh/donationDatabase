@@ -45,10 +45,6 @@
 </nav>
 
 <div class="container">
-	<hr>
-	<hr>
-	<hr>
-	<hr>
 	<h3> Donor Sign Up </h3> <br>
 	<form class="form-horizontal">
 		<div class="form-group">
