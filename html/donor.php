@@ -22,5 +22,5 @@ if($r = $mysqli->query($updateAmount))
 
 $mysqli->close();
 
-header("Location:https://people.eecs.ku.edu/~mbechtel/donationDatabase/html/doner.html");
+header("Location:https://people.eecs.ku.edu/~mbechtel/donationDatabase/html/donor.html");
 ?>
