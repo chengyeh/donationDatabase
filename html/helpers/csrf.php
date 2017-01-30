@@ -28,15 +28,14 @@ function csrf_token()
  * verify_csrf_token
  * Checks a provided CSRF token against the one set in the session. If the
  * tokens don't match, exit immediately with error 498.
- * @param	string	An MD5 hash.
  */
-function verify_csrf_token($supplied_token)
+function verify_csrf_token()
 {
-	if ($supplied_token === '') {
+    if (!isset($_POST['csrf_token'])) {
 		http_response_code(499);
 		die('Error 499: CSRF token not supplied.');
 	}
-	else if (!isset($_SESSION['csrf_token']) || $_SESSION['csrf_token'] !== $supplied_token) {
+	else if (!isset($_SESSION['csrf_token']) || $_SESSION['csrf_token'] !== $_POST['csrf_token']) {
 		http_response_code(498);
 		die('Error 498: CSRF token mismatch.');
 	}

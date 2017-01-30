@@ -11,5 +11,5 @@
 
 body {
 	/* Add 70px to the top of the body to prevent the navbar from clipping it. */
-	/*padding-top: 70px;*?
+	padding-top: 70px;
 }

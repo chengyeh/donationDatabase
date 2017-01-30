@@ -4,20 +4,12 @@
  * objects.
  */
 
-// extend this with your development environment!
-if ($_SERVER["MYSQL_HOME"] == "\\xampp\\mysql\\bin") {
-	// xampp environment
-	$mysql_addr = 'localhost';
-	$mysql_user = 'root';
-	$mysql_pass = '';
-	$mysql_db = 'donation';
-} else {
-	// eecs server environment
-	$mysql_addr = 'mysql.eecs.ku.edu';
-	$mysql_user = 'rriedel';
-	$mysql_pass = 'Password123!';
-	$mysql_db = 'rriedel';
-}
+require_once(__DIR__.'/../../config.php');
+
+$mysql_addr = $config['mysql_addr'];
+$mysql_user = $config['mysql_user'];
+$mysql_pass = $config['mysql_pass'];
+$mysql_db = $config['mysql_db'];
 
 $mysqli = new mysqli($mysql_addr, $mysql_user, $mysql_pass, $mysql_db);
 if ($mysqli->connect_errno)

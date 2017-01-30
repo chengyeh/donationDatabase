@@ -4,10 +4,7 @@ require_once('../helpers/mysqli.php');
 require_once('../helpers/csrf.php');
 
 // verify csrf token
-if (!isset($_POST['csrf_token']))
-	verify_csrf_token('');
-else
-	verify_csrf_token($_POST['csrf_token']);
+verify_csrf_token();
 
 // grab and filter inputs
 $firstname = mysqli_real_escape_string($mysqli, $_POST['firstname']);
@@ -27,6 +24,8 @@ if ($password !== $passwordconf) {
 	http_response_code();
 	die('Error 400: Bad request');
 }
+
+// TODO: run checks to see if a user with this email address exists
 
 // create this user in the database
 $query = <<<SQL
