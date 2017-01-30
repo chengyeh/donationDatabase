@@ -19,7 +19,7 @@ require_once('../helpers/form.php');
 </head>
 <body>
 
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default navbar-remote navbar-decoration ">
 	<div class="container topbar">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
