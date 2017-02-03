@@ -1,5 +1,6 @@
 <?php
-$config = parse_ini_file(__DIR__.'./config.ini');
+
+$config = parse_ini_file(__DIR__.'/config.ini');
 
 if (basename($_SERVER['REQUEST_URI']) === 'config.php') {
 	$dir = __DIR__;
