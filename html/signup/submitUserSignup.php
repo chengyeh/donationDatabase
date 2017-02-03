@@ -1,7 +1,7 @@
 <?php
 
 require_once('../helpers/mysqli.php');
-require_once('../helpers/csrf.php');
+require_once('../helpers/crypto.php');
 
 // verify csrf token
 verify_csrf_token();
@@ -15,15 +15,18 @@ $state = mysqli_real_escape_string($mysqli, $_POST['state']);
 $zip = mysqli_real_escape_string($mysqli, $_POST['zip']);
 $phone = mysqli_real_escape_string($mysqli, $_POST['phone']);
 $email = mysqli_real_escape_string($mysqli, $_POST['email']);
-// TODO: salt these
-$password = hash('sha256', $_POST['password']);
-$passwordconf = hash('sha256', $_POST['passwordconf']);
+
+// grab passwords, compare, and hash
+$password = $_POST['password'];
+$passwordconf = $_POST['passwordconf'];
 
 if ($password !== $passwordconf) {
-	// TODO: this should be verified with javascript (instead?)
-	http_response_code();
+	http_response_code(400);
 	die('Error 400: Bad request');
 }
+
+// TODO: salt this
+$password = hash('sha256', $password);
 
 // TODO: run checks to see if a user with this email address exists
 

@@ -12,7 +12,7 @@ $nav_liclass['signup'] = '';
 $nav_liclass['home'] = '';
 $nav_liclass['donate'] = '';
 $nav_liclass['getinvolved'] = '';
-$nav_liclass['about'] = 'dropdown ';
+$nav_liclass['about'] = '';
 $nav_liclass['request'] = '';
 
 if (isset($navbar_active)) {
@@ -21,12 +21,14 @@ if (isset($navbar_active)) {
 
 ?>
 <head>
-	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> -->
 	<!-- The following 3 meta tags *must* come first! -->
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first! -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="<?= $config['path_web'] ?>html/bootstrap/js/bootstrap.min.js"></script>
+
 	<link href="<?= $config['path_web'] ?>html/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link href="<?= $config['path_web'] ?>html/bootstrap/css/custom.css" rel="stylesheet">
 	<!-- load our css after bootstrap -->
@@ -51,7 +53,8 @@ if (isset($navbar_active)) {
 				<li class="<?= $nav_liclass['home'] ?>"><a href="<?= $config['path_web'] ?>html/index.php">Home</a></li>
 				<li class="<?= $nav_liclass['donate'] ?>"><a href="<?= $config['path_web'] ?>html/donor.php">Donate</a></li>
 				<li class="<?= $nav_liclass['getinvolved'] ?>"><a href="<?= $config['path_web'] ?>#getinvolved">Get Involved</a></li>
-				<li class="<?= $nav_liclass['about'] ?>"><a href="<?= $config['path_web'] ?>#about">About Us</a>
+				<li class="<?= $nav_liclass['about'] ?>">
+					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About Us</a>
 					<ul class="dropdown-menu">
 						<li><a href="<?= $config['path_web'] ?>#contact">Contact Us</a></li>
 						<li><a href="<?= $config['path_web'] ?>#newsletter">Newsletter</a></li>
