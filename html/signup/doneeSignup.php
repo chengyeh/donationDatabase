@@ -1,21 +1,17 @@
-<?php
-
-require_once('../helpers/form.php');
-
-?>
 <!DOCTYPE html>
 <html lang = "en">
 <?php
 
-$navbar_active = 'request';
-$navbar_title = 'Donee Signup';
+require_once('../helpers/form.php');
 
+$navbar_active = 'signup';
+$navbar_title = 'Donee Signup';
 include('../layouts/navbar.php');
 
 ?>
 
 <div class="container">
-	<h3> Donee Sign Up </h3> <br>
+	<h3>Donee Sign Up </h3> <br>
 	<form class="form-horizontal" action="submitDoneeSignup.php" method="POST">
 		<?php
 		form_field('firstname', 'First name');

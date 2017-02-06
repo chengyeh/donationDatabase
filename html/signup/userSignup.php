@@ -1,11 +1,8 @@
-<?php
-
-require_once('../helpers/form.php');
-
-?>
 <!DOCTYPE html>
 <html lang = "en">
 <?php
+
+require_once('../helpers/form.php');
 
 $navbar_active = 'signup';
 $navbar_title = 'User Signup Page';
@@ -14,7 +11,7 @@ include('../layouts/navbar.php');
 ?>
 
 <div class="container">
-	<h3> User Sign Up </h3> <br>
+	<h3>User Sign Up</h3>
 	<form class="form-horizontal" action="submitUserSignup.php" method="POST">
 		<?php
 		form_field('firstname', 'First name');
@@ -36,8 +33,6 @@ include('../layouts/navbar.php');
 		</div>
 	</form>
 </div>
-
-<script type="text/javscript" source="js/bootstrap.min.js"></script>
 
 </body>
 </html>
