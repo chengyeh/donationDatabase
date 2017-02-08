@@ -67,6 +67,7 @@ CREATE TABLE DonorTable(
 		DonorID INT NOT NULL AUTO_INCREMENT,
 		FirstName VARCHAR(24) NOT NULL,
 		LastName VARCHAR(24) NOT NULL,
+    Value INT NOT NULL,
 		Telephone INT(10),
 		Email VARCHAR(50) NOT NULL,
 		Address VARCHAR(50),
@@ -89,6 +90,7 @@ CREATE TABLE DoneeTable (
 		Age INT,
 		Gender VARCHAR(6),
 		Ethnicity VARCHAR(24),
+    HouseholdSize INT,
 		PRIMARY KEY ( DoneeID )
 		);"
 fi
@@ -102,8 +104,12 @@ else
 CREATE TABLE IncDonationTable (
 		RefNum INT NOT NULL AUTO_INCREMENT,
 		DonorID INT NOT NULL,
-		Item VARCHAR(30) NOT NULL,
+		ItemID VARCHAR(30) NOT NULL,
 		Amount INT NOT NULL,
+    ActualAmount INT NOT NULL,
+    Value INT NOT NULL,
+    PledgeDate TIMESTAMP NOT NULL,
+    ReceiveDate TIMESTAMP,
 		PRIMARY KEY ( RefNum )
 		);"
 fi
@@ -116,11 +122,42 @@ else
 CREATE TABLE OutDonationTable (
 		RefNum INT NOT NULL,
 		DoneeID INT NOT NULL,
-		Item VARCHAR(30) NOT NULL,
-		Amount INT NOT NULL,
+		ItemID VARCHAR(30) NOT NULL,
+		Amount INT,
+    FulfillDate TIMESTAMP,
 		PRIMARY KEY ( RefNum )
 		);"
 fi
+
+if [ $(mysql -N -s -u root -p${MYSQLROOTPASSWD} -e "select count(*) from information_schema.tables where table_schema='$MAINDB' and table_name='UserTable';") -eq 1 ]; then
+	echo "UserTable already exists."
+else
+	echo "Creating UserTable..."
+	mysql -uroot -p${MYSQLROOTPASSWD} $MAINDB -e "
+CREATE TABLE UserTable (
+		UserID INT NOT NULL AUTO_INCREMENT,
+		Email VARCHAR(50) NOT NULL,
+    PassHash VARCHAR(50) NOT NULL,
+    PassSalt VARCHAR(20) NOT NULL,
+    Privileges INT NOT NULL,
+		PRIMARY KEY ( UserID )
+		);"
+fi
+
+if [ $(mysql -N -s -u root -p${MYSQLROOTPASSWD} -e "select count(*) from information_schema.tables where table_schema='$MAINDB' and table_name='InventoryTable';") -eq 1 ]; then
+	echo "InventoryTable already exists."
+else
+	echo "Creating InventoryTable..."
+	mysql -uroot -p${MYSQLROOTPASSWD} $MAINDB -e "
+CREATE TABLE InventoryTable (
+		ItemID INT NOT NULL AUTO_INCREMENT,
+    Name VARCHAR(30) NOT NULL,
+    Amount INT,
+    Threshold INT,
+		PRIMARY KEY ( ItemID )
+		);"
+fi
+
 
 echo -e "Mysql-server config complete.\n"
 
