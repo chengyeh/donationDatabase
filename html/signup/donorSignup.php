@@ -27,7 +27,7 @@ include('../layouts/navbar.php');
 		<hr>
 		<?php
 		form_field('password', 'Password', 'password');
-		form_field('passwordconf', 'Password', 'password');
+		form_field('passwordconf', 'Confirm Password', 'password');
 		csrf_token_field();
 		?>
 		<div class="form-group">

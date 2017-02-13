@@ -22,6 +22,9 @@ include('../layouts/navbar.php');
 		form_field('zip', 'Zip code');
 		form_field('phone', 'Phone', 'text', '(555) 555-5555');
 		form_field('email', 'Email', 'email', 'yourname@example.com');
+		?>
+		<hr>
+		<?php
 		form_field('password', 'Password', 'password');
 		form_field('passwordconf', 'Confirm password', 'password');
 		csrf_token_field();
