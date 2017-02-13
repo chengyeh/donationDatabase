@@ -49,6 +49,19 @@ if (isset($navbar_active)) {
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
+				<li class="<?= $nav_liclass['home'] ?>"><a href="<?= $config['path_web'] ?>html/index.php">Home</a></li>
+				<li class="<?= $nav_liclass['about'] ?>">
+					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About Us</a>
+					<ul class="dropdown-menu">
+						<li><a href="<?= $config['path_web'] ?>#contact">Contact Us</a></li>
+						<li><a href="<?= $config['path_web'] ?>#newsletter">Newsletter</a></li>
+					</ul>
+				</li>
+				<li class="<?= $nav_liclass['donate'] ?>"><a href="<?= $config['path_web'] ?>html/donor.php">Donate</a></li>
+				<!--
+				<li class="<?= $nav_liclass['getinvolved'] ?>"><a href="<?= $config['path_web'] ?>#getinvolved">Get Involved</a></li>
+				-->
+				<li class="<?= $nav_liclass['request'] ?>"><a href="<?= $config['path_web'] ?>html/signup/doneeSignup.php">Request Services</a></li>
 				<li class="<?= $nav_liclass['signup'] ?>">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sign Up</a>
 					<ul class="dropdown-menu">
@@ -57,19 +70,6 @@ if (isset($navbar_active)) {
 						<li><a href="<?= $config['path_web'] ?>html/signup/doneeSignup.php">As donee</a></li>
 					</ul>
 				</li>
-				<li class="<?= $nav_liclass['home'] ?>"><a href="<?= $config['path_web'] ?>html/index.php">Home</a></li>
-				<li class="<?= $nav_liclass['donate'] ?>"><a href="<?= $config['path_web'] ?>html/donor.php">Donate</a></li>
-				<!--
-				<li class="<?= $nav_liclass['getinvolved'] ?>"><a href="<?= $config['path_web'] ?>#getinvolved">Get Involved</a></li>
-				-->
-				<li class="<?= $nav_liclass['about'] ?>">
-					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About Us</a>
-					<ul class="dropdown-menu">
-						<li><a href="<?= $config['path_web'] ?>#contact">Contact Us</a></li>
-						<li><a href="<?= $config['path_web'] ?>#newsletter">Newsletter</a></li>
-					</ul>
-				</li>
-				<li class="<?= $nav_liclass['request'] ?>"><a href="<?= $config['path_web'] ?>html/signup/doneeSignup.php">Request Services</a></li>
 			</ul>
 		</div><!--/.nav-collapse -->
 	</div>
