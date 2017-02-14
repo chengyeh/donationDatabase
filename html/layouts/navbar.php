@@ -5,6 +5,17 @@
  * 		below
  * $navbar_title	the title of this page
  */
+ 
+ if(isset($_SESSION["id"]))
+{
+	$logPage = "logout.php";
+	$logTitle = "Logout";
+}
+else
+{
+	$logPage = "login.php";
+	$logTitle = "Login";
+}
 
 require_once(__DIR__.'/../../config.php');
 
@@ -14,6 +25,7 @@ $nav_liclass['donate'] = '';
 $nav_liclass['getinvolved'] = '';
 $nav_liclass['about'] = '';
 $nav_liclass['request'] = '';
+$nav_liclass['log'] = '';
 
 if (isset($navbar_active)) {
     $nav_liclass[$navbar_active] .= 'active';
@@ -70,6 +82,9 @@ if (isset($navbar_active)) {
 						<li><a href="<?= $config['path_web'] ?>html/signup/doneeSignup.php">As donee</a></li>
 					</ul>
 				</li>
+				
+				<li class="<?= $nav_liclass['log'] ?>"> <a href="<?= $config['path_web'] ?>html/<?=$logPage?>"> <?= $logTitle ?></a></li>
+				
 			</ul>
 		</div><!--/.nav-collapse -->
 	</div>

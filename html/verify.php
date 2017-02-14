@@ -2,6 +2,8 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
+include('layouts/navbar.php');
+
 session_start();
 
  //NOT SURE WHOSE EECS AACOUNT WE"RE GOING TO USE FOR HOSTING THE DATABASES SO I LEFT ALL RELEVANT FIELD EMPTY FOR THE TIME BEING
@@ -25,14 +27,5 @@ if($result = $mysqli->query($query))
 	}
 }
 
-if(isset($_SESSION["id"]))
-{
-	echo $_SESSION["id"];
-}
-else
-{
-	echo "FAIL";
-}
-
-session_destroy();
+header("Location:https://people.eecs.ku.edu/~mbechtel/donationDatabase/html/index.php");
 ?>

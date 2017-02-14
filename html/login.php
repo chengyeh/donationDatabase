@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang = "en">
 <?php
-
-//require_once('../helpers/form.php');
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+require_once('helpers/form.php');
 
 $navbar_active = 'signup';
 $navbar_title = 'Donee Signup';
-include('../layouts/navbar.php');
+include('layouts/navbar.php');
 
 ?>
 
