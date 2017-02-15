@@ -5,14 +5,7 @@
 session_start();
 
 if(isset($_SESSION["id"]))
-{
-	$mysqli = new mysqli("mysql.eecs.ku.edu", "rriedel", "TJueFeMFESrEHV8S", "rriedel");
-	if ($mysqli->connect_errno)
-	{
-		printf("Connect failed: %s\n", $mysqli->connect_error);
-		exit();
-	}
-	
+{	
 	$temp = $_SESSION["id"];
 
 	$updateAmount = "INSERT INTO dd_outdonation (donee_id, amount, date_generated) VALUES ('$temp', '$first', NOW())";

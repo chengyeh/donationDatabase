@@ -7,20 +7,14 @@ session_start();
 $navbar_active = 'donate';
 $navbar_title = 'Donor Page';
 include('layouts/navbar.php');
+include('helpers/mysqli.php');
 
 $item = $_GET["request"];
 $amount = $_GET["first"];
 
 if(isset($_SESSION["id"]))
-{
-	$mysqli = new mysqli("mysql.eecs.ku.edu", "rriedel", "TJueFeMFESrEHV8S", "rriedel");
-	if ($mysqli->connect_errno)
-	{
-		printf("Connect failed: %s\n", $mysqli->connect_error);
-		exit();
-	}
-	
-$temp = $_SESSION["id"];
+{	
+	$temp = $_SESSION["id"];
 
 	$updateAmount = "INSERT INTO dd_indonation (donor_id, amount, date_pledged) VALUES ($temp, '$amount', NOW())";
 
