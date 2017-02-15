@@ -4,6 +4,8 @@
 <?php
 session_start();
 
+include('helpers/mysqli.php');
+
 if(isset($_SESSION["id"]))
 {	
 	$temp = $_SESSION["id"];
