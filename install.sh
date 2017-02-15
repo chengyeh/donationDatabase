@@ -58,42 +58,6 @@ mysql -uroot -p${MYSQLROOTPASSWD} -e "FLUSH PRIVILEGES;"
 fi
 
 
-if [ $(mysql -N -s -u root -p${MYSQLROOTPASSWD} -e "select count(*) from information_schema.tables where table_schema='$MAINDB' and table_name='DonorTable';") -eq 1 ]; then
-	echo "DonorTable already exists."
-else
-echo "Creating DonorTable..."
-mysql -uroot -p${MYSQLROOTPASSWD} $MAINDB -e "
-CREATE TABLE DonorTable(
-		DonorID INT NOT NULL AUTO_INCREMENT,
-		FirstName VARCHAR(24) NOT NULL,
-		LastName VARCHAR(24) NOT NULL,
-    Value INT NOT NULL,
-		Telephone INT(10),
-		Email VARCHAR(50) NOT NULL,
-		Address VARCHAR(50),
-		PRIMARY KEY ( DonorID )
-		);"
-fi
-
-if [ $(mysql -N -s -u root -p${MYSQLROOTPASSWD} -e "select count(*) from information_schema.tables where table_schema='$MAINDB' and table_name='DoneeTable';") -eq 1 ]; then
-	echo "DoneeTable already exists."
-else
-	echo "Creating DoneeTable..."
-	mysql -uroot -p${MYSQLROOTPASSWD} $MAINDB -e "
-CREATE TABLE DoneeTable (
-		DoneeID INT NOT NULL AUTO_INCREMENT,
-		FirstName VARCHAR(24) NOT NULL,
-		LastName VARCHAR(24) NOT NULL,
-		Telephone INT(10),
-		Email VARCHAR(50) NOT NULL,
-		Address VARCHAR(50),
-		Age INT,
-		Gender VARCHAR(6),
-		Ethnicity VARCHAR(24),
-    HouseholdSize INT,
-		PRIMARY KEY ( DoneeID )
-		);"
-fi
 
 if [ $(mysql -N -s -u root -p${MYSQLROOTPASSWD} -e "select count(*) from information_schema.tables where table_schema='$MAINDB' and table_name='IncDonationTable';") -eq 1 ]; then
 	echo "IncDonationTable already exists."
@@ -136,10 +100,26 @@ else
 	mysql -uroot -p${MYSQLROOTPASSWD} $MAINDB -e "
 CREATE TABLE UserTable (
 		UserID INT NOT NULL AUTO_INCREMENT,
-		Email VARCHAR(50) NOT NULL,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    State VARCHAR(50),
+    City VARCHAR(50),
+    Zip INT,
+    AddressLine1 VARCHAR(100),
+    AddressLine2 VARCHAR(100),
+    CumulativeRecValue INT,
+    Telephone VARCHAR(40),
+		Email VARCHAR(255) NOT NULL,
     PassHash VARCHAR(50) NOT NULL,
     PassSalt VARCHAR(20) NOT NULL,
-    Privileges INT NOT NULL,
+    FlagAdmin BIT NOT NULL,
+    FlagUser BIT NOT NULL,
+    FlagDonor BIT NOT NULL,
+    FlagDonee BIT NOT NULL,
+    Age INT,
+    HouseholdSize INT,
+    Ethnicity INT,
+    Gender VARCHAR(1),
 		PRIMARY KEY ( UserID )
 		);"
 fi
@@ -151,6 +131,7 @@ else
 	mysql -uroot -p${MYSQLROOTPASSWD} $MAINDB -e "
 CREATE TABLE InventoryTable (
 		ItemID INT NOT NULL AUTO_INCREMENT,
+    Category VARCHAR(30),
     Name VARCHAR(30) NOT NULL,
     Amount INT,
     Threshold INT,
