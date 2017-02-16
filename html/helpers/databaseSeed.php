@@ -83,13 +83,25 @@ function seed_zip()
 function seed_name_part()
 {
 	$prefixes = [
-		'Bib', 'Wump', 'Tung', 'Jarb', 'Porb', 'Kubb', 'Ding', 'Curd', 'Cust',
-		'Bump', 'Beef', 'Pork', 'Mang', 'Dork', 'Clong', 'Bulg', 'Malg'
+		'Bu', 'Du', 'Pe', 'Bo', 'Mc', 'Pe', 'Le', 'Nor', 'Wu'
+	];
+	$roots = [
+		'Bibb', 'Wump', 'Tung', 'Jarb', 'Porb', 'Kubb', 'Ding', 'Curd', 'Bump',
+		'Beef', 'Pork', 'Mang', 'Dork', 'Clong', 'Bulg', 'Scrimm', 'Beeb',
+		'Georg', 'Mugg', 'Chogg', 'Bulb', 'Bong', 'Bung', 'Fung', 'Sausag',
+		'Loin', 'Bigg', 'Ting', 'Wapp', 'Gord', 'Beep', 'Ming', 'Reed', 'Bob',
+		'Gripp', 'Ork'
 	];
 	$suffixes = [
-		'le', 'ook', 'us', 'o', 'a', 'er'
+		'', 'le', 'ook', 'us', 'o', 'a', 'er', 'y', 'on', 'sta', 'man'
 	];
-	$name = $prefixes[rand(0, count($prefixes)-1)] . $suffixes[rand(0, count($suffixes)-1)];
+	$name = $roots[rand(0, count($roots)-1)] . $suffixes[rand(0, count($suffixes)-1)];
+	if (rand(0, 6) == 0) {
+		$prefix = $prefixes[rand(0, count($prefixes)-1)];
+		if ($prefix !== 'Mc')
+			$name = strtolower($name);
+		$name = $prefix . $name;
+	}
 	return $name;
 }
 

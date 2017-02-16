@@ -13,3 +13,8 @@ body {
 	/* Add 70px to the top of the body to prevent the navbar from clipping it. */
 	padding-top: 70px;
 }
+
+.form-control[name=captcha_code] {
+	/* Same width as captcha image */
+	width: 215px;
+}

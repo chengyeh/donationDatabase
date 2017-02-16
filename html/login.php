@@ -5,8 +5,8 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 require_once('helpers/form.php');
 
-$navbar_active = 'signup';
-$navbar_title = 'Donee Signup';
+$navbar_active = 'login';
+$navbar_title = 'Login';
 include('layouts/navbar.php');
 
 ?>
@@ -14,9 +14,15 @@ include('layouts/navbar.php');
 <div class="container">
 	<h3>Login</h3> <br>
 	<form class="form-horizontal" action="verify.php" method="POST">
-		<input type="text" name="firstname" value="First Name"> <br>
-		<input type="text" name="password" value="Password"> <br>
-		<input type="submit" value="Log In">
+		<?php
+		form_field('email', 'Email address', 'email');
+		form_field('password', 'Password', 'password');
+		?>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button class="btn btn-default">Log in</button>
+			</div>
+		</div>
 	<hr>
 	</form>
 </div>

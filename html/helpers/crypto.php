@@ -44,7 +44,7 @@ function csrf_token()
  */
 function verify_csrf_token()
 {
-    if (!isset($_POST['csrf_token'])) {
+	if (!isset($_POST['csrf_token'])) {
 		http_response_code(499);
 		die('Error 499: CSRF token not supplied.');
 	}
@@ -52,5 +52,16 @@ function verify_csrf_token()
 		http_response_code(498);
 		die('Error 498: CSRF token mismatch.');
 	}
+}
+
+/*
+ * hash_password
+ * @param	string	$password	The password to be hashed.
+ * @param	string	$salt	The salt to use to hash this password.
+ * @return	string	A SHA-256 hash.
+ */
+function hash_password($password, $salt = '')
+{
+	return hash('sha256', $salt . $password);
 }
 

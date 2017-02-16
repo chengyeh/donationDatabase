@@ -4,10 +4,10 @@
 <?php
 session_start();
 
-include('helpers/mysqli.php');
+require_once('helpers/mysqli.php');
 
 if(isset($_SESSION["id"]))
-{	
+{
 	$temp = $_SESSION["id"];
 
 	$updateAmount = "INSERT INTO dd_outdonation (donee_id, amount, date_generated) VALUES ('$temp', '$first', NOW())";

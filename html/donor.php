@@ -7,13 +7,13 @@ session_start();
 $navbar_active = 'donate';
 $navbar_title = 'Donor Page';
 include('layouts/navbar.php');
-include('helpers/mysqli.php');
+require_once('helpers/mysqli.php');
 
-$item = $_GET["request"];
-$amount = $_GET["first"];
+$item = mysqli_real_escape_string($mysqli, $_GET["request"]);
+$amount = mysqli_real_escape_string($mysqli, $_GET["first"]);
 
 if(isset($_SESSION["id"]))
-{	
+{
 	$temp = $_SESSION["id"];
 
 	$updateAmount = "INSERT INTO dd_indonation (donor_id, amount, date_pledged) VALUES ($temp, '$amount', NOW())";
