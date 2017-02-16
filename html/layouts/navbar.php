@@ -10,11 +10,15 @@
 {
 	$logPage = "logout.php";
 	$logTitle = "Logout";
+	
+	$helloString = "Hello, " . $_SESSION["name"];
 }
 else
 {
 	$logPage = "login.php";
 	$logTitle = "Login";
+	
+	$helloString = "";
 }
 
 require_once(__DIR__.'/../../config.php');
@@ -26,6 +30,7 @@ $nav_liclass['getinvolved'] = '';
 $nav_liclass['about'] = '';
 $nav_liclass['request'] = '';
 $nav_liclass['login'] = '';
+$nav_liclass['hello'] = '';
 
 if (isset($navbar_active)) {
     $nav_liclass[$navbar_active] .= 'active';
@@ -84,6 +89,7 @@ if (isset($navbar_active)) {
 				</li>
 				
 				<li class="<?= $nav_liclass['login'] ?>"> <a href="<?= $config['path_web'] ?>html/<?=$logPage?>"><?= $logTitle ?></a></li>
+				<li class="<?= $nav_liclass['hello'] ?>"> <?= $helloString ?></a></li>
 				
 			</ul>
 		</div><!--/.nav-collapse -->
