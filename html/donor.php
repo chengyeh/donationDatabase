@@ -30,28 +30,90 @@ if(isset($_SESSION["id"]))
 <div class="container">
 	<h3>Item Donation Form</h3> <br>
 	<form action="donor.php">
-		<table class="table table-striped">
+		<!--category 1 collapsable panel-->
+		<div class="panel-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" href="#cat1">Category 1</a>
+					</h4>
+				</div>
+				<div id="cat1" class="panel-collapse collapse">
+					<div class="panel-body">
+						<table class="table table-striped">
+							<tr>
+								<th>Item</th>
+								<th>Quantity</th>
+							</tr>
+							<tr>
+								<td>Mens Large Tshirt</td>
+								<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
+							</tr>
+							<tr>
+								<td>Womens Medium Tshirt</td>
+								<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
+							</tr>
+							<tr>
+								<td>Socks</td>
+								<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
+							</tr>
+							<tr>
+								<td>Shoes (size 12)</td>
+								<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
+							</tr>
+							<tr>
+								<td>Pants</td>
+								<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--end cat 1 collapsable panel-->
 
-			<tr>
-				<th>Item</th>
-				<th>Category</th>
-				<th>Quantity</th>
-			</tr>
-
-			<tr>
-				<td>
-				<select name='request'>
-					<option selected>Select item</option>
-					<option>Shirts</option>
-					<option>Shorts</option>
-					<option>Food item 1</option>
-					<option>Food item 2</option>
-				</select>
-				</td>
-				<td>{Autopopulate category here}</td>
-				<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
-			</tr>
-		</table>
+		<!--category 2 collapsable panel-->
+		<div class="panel-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" href="#cat2">Hygiene Products</a>
+					</h4>
+				</div>
+				<div id="cat2" class="panel-collapse collapse">
+					<div class="panel-body">
+						<table class="table table-striped">
+							<tr>
+								<th>Item</th>
+								<th>Quantity</th>
+							</tr>
+							<tr>
+								<td>Toothbrush</td>
+								<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
+							</tr>
+							<tr>
+								<td>Wintergreen Toothpaste</td>
+								<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
+							</tr>
+							<tr>
+								<td>Bubblegum Toothpaste</td>
+								<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
+							</tr>
+							<tr>
+								<td>Mens deoderant</td>
+								<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
+							</tr>
+							<tr>
+								<td>Womens deoderant</td>
+								<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--end cat 1 collapsable panel-->
+		
 		<hr>
 		<div class="form-group">
 			<label for="specialRequests" class="col-sm-2 control-label">Special Donations</label>
