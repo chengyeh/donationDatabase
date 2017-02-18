@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang = "en">
 <?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 
 session_start();
 
@@ -9,7 +11,15 @@ $navbar_title = 'Donor Page';
 include('layouts/navbar.php');
 require_once('helpers/mysqli.php');
 
-$item = mysqli_real_escape_string($mysqli, $_GET["request"]);
+    
+$sql = "SELECT * FROM CategoriesTable";
+$result_set = $mysqli->query($sql);
+$category_array = array();
+while($row =  mysqli_fetch_array($result_set)){
+     $category_array[] = $row;
+}
+
+/*$item = mysqli_real_escape_string($mysqli, $_GET["request"]);
 $amount = mysqli_real_escape_string($mysqli, $_GET["first"]);
 
 if(isset($_SESSION["id"]))
@@ -24,95 +34,47 @@ if(isset($_SESSION["id"]))
 	}
 
 	$mysqli->close();
-}
+}*/
 ?>
 
 <div class="container">
 	<h3>Item Donation Form</h3> <br>
 	<form action="donor.php">
-		<!--category 1 collapsable panel-->
-		<div class="panel-group">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						<a data-toggle="collapse" href="#cat1">Category 1</a>
-					</h4>
-				</div>
-				<div id="cat1" class="panel-collapse collapse">
-					<div class="panel-body">
-						<table class="table table-striped">
-							<tr>
-								<th>Item</th>
-								<th>Quantity</th>
-							</tr>
-							<tr>
-								<td>Mens Large Tshirt</td>
-								<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
-							</tr>
-							<tr>
-								<td>Womens Medium Tshirt</td>
-								<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
-							</tr>
-							<tr>
-								<td>Socks</td>
-								<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
-							</tr>
-							<tr>
-								<td>Shoes (size 12)</td>
-								<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
-							</tr>
-							<tr>
-								<td>Pants</td>
-								<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
-							</tr>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!--end cat 1 collapsable panel-->
-
-		<!--category 2 collapsable panel-->
-		<div class="panel-group">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						<a data-toggle="collapse" href="#cat2">Hygiene Products</a>
-					</h4>
-				</div>
-				<div id="cat2" class="panel-collapse collapse">
-					<div class="panel-body">
-						<table class="table table-striped">
-							<tr>
-								<th>Item</th>
-								<th>Quantity</th>
-							</tr>
-							<tr>
-								<td>Toothbrush</td>
-								<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
-							</tr>
-							<tr>
-								<td>Wintergreen Toothpaste</td>
-								<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
-							</tr>
-							<tr>
-								<td>Bubblegum Toothpaste</td>
-								<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
-							</tr>
-							<tr>
-								<td>Mens deoderant</td>
-								<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
-							</tr>
-							<tr>
-								<td>Womens deoderant</td>
-								<td><input type="number" value="item1" name="first" min="0" scale="1"></td>
-							</tr>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!--end cat 1 collapsable panel-->
+		<?php
+		 foreach($category_array as $category)
+		 {
+		 	echo '<div class="panel-group">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" href="#cat' . $category['CategoryNum'] . '">' . $category['Name'] . '</a>
+							</h4>
+						</div>
+						<div id="cat' . $category['CategoryNum'] . '" class="panel-collapse collapse">
+							<div class="panel-body">
+								<table class="table table-striped">
+									<tr>
+										<th>Item</th>
+										<th>Need</th>
+										<th>Quantity</th>
+									</tr>';
+									
+			$sql = "SELECT * FROM InventoryTable WHERE CategoryNum =" . $category['CategoryNum'] . " AND Amount != Threshold";
+			$result_set = $mysqli->query($sql);
+			$inventory_array = array();
+			while($row =  mysqli_fetch_array($result_set))
+			{
+				$inventory_array[] = $row;
+			}
+			
+			foreach($inventory_array as $item)
+			{
+				echo '<tr><td>' . $item['Name'] . '</td><td>' . ($item['Threshold']-$item['Amount']) . '</td><td><input type="number" value="item1" name="first" min="0" scale="1"></td></tr>';
+			}
+			echo '</table></div></div></div></div>';
+		 	 	
+		 }
+		?>
 		
 		<hr>
 		<div class="form-group">
