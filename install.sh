@@ -62,14 +62,13 @@ fi
 if [ $(mysql -N -s -u root -p${MYSQLROOTPASSWD} -e "select count(*) from information_schema.tables where table_schema='$MAINDB' and table_name='IncDonationTable';") -eq 1 ]; then
 	echo "IncDonationTable already exists."
 else
-
 	echo "Creating IncDonationTable..."
 	mysql -uroot -p${MYSQLROOTPASSWD} $MAINDB -e "
 CREATE TABLE IncDonationTable (
-		RefNum INT NOT NULL AUTO_INCREMENT,
-		DonorID INT NOT NULL,
-		ItemID VARCHAR(30) NOT NULL,
-		Amount INT NOT NULL,
+	RefNum INT NOT NULL AUTO_INCREMENT,
+	DonorID INT NOT NULL,
+	ItemID VARCHAR(30) NOT NULL,
+	Amount INT NOT NULL,
     ActualAmount INT NOT NULL,
     Value INT NOT NULL,
     PledgeDate TIMESTAMP NOT NULL,
@@ -84,12 +83,12 @@ else
 	echo "Creating OutDonationTable..."
 	mysql -uroot -p${MYSQLROOTPASSWD} $MAINDB -e "
 CREATE TABLE OutDonationTable (
-		RefNum INT NOT NULL,
-		DoneeID INT NOT NULL,
-		ItemID VARCHAR(30) NOT NULL,
-		Amount INT,
+	RefNum INT NOT NULL,
+	DoneeID INT NOT NULL,
+	ItemID VARCHAR(30) NOT NULL,
+	Amount INT,
     FulfillDate TIMESTAMP,
-		PRIMARY KEY ( RefNum )
+	PRIMARY KEY ( RefNum )
 		);"
 fi
 
@@ -99,7 +98,7 @@ else
 	echo "Creating UserTable..."
 	mysql -uroot -p${MYSQLROOTPASSWD} $MAINDB -e "
 CREATE TABLE UserTable (
-		UserID INT NOT NULL AUTO_INCREMENT,
+	UserID INT NOT NULL AUTO_INCREMENT,
     FirstName VARCHAR(50) NOT NULL,
     LastName VARCHAR(50) NOT NULL,
     State VARCHAR(50),
@@ -109,7 +108,7 @@ CREATE TABLE UserTable (
     AddressLine2 VARCHAR(100),
     CumulativeRecValue INT,
     Telephone VARCHAR(40),
-		Email VARCHAR(255) NOT NULL,
+	Email VARCHAR(255) NOT NULL,
     PassHash VARCHAR(50) NOT NULL,
     PassSalt VARCHAR(20) NOT NULL,
     FlagAdmin BIT NOT NULL,
@@ -130,12 +129,24 @@ else
 	echo "Creating InventoryTable..."
 	mysql -uroot -p${MYSQLROOTPASSWD} $MAINDB -e "
 CREATE TABLE InventoryTable (
-		ItemID INT NOT NULL AUTO_INCREMENT,
-    Category VARCHAR(30),
+	ItemID INT NOT NULL AUTO_INCREMENT,
+    Category INT,
     Name VARCHAR(30) NOT NULL,
     Amount INT,
     Threshold INT,
 		PRIMARY KEY ( ItemID )
+		);"
+fi
+
+if [ $(mysql -N -s -u root -p${MYSQLROOTPASSWD} -e "select count(*) from information_schema.tables where table_schema='$MAINDB' and table_name='CategoriesTable';") -eq 1 ]; then
+	echo "CategoriesTable already exists."
+else
+	echo "Creating CategoriesTable..."
+	mysql -uroot -p${MYSQLROOTPASSWD} $MAINDB -e "
+	CREATE TABLE CategoriesTable (
+	CategoryNum INT NOT NULL AUTO_INCREMENT,
+    Name VARCHAR(30) NOT NULL,
+		PRIMARY KEY ( CategoryNum )
 		);"
 fi
 
