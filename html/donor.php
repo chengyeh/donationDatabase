@@ -11,6 +11,10 @@ $navbar_title = 'Donor Page';
 include('layouts/navbar.php');
 require_once('helpers/mysqli.php');
 
+if(isset($_SESSION["id"]))
+{
+	$id = $_SESSION["id"];
+}
     
 $sql = "SELECT * FROM CategoriesTable";
 $result_set = $mysqli->query($sql);
@@ -19,30 +23,53 @@ while($row =  mysqli_fetch_array($result_set)){
      $category_array[] = $row;
 }
 
-/*$item = mysqli_real_escape_string($mysqli, $_GET["request"]);
-$amount = mysqli_real_escape_string($mysqli, $_GET["first"]);
-
-if(isset($_SESSION["id"]))
+if(isset($_GET["input0"]))
 {
-	$temp = $_SESSION["id"];
-
-	$updateAmount = "INSERT INTO dd_indonation (donor_id, amount, date_pledged) VALUES ($temp, '$amount', NOW())";
-
-	if($r = $mysqli->query($updateAmount))
+	foreach($category_array as $index => $category)
 	{
-		
-	}
+		$inputName = "input".$index;
 
-	$mysqli->close();
-}*/
+		$sql = "SELECT * FROM InventoryTable WHERE CategoryNum =" . $category['CategoryNum'] . " AND Amount != Threshold";
+		$result_set = $mysqli->query($sql);
+		$inventory_array = array();
+		while($row =  mysqli_fetch_array($result_set))
+		{
+			$inventory_array[] = $row;
+		}	
+		
+		$input_array = array();
+		$input_array = $_GET[$inputName];
+		
+		foreach($inventory_array as $index => $item)
+		{			
+			if($input_array[$index] != 0)
+			{			
+				$amount = $input_array[$index];
+				$itemId = $item["ItemID"];
+				$query = "INSERT INTO IncDonationTable (DonorID, ItemID, Amount, PledgeDate) VALUES ($id, $itemId, '$amount', NOW())";
+				
+				if($result = $mysqli->query($query))
+				{
+					
+				}
+				else
+				{
+					die("MySQL error: " . $mysqli->error);
+				}
+			}
+		}
+	}
+}
 ?>
 
 <div class="container">
 	<h3>Item Donation Form</h3> <br>
 	<form action="donor.php">
 		<?php
-		 foreach($category_array as $category)
-		 {
+		 foreach($category_array as $index => $category)
+		 {			 
+			$inputName = "input" . $index;
+			 
 		 	echo '<div class="panel-group">
 					<div class="panel panel-default">
 						<div class="panel-heading">
@@ -68,8 +95,8 @@ if(isset($_SESSION["id"]))
 			}
 			
 			foreach($inventory_array as $item)
-			{
-				echo '<tr><td>' . $item['Name'] . '</td><td>' . ($item['Threshold']-$item['Amount']) . '</td><td><input type="number" value="item1" name="first" min="0" scale="1"></td></tr>';
+			{				
+				echo '<tr><td>' . $item['Name'] . '</td><td>' . ($item['Threshold']-$item['Amount']) . '</td><td><input type="number" value="0" name="'. $inputName .'[]" min="0" scale="1"></td></tr>';
 			}
 			echo '</table></div></div></div></div>';
 		 	 	

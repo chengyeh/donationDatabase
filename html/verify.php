@@ -35,7 +35,6 @@ if (hash_password($inputPassword, $passwordSalt) === $passwordHash) {
 	<p>Welcome. Your session ID is now <?= $userId ?>.</p>
 	<?php
 } else {
-	echo hash_password($inputPassword, $passwordSalt) . "<br>" . $passwordHash;
 	die('Incorrect password!');
 }
 
