@@ -30,7 +30,7 @@ if ($email === '') {
 
 // make sure nobody has registered with this email yet
 $query = <<<SQL
-SELECT Email from Users WHERE Email='$email';
+SELECT Email from UserTable WHERE Email='$email';
 SQL;
 
 $result = $mysqli->query($query);
@@ -56,14 +56,12 @@ $passwordHash = hash_password($password, $passwordSalt);
 
 // create this user in the database
 $query = <<<SQL
-INSERT INTO `Users`
-	(FirstName, LastName, Age, NumberInHousehold, Ethnicity, Gender, Email,
-		City, State, Zip, Address1, Address2, Telephone, PasswordHash,
-		PasswordSalt)
+INSERT INTO `UserTable`
+	(FirstName, LastName, State, City, Zip, AddressLine1, AddressLine2, CumulativeRecValue,
+	    Telephone, Email, PassHash, PassSalt, FlagAdmin, FlagUser, FlagDonor, FlagDonee, Age, HouseholdSize, Ethnicity, Gender)
 	VALUES
-	('$firstname', '$lastname', '$age', '$numInHouse', '$ethnicity', '$gender',
-		'$email', '$city', '$state', '$zip', '$address', '$address2', '$phone',
-		'$passwordHash', '$passwordSalt');
+	('$firstname', '$lastname', '$state', '$city', '$zip', '$address', '$address2', 
+	    0, '$phone', '$email', '$passwordHash', '$passwordSalt', 0, 1, 0, 0, '$age', '$numInHouse', '$ethnicity', '$gender');
 SQL;
 
 $result = $mysqli->query($query);

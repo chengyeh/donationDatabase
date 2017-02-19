@@ -12,7 +12,7 @@ $email = mysqli_real_escape_string($mysqli, $_POST['email']);
 $inputPassword = $_POST['password'];
 
 $query = <<<SQL
-SELECT UserId, FirstName, passwordSalt, passwordHash FROM Users WHERE Email = '$email';
+SELECT UserId, FirstName, PassSalt, PassHash FROM UserTable WHERE Email = '$email';
 SQL;
 
 $result = $mysqli->query($query);
@@ -25,8 +25,8 @@ if (!$result) {
 $row = $result->fetch_assoc();
 $userId = $row['UserId'];
 $userName = $row['FirstName'];
-$passwordSalt = $row['passwordSalt'];
-$passwordHash = $row['passwordHash'];
+$passwordSalt = $row['PassSalt'];
+$passwordHash = $row['PassHash'];
 
 if (hash_password($inputPassword, $passwordSalt) === $passwordHash) {
 	$_SESSION["id"] = $userId;
@@ -35,6 +35,7 @@ if (hash_password($inputPassword, $passwordSalt) === $passwordHash) {
 	<p>Welcome. Your session ID is now <?= $userId ?>.</p>
 	<?php
 } else {
+	echo hash_password($inputPassword, $passwordSalt) . "<br>" . $passwordHash;
 	die('Incorrect password!');
 }
 
