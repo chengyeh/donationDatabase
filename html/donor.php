@@ -23,7 +23,7 @@ while($row =  mysqli_fetch_array($result_set)){
      $category_array[] = $row;
 }
 
-if(isset($_GET["input0"]))
+if(isset($_GET["input0"]) && isset($_SESSION["id"]))
 {
 	foreach($category_array as $index => $category)
 	{
