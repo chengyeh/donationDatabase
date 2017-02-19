@@ -6,12 +6,32 @@ require_once('helpers/form.php');
 <!DOCTYPE html>
 <html lang = "en">
 <?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 
 $navbar_active = 'signup';
 $navbar_title = 'User Page';
 
 include("layouts/navbar.php");
+require_once('helpers/mysqli.php');
 
+if(isset($_POST['itemquantity']) && isset($_POST['itemvalue']) && isset($_POST['reference']))
+{	
+	$refNum = $_POST['reference'];
+	$amount = $_POST['itemquantity'];
+	$value = $_POST['itemvalue'];
+
+	$query = "UPDATE IncDonationTable SET ActualAmount='$amount', Value='$value', ReceiveDate=NOW() WHERE RefNum='$refNum'";
+
+	if($result = $mysqli->query($query))
+	{
+		
+	}
+	else
+	{
+		die("Error: " . $mysqli->error);
+	}
+}
 ?>
 
 <div class="container">
