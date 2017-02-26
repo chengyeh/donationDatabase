@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 /**
  * PARAMETERS REQUIRED BY THIS LAYOUT
  * $navbar_active	(optional) one of the indices of the $nav_liclass array
@@ -6,12 +8,32 @@
  * $navbar_title	the title of this page
  */
  
+ require_once('helpers/mysqli.php');
+ 
+ $adminLink = '';
+ $adminPage = '';
+ 
  if(isset($_SESSION["id"]))
 {
+	$id = $_SESSION['id'];
+	
 	$logPage = "logout.php";
 	$logTitle = "Logout";
 	
 	$helloString = "Hello, " . $_SESSION["name"];
+	
+	$query = "SELECT FlagAdmin FROM UserTable WHERE UserID = $id";
+	
+	if($result = $mysqli->query($query))
+	{
+		$row = $result->fetch_assoc();
+		
+		if($row['FlagAdmin'] == 1)
+		{
+			$adminLink = 'Admin';
+			$adminPage = $config['path_web'] . '/html/index.php';
+		}
+	}
 }
 else
 {
@@ -31,6 +53,7 @@ $nav_liclass['about'] = '';
 $nav_liclass['request'] = '';
 $nav_liclass['login'] = '';
 $nav_liclass['hello'] = '';
+$nav_liclass['admin'] = '';
 
 if (isset($navbar_active)) {
     $nav_liclass[$navbar_active] .= 'active';
@@ -90,6 +113,13 @@ if (isset($navbar_active)) {
 				
 				<li class="<?= $nav_liclass['login'] ?>"> <a href="<?= $config['path_web'] ?>html/<?=$logPage?>"><?= $logTitle ?></a></li>
 				<li class="<?= $nav_liclass['hello'] ?>"> <?= $helloString ?></a></li>
+				
+				<?php
+				if($adminPage != '')
+				{
+						echo '<li class=' . $nav_liclass["admin"] . '><a href=' . $adminPage . '>' . $adminLink . '</a></li>';
+				}
+				?>
 				
 			</ul>
 		</div><!--/.nav-collapse -->
