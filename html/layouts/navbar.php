@@ -8,7 +8,14 @@ ini_set("display_errors", 1);
  * $navbar_title	the title of this page
  */
  
- require_once('helpers/mysqli.php');
+ $filler = '';
+ 
+ if(substr(getcwd(), -6) == 'signup')
+ {
+	 $filler = '../';
+ }
+ 
+ require_once($filler . 'helpers/mysqli.php');
  
  $adminLink = '';
  $adminPage = '';
