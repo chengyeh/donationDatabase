@@ -19,6 +19,7 @@ ini_set("display_errors", 1);
  
  $adminLink = '';
  $adminPage = '';
+ $userLink = '';
  
  if(isset($_SESSION["id"]))
 {
@@ -29,7 +30,7 @@ ini_set("display_errors", 1);
 	
 	$helloString = "Hello, " . $_SESSION["name"];
 	
-	$query = "SELECT FlagAdmin FROM UserTable WHERE UserID = $id";
+	$query = "SELECT FlagUser, FlagAdmin FROM UserTable WHERE UserID = $id";
 	
 	if($result = $mysqli->query($query))
 	{
@@ -39,6 +40,11 @@ ini_set("display_errors", 1);
 		{
 			$adminLink = 'Admin';
 			$adminPage = $config['path_web'] . '/html/index.php';
+		}
+		
+		if($row['FlagUser'] == 1)
+		{
+			$userLink = 'User';
 		}
 	}
 }
@@ -61,6 +67,7 @@ $nav_liclass['request'] = '';
 $nav_liclass['login'] = '';
 $nav_liclass['hello'] = '';
 $nav_liclass['admin'] = '';
+$nav_liclass['user'] = '';
 
 if (isset($navbar_active)) {
     $nav_liclass[$navbar_active] .= 'active';
@@ -122,9 +129,14 @@ if (isset($navbar_active)) {
 				<li class="<?= $nav_liclass['hello'] ?>"> <?= $helloString ?></a></li>
 				
 				<?php
+				if($userLink != '')
+				{
+					echo '<li class=' . $nav_liclass["user"] . '><a href=' . $config['path_web'] . 'html/user.php' . '>' . $userLink . '</a></li>';
+				}
+				
 				if($adminPage != '')
 				{
-						echo '<li class=' . $nav_liclass["admin"] . '><a href=' . $adminPage . '>' . $adminLink . '</a></li>';
+					echo '<li class=' . $nav_liclass["admin"] . '><a href=' . $adminPage . '>' . $adminLink . '</a></li>';
 				}
 				?>
 				
