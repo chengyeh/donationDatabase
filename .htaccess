@@ -1,0 +1,11 @@
+# Options +FollowSymLinks
+# RewriteEngine On
+# RewriteBase /donationDatabase/
+
+# make /html folder and .php extension in path not required
+# RewriteRule ^([^.]+)/?$ html/$1.php [L]
+
+# block access to *.sql, *.ini, *.htaccess files
+<Files ~ ".*\.(sql|ini|htaccess)$">
+    deny from all
+</Files>

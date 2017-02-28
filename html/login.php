@@ -4,6 +4,8 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 require_once('helpers/form.php');
+require_once('helpers/crypto.php');
+require_once('helpers/captcha.php');
 
 $navbar_active = 'login';
 $navbar_title = 'Login';
@@ -17,6 +19,8 @@ include('layouts/navbar.php');
 		<?php
 		form_field('email', 'Email address', 'email');
 		form_field('password', 'Password', 'password');
+		captcha_field();
+		csrf_token_field();
 		?>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
@@ -26,8 +30,6 @@ include('layouts/navbar.php');
 	<hr>
 	</form>
 </div>
-
-<script type="text/javscript" source="js/bootstrap.min.js"></script>
 
 </body>
 </html>

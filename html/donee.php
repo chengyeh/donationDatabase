@@ -4,8 +4,6 @@
 <?php
 session_start();
 
-session_start();
-
 $navbar_active = 'request';
 $navbar_title = 'Donee Page';
 include('layouts/navbar.php');

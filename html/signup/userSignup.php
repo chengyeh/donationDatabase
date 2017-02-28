@@ -27,22 +27,16 @@ include('../layouts/navbar.php');
 		form_field('address2', 'Address line 2');
 		form_field('city', 'City');
 		form_field('state', 'State');
-		form_field('zip', 'Zip code');
+		form_field('zip', 'Zip code', 'number');
 		form_field('phone', 'Phone number', 'text', '(555) 555-5555');
-		?>
-		<hr>
-		<?php
+		?> <hr> <?php
 		form_field('email', 'Email*', 'email', 'yourname@example.com');
 		form_field('password', 'Password*', 'password');
 		form_field('passwordconf', 'Confirm password*', 'password');
 		captcha_field(true);
 		csrf_token_field();
+		form_submit_button('Sign up');
 		?>
-		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-				<button class="btn btn-default">Sign up</button>
-			</div>
-		</div>
 	</form>
 </div>
 

@@ -4,15 +4,17 @@ ini_set("display_errors", 1);
 
 require_once('helpers/mysqli.php');
 require_once('helpers/crypto.php');
+require_once('helpers/captcha.php');
 
-// session started in crypto.php
-// session_start();
+verify_csrf_token();
+verify_captcha();
 
 $email = mysqli_real_escape_string($mysqli, $_POST['email']);
 $inputPassword = $_POST['password'];
 
 $query = <<<SQL
-SELECT UserId, FirstName, PassSalt, PassHash FROM UserTable WHERE Email = '$email';
+SELECT UserId, FirstName, PassSalt, PassHash, FlagAdmin, FlagUser
+	FROM UserTable WHERE Email = '$email';
 SQL;
 
 $result = $mysqli->query($query);
@@ -23,14 +25,14 @@ if (!$result) {
 }
 
 $row = $result->fetch_assoc();
-$userId = $row['UserId'];
-$userName = $row['FirstName'];
 $passwordSalt = $row['PassSalt'];
 $passwordHash = $row['PassHash'];
 
 if (hash_password($inputPassword, $passwordSalt) === $passwordHash) {
-	$_SESSION["id"] = $userId;
-	$_SESSION["name"] = $userName;
+	$_SESSION["id"] = $row['UserId'];
+	$_SESSION["name"] = $row['FirstName'];
+	$_SESSION['admin'] = $row['FlagAdmin'];
+	$_SESSION['user'] = $row['FlagUser'];
 	?>
 	<p>Welcome. Your session ID is now <?= $userId ?>.</p>
 	<?php

@@ -4,7 +4,7 @@
 
 require_once('../helpers/form.php');
 
-$navbar_active = 'signup';
+$navbar_active = 'request';
 $navbar_title = 'Donee Signup';
 include('../layouts/navbar.php');
 

@@ -52,6 +52,8 @@ function verify_csrf_token()
 		http_response_code(498);
 		die('Error 498: CSRF token mismatch.');
 	}
+	// consume token to prevent accidental resubmission of forms
+	unset($_SESSION['csrf_token']);
 }
 
 /*
