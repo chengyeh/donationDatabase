@@ -17,9 +17,10 @@ ini_set("display_errors", 1);
  
  require_once($filler . 'helpers/mysqli.php');
  
- $adminLink = '';
- $adminPage = '';
+ $donorLink = '';
+ $doneeLink = '';
  $userLink = '';
+ $adminLink = '';
  
  if(isset($_SESSION["id"]))
 {
@@ -30,22 +31,31 @@ ini_set("display_errors", 1);
 	
 	$helloString = "Hello, " . $_SESSION["name"];
 	
-	$query = "SELECT FlagUser, FlagAdmin FROM UserTable WHERE UserID = $id";
+	$query = "SELECT FlagDonor, FlagDonee, FlagUser, FlagAdmin FROM UserTable WHERE UserID = $id";
 	
 	if($result = $mysqli->query($query))
 	{
 		$row = $result->fetch_assoc();
 		
-		if($row['FlagAdmin'] == 1)
+		if($row['FlagDonor'])
 		{
-			$adminLink = 'Admin';
-			$adminPage = $config['path_web'] . '/html/index.php';
+			$donorLink = $config['path_web'] . 'html/donor.php';
+		}
+		
+		if($row['FlagDonee'])
+		{
+			$doneeLink = $config['path_web'] . 'html/donee.php';
 		}
 		
 		if($row['FlagUser'] == 1)
 		{
-			$userLink = 'User';
+			$userLink = $config['path_web'] . '/html/user.php';
 		}
+		
+		if($row['FlagAdmin'] == 1)
+		{
+			$adminLink = $config['path_web'] . '/html/admin/index.html';
+		}	
 	}
 }
 else
@@ -111,11 +121,16 @@ if (isset($navbar_active)) {
 						<li><a href="<?= $config['path_web'] ?>#newsletter">Newsletter</a></li>
 					</ul>
 				</li>
+				
 				<li class="<?= $nav_liclass['donate'] ?>"><a href="<?= $config['path_web'] ?>html/donor.php">Donate</a></li>
+				
 				<!--
 				<li class="<?= $nav_liclass['getinvolved'] ?>"><a href="<?= $config['path_web'] ?>#getinvolved">Get Involved</a></li>
 				-->
-				<li class="<?= $nav_liclass['request'] ?>"><a href="<?= $config['path_web'] ?>html/signup/doneeSignup.php">Request Services</a></li>
+				
+				<li class="<?= $nav_liclass['request'] ?>"><a href="<?= $config['path_web'] ?>html/donee.php">Request Services</a></li>
+				
+				
 				<li class="<?= $nav_liclass['signup'] ?>">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sign Up</a>
 					<ul class="dropdown-menu">
@@ -131,12 +146,12 @@ if (isset($navbar_active)) {
 				<?php
 				if($userLink != '')
 				{
-					echo '<li class=' . $nav_liclass["user"] . '><a href=' . $config['path_web'] . 'html/user.php' . '>' . $userLink . '</a></li>';
+					echo '<li class=' . $nav_liclass["user"] . '><a href=' . $userLink . '>Employee</a></li>';
 				}
 				
-				if($adminPage != '')
+				if($adminLink != '')
 				{
-					echo '<li class=' . $nav_liclass["admin"] . '><a href=' . $adminPage . '>' . $adminLink . '</a></li>';
+					echo '<li class=' . $nav_liclass["admin"] . '><a href=' . $adminLink . '>Admin</a></li>';
 				}
 				?>
 				
