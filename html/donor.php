@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang = "en">
 <?php
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
@@ -20,6 +18,7 @@ if(isset($_SESSION["id"]))
 else
 {
 	header('Location:' . $config['path_web'] . 'html/signup/userSignup.php');
+	exit();
 }
 
 $query = "SELECT FlagDonor, FlagDonee, FlagUser FROM UserTable WHERE UserID=$id";
@@ -32,9 +31,15 @@ if($result = $mysqli->query($query))
 		if($row['FlagDonee'] == 0 && $row['FlagUser'] == 0)
 		{
 			header('Location:' . $config['path_web'] . 'html/signup/userSignup.php');
+			exit();
 		}
 	}
 }
+
+?>
+<!DOCTYPE html>
+<html lang = "en">
+<?php
     
 $sql = "SELECT * FROM CategoriesTable";
 $result_set = $mysqli->query($sql);

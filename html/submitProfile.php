@@ -9,6 +9,7 @@ if (!isset($_SESSION['id'])) {
 	// if not logged in, redirect to login page
 	// this shouldn't happen but it can't hurt to check
 	header('Location:' . $config['path_web'] . 'html/login.php');
+	exit();
 }
 $id = $_SESSION['id'];
 
@@ -100,11 +101,11 @@ $newquery .= " WHERE UserId=$id;";
 
 $result = $mysqli->query($newquery);
 if (!$result) {
-	var_dump($newquery);
 	die('MySQL error: ' . $mysqli->error);
 }
 
 // TODO: some kind of success message
 die("Success!");
 header('Location:' . $config['path_web'] . 'html/profile.php');
+exit();
 ?>

@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html lang = "en">
-
 <?php
 session_start();
 
@@ -16,6 +13,7 @@ if(isset($_SESSION["id"]))
 else
 {
 	header('Location:' . $config['path_web'] . 'html/signup/userSignup.php');
+	exit();
 }
 
 $query = "SELECT FlagDonee FROM UserTable WHERE UserID=$id";
@@ -26,9 +24,14 @@ if($result = $mysqli->query($query))
 	if($row['FlagDonee'] != 1)
 	{
 		header('Location:' . $config['path_web'] . 'html/signup/userSignup.php');
+		exit();
 	}
 }
-    
+?>
+<!DOCTYPE html>
+<html lang = "en">
+<?php
+
 $sql = "SELECT * FROM CategoriesTable";
 $result_set = $mysqli->query($sql);
 $category_array = array();

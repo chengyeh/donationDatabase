@@ -9,6 +9,7 @@ if (!isset($_SESSION['id'])) {
 	// if not logged in, redirect to login page
 	// this shouldn't happen but it can't hurt to check
 	header('Location:' . $config['path_web'] . 'html/login.php');
+	exit();
 }
 $id = $_SESSION['id'];
 
