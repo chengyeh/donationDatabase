@@ -17,7 +17,7 @@ if(isset($_SESSION["id"]))
 	//$id = $_SESSION['id'];
 	$isAdmin = $_SESSION['admin'];
 	// no use for this just yet
-	//$isUser = $_SESSION['user'];
+	$isUser = $_SESSION['user'];
 	
 	$logPage = "logout.php";
 	$logTitle = "Logout";
@@ -97,6 +97,9 @@ if (isset($navbar_active)) {
 								<!--
 								<li class=''><a href='<?= $path ?>html/user.php'>User</a></li>
 								-->
+							<?php } ?>
+							<?php if($isUser) { ?>
+								<li><a href="<?= $path ?>html/user.php">Employee Page</a></li>
 							<?php } ?>
 							<?php if ($isAdmin) { ?>
 								<li><a href="<?= $path ?>admin/index.php">Admin panel</a></li>
