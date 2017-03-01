@@ -13,6 +13,21 @@ if(isset($_SESSION["id"]))
 {
 	$id = $_SESSION["id"];
 }
+else
+{
+	header('Location:' . $config['path_web'] . 'html/signup/userSignup.php');
+}
+
+$query = "SELECT FlagDonee FROM UserTable WHERE UserID=$id";
+if($result = $mysqli->query($query))
+{
+	$row = $result->fetch_assoc();
+	
+	if($row['FlagDonee'] != 1)
+	{
+		header('Location:' . $config['path_web'] . 'html/signup/userSignup.php');
+	}
+}
     
 $sql = "SELECT * FROM CategoriesTable";
 $result_set = $mysqli->query($sql);

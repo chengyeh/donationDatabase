@@ -11,9 +11,29 @@ $navbar_title = 'Donor Page';
 include('layouts/navbar.php');
 require_once('helpers/mysqli.php');
 
+$id = '';
+
 if(isset($_SESSION["id"]))
 {
 	$id = $_SESSION["id"];
+}
+else
+{
+	header('Location:' . $config['path_web'] . 'html/signup/userSignup.php');
+}
+
+$query = "SELECT FlagDonor, FlagDonee, FlagUser FROM UserTable WHERE UserID=$id";
+if($result = $mysqli->query($query))
+{
+	$row = $result->fetch_assoc();
+	
+	if($row['FlagDonor'] != 1)
+	{
+		if($row['FlagDonee'] == 0 && $row['FlagUser'] == 0)
+		{
+			header('Location:' . $config['path_web'] . 'html/signup/userSignup.php');
+		}
+	}
 }
     
 $sql = "SELECT * FROM CategoriesTable";
