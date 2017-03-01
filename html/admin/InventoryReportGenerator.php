@@ -1,11 +1,11 @@
 
 <?php
-require_once('helpers/mysqli.php');
-require('fpdf/fpdf.php');
+require_once(__DIR__ . '/../helpers/mysqli.php');
+require_once($_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/fpdf/fpdf.php');
 
 //set time zone to get proper time back
 //TODO time zone should go in config.ini file
-date_default_timezone_set('America/Chicago');
+date_default_timezone_set($config['time_zone']);
 $date = date('m/d/Y h:i:s a', time());
 
 //make pdf of needed
