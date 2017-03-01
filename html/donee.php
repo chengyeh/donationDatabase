@@ -6,27 +6,24 @@ $navbar_title = 'Donee Page';
 include('layouts/navbar.php');
 require_once('helpers/mysqli.php');
 
-if(isset($_SESSION["id"]))
+if (isset($_SESSION['id']) && $_SESSION['donee'])
 {
-	$id = $_SESSION["id"];
+	$id = $_SESSION['id'];
 }
 else
 {
-	header('Location:' . $config['path_web'] . 'html/signup/userSignup.php');
+	if (!isset($_SESSION['id'])) {
+		$path = $config['path_web'] . 'html/login.php';
+		$err = 401;
+		header("Location:$path?err=$err");
+	} else { // !$_SESSION['donee']
+		$path = $config['path_web'] . 'html/profile.php';
+		$err = 6;
+		header("Location:$path?err=$err");
+	}
 	exit();
 }
 
-$query = "SELECT FlagDonee FROM UserTable WHERE UserID=$id";
-if($result = $mysqli->query($query))
-{
-	$row = $result->fetch_assoc();
-	
-	if($row['FlagDonee'] != 1)
-	{
-		header('Location:' . $config['path_web'] . 'html/signup/userSignup.php');
-		exit();
-	}
-}
 ?>
 <!DOCTYPE html>
 <html lang = "en">

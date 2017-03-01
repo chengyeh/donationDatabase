@@ -19,7 +19,8 @@ require_once('crypto.php');
  * @param	string	$value	The value to place in the field. Defaults to ''
  * @return	nothing
  */
-function form_field($script_name, $nice_name, $type = 'text', $placeholder = '', $value = '')
+function form_field($script_name, $nice_name, $type = 'text', $placeholder = '',
+	$value = '', $classes = '')
 {
 	if ($placeholder == '')
 		$placeholder = $nice_name;
@@ -36,7 +37,7 @@ function form_field($script_name, $nice_name, $type = 'text', $placeholder = '',
 			<?= $nice_name ?>
 		</label>
 		<div class="col-sm-10">
-			<input type="<?= $type ?>" class="form-control" name="<?= $script_name ?>" placeholder="<?= $placeholder ?>" <?= $valueField ?>>
+			<input type="<?= $type ?>" class="form-control <?= $classes ?>" name="<?= $script_name ?>" placeholder="<?= $placeholder ?>" <?= $valueField ?>>
 		</div>
 	</div>
 	<?php

@@ -11,29 +11,22 @@ require_once('helpers/mysqli.php');
 
 $id = '';
 
-if(isset($_SESSION["id"]))
+if (isset($_SESSION['id']) && $_SESSION['donor'])
 {
-	$id = $_SESSION["id"];
+	$id = $_SESSION['id'];
 }
 else
 {
-	header('Location:' . $config['path_web'] . 'html/signup/userSignup.php');
-	exit();
-}
-
-$query = "SELECT FlagDonor, FlagDonee, FlagUser FROM UserTable WHERE UserID=$id";
-if($result = $mysqli->query($query))
-{
-	$row = $result->fetch_assoc();
-	
-	if($row['FlagDonor'] != 1)
-	{
-		if($row['FlagDonee'] == 0 && $row['FlagUser'] == 0)
-		{
-			header('Location:' . $config['path_web'] . 'html/signup/userSignup.php');
-			exit();
-		}
+	if (!isset($_SESSION['id'])) {
+		$path = $config['path_web'] . 'html/login.php';
+		$err = 401;
+		header("Location:$path?err=$err");
+	} else { // !$_SESSION['donor']
+		$path = $config['path_web'] . 'html/profile.php';
+		$err = 5;
+		header("Location:$path?err=$err");
 	}
+	exit();
 }
 
 ?>

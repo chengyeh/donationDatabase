@@ -22,7 +22,7 @@ endif; // $config['use_captchas']
  * @param	bool	$asterisk	Whether to append an asterisk to the label text.
  * 		Defaults to false.
  */
-function captcha_field($asterisk = false)
+function captcha_field($asterisk = true)
 {
 	global $config;
 	if ($config['use_captchas']) {

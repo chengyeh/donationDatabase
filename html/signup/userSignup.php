@@ -12,6 +12,9 @@ include('../layouts/navbar.php');
 ?>
 
 <div class="container">
+	<?php
+	include('../layouts/message.php');
+	?>
 	<h3>User Sign Up</h3>
 	<p>Fields marked with an asterisk (*) are required.</p>
 	<form class="form-horizontal" action="submitUserSignup.php" method="POST">
