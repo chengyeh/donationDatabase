@@ -87,7 +87,7 @@ if (isset($navbar_active)) {
 				<li class="<?= $nav_liclass['getinvolved'] ?>"><a href="<?= $path ?>#getinvolved">Get Involved</a></li>
 				-->
 				<li class="<?= $nav_liclass['request'] ?>"><a href="<?= $path ?>html/signup/doneeSignup.php">Request Services</a></li>
-				<li class="<?= $nav_liclass['signup'] ?>"><a href="<?= $path ?>html/signup/userSignup.php"> Sign Up</a></li>
+				<?php if (!isset($_SESSION['id'])) { ?> <li class="<?= $nav_liclass['signup'] ?>"><a href="<?= $path ?>html/signup/userSignup.php"> Sign Up</a></li> <?php } ?>
 				<?php if (isset($_SESSION['id'])) { ?>
 					<li>
 						<a data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $helloString ?></a>
