@@ -119,6 +119,7 @@ CREATE TABLE UserTable (
     HouseholdSize INT,
     Ethnicity INT,
     Gender VARCHAR(1),
+    Income INT,
 		PRIMARY KEY ( UserID )
 		);"
 fi
