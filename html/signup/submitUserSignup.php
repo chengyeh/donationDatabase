@@ -3,6 +3,7 @@
 require_once('../helpers/mysqli.php');
 require_once('../helpers/crypto.php');
 require_once('../helpers/captcha.php');
+require_once('../../config.php');
 
 // verify csrf token and captcha
 verify_csrf_token();
@@ -56,10 +57,23 @@ $passwordSalt = substr(cs_prng(), 0, 16);
 $passwordHash = hash_password($password, $passwordSalt);
 
 //send account verification email
-$subject = "Non-profit account verification";
-$to = $email;
-$body = "this is the hashed uers password\n" . $passwordHash;
-require_once('../helpers/mail.php');
+if($config['use_email_verification']){
+	$subject = '' . $config['nonprofit_name'] . ' account verification';
+	$to = $email;
+	$body = 'Hello ' . $firstname . ', <br><br>' .
+	'Thank you for signing up with ' . $config['nonprofit_name'] . '!<br>' . 
+	'Please use the following link to activate your account. <br><br>' .
+	'<a href="' . $config['path_web'] . 'html/verifyEmail.php?email=' .
+	$email . '&hash=' . $passwordHash .'">' . $config['path_web'] . 
+	'html/verifyEmail.php?email=' . $email . '&hash=' . $passwordHash . '</a>' .
+	'<br><br>' .
+	'<b>Note:</b> This message was sent from an unmonitored address.<br>' .
+	'Please do no respond to this message. <br>' .
+	'To contact us, please email ' . 
+	'<a href="mailto:' . $config['contact_us_email'] . '">' . 
+	$config['contact_us_email'] . '</a>';
+	require_once('../helpers/mail.php');
+}
 
 // create this user in the database
 $query = <<<SQL
