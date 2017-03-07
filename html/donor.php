@@ -97,7 +97,7 @@ if(isset($_GET["input0"]) && isset($_SESSION["id"]))
 				$.post('invSearch.php', {keywords: substr}, function(data) {
 					$('ul#results').empty();
 					$.each(data, function() {
-						$('ul#results').append('<li>' + this.name + '</li>');
+						$('ul#results').append('<li>' + this.name + ' can be found in ' + this.category + '</li>');
 					});
 				}, "json");
 			}
