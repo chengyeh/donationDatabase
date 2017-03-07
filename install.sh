@@ -120,6 +120,7 @@ CREATE TABLE UserTable (
     Ethnicity INT,
     Gender VARCHAR(1),
     Income INT,
+    Active INT,
 		PRIMARY KEY ( UserID )
 		);"
 fi
