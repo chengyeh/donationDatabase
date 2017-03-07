@@ -20,7 +20,14 @@ if(!empty($_POST['keywords']))
 			{
 				$type = $r->fetch_assoc();
 				
-				$array[] = array('name' => $row['Name'], 'category' => $type['Name']);
+				$need = $row['Threshold'] - $row['Amount'];
+				
+				if($need < 0)
+				{
+					$need = 0;
+				}
+				
+				$array[] = array('name' => $row['Name'], 'category' => $type['Name'], 'need' => $need, 'instock' => $row[Amount]);
 			}
 		}
 	}
