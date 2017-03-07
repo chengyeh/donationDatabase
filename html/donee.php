@@ -75,6 +75,31 @@ if(isset($_GET["input0"]) && isset($_SESSION["id"]))
 }
 ?>
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"> </script>
+
+<form role="form" method="post">
+	<input type="text" class="form-control" id="search" placeholder="Search for an item">
+</form>
+
+<ul id="results"></ul>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#search').on('input', function() {
+			var substr = $(this).val();
+			if(substr.length >= 2)
+			{
+				$.post('invSearch.php', {keywords: substr}, function(data) {
+					$('ul#results').empty();
+					$.each(data, function() {
+						$('ul#results').append('<li>' + this.name + ' can be found in ' + this.category + '</li>');
+					});
+				}, "json");
+			}
+		});
+	});
+</script>
+
 <div class="container">
 	<h3>Item Requesting Form</h3> <br>
 	<form action="donee.php">
@@ -129,6 +154,7 @@ if(isset($_GET["input0"]) && isset($_SESSION["id"]))
 </div>
 
 <script type="text/javscript" source="js/bootstrap.min.js"></script>
+
 
 </body>
 </html>
