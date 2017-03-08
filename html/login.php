@@ -14,6 +14,9 @@ include('layouts/navbar.php');
 ?>
 
 <div class="container">
+	<?php
+	include('layouts/message.php');
+	?>
 	<h3>Login</h3> <br>
 	<form class="form-horizontal" action="verify.php" method="POST">
 		<?php

@@ -13,8 +13,10 @@ $email = mysqli_real_escape_string($mysqli, $_POST['email']);
 $inputPassword = $_POST['password'];
 
 $query = <<<SQL
-SELECT UserId, FirstName, PassSalt, PassHash, FlagAdmin, FlagUser
-	FROM UserTable WHERE Email = '$email';
+SELECT
+	UserId, FirstName, PassSalt, PassHash, FlagAdmin, FlagUser, FlagDonor,
+	FlagDonee
+FROM UserTable WHERE Email = '$email';
 SQL;
 
 $result = $mysqli->query($query);
@@ -29,10 +31,12 @@ $passwordSalt = $row['PassSalt'];
 $passwordHash = $row['PassHash'];
 
 if (hash_password($inputPassword, $passwordSalt) === $passwordHash) {
-	$_SESSION["id"] = $row['UserId'];
-	$_SESSION["name"] = $row['FirstName'];
+	$_SESSION['id'] = $row['UserId'];
+	$_SESSION['name'] = $row['FirstName'];
 	$_SESSION['admin'] = $row['FlagAdmin'];
 	$_SESSION['user'] = $row['FlagUser'];
+	$_SESSION['donor'] = $row['FlagDonor'];
+	$_SESSION['donee'] = $row['FlagDonee'];
 	?>
 	<p>Welcome. Your session ID is now <?= $userId ?>.</p>
 	<?php

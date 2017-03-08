@@ -6,6 +6,7 @@
 # RewriteRule ^([^.]+)/?$ html/$1.php [L]
 
 # block access to *.sql, *.ini, *.htaccess files
-<Files ~ ".*\.(sql|ini|htaccess)$">
+<Files ~ ".*\.(mysql|sql|ini|htaccess)$">
     deny from all
 </Files>
+

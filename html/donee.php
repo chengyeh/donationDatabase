@@ -6,27 +6,24 @@ $navbar_title = 'Donee Page';
 include('layouts/navbar.php');
 require_once('helpers/mysqli.php');
 
-if(isset($_SESSION["id"]))
+if (isset($_SESSION['id']) && $_SESSION['donee'])
 {
-	$id = $_SESSION["id"];
+	$id = $_SESSION['id'];
 }
 else
 {
-	header('Location:' . $config['path_web'] . 'html/signup/userSignup.php');
+	if (!isset($_SESSION['id'])) {
+		$path = $config['path_web'] . 'html/login.php';
+		$err = 401;
+		header("Location:$path?err=$err");
+	} else { // !$_SESSION['donee']
+		$path = $config['path_web'] . 'html/profile.php';
+		$err = 6;
+		header("Location:$path?err=$err");
+	}
 	exit();
 }
 
-$query = "SELECT FlagDonee FROM UserTable WHERE UserID=$id";
-if($result = $mysqli->query($query))
-{
-	$row = $result->fetch_assoc();
-	
-	if($row['FlagDonee'] != 1)
-	{
-		header('Location:' . $config['path_web'] . 'html/signup/userSignup.php');
-		exit();
-	}
-}
 ?>
 <!DOCTYPE html>
 <html lang = "en">
@@ -77,6 +74,31 @@ if(isset($_GET["input0"]) && isset($_SESSION["id"]))
 	}
 }
 ?>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"> </script>
+
+<form role="form" method="post">
+	<input type="text" class="form-control" id="search" placeholder="Search for an item">
+</form>
+
+<ul id="results"></ul>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#search').on('input', function() {
+			var substr = $(this).val();
+			if(substr.length >= 2)
+			{
+				$.post('invSearch.php', {keywords: substr}, function(data) {
+					$('ul#results').empty();
+					$.each(data, function() {
+						$('ul#results').append('<li>' + this.name + ' can be found in ' + this.category + ', we currently have ' + this.instock + '</li>');
+					});
+				}, "json");
+			}
+		});
+	});
+</script>
 
 <div class="container">
 	<h3>Item Requesting Form</h3> <br>
@@ -132,6 +154,7 @@ if(isset($_GET["input0"]) && isset($_SESSION["id"]))
 </div>
 
 <script type="text/javscript" source="js/bootstrap.min.js"></script>
+
 
 </body>
 </html>

@@ -10,6 +10,7 @@ include('layouts/navbar.php');
 ?>
 
 <div class="container">
+	<?php include('layouts/message.php'); ?>
 	<h3>Home Page</h3>
 	<p>The nonprofit using this software can put homepage information here.</p>
 </div>
