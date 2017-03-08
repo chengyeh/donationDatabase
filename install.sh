@@ -31,9 +31,10 @@ DATE=$(date +"%Y%m%d%H%M")
 echo -e "\nRunning setup...\n"
 
 echo "Configuring mysql-server..."
-# Pre-populate the root password for mysql-server before install
+# Check if mysql-server installed, continue on non-0 and we handle the failure
 PKG_OK=$(dpkg-query -W --showformat='${Status}\n' mysql-server|grep "install ok installed") || true
 echo Checking for mysql-server: $PKG_OK
+# Pre-populate the root password for mysql-server before install, but only if not installed
 if [ "" == "$PKG_OK" ]; then
 debconf-set-selections <<< "mysql-server mysql-server/root_password password $MYSQLROOTPASSWD"
 debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $MYSQLROOTPASSWD"
@@ -44,20 +45,22 @@ apt-get -y install mysql-server
 echo ""
 fi
 
-
+MAINDBUSER="donation"
 MAINDB="donation"
+# Check if database exists
 RESULT=`mysqlshow --user=root --password=${MYSQLROOTPASSWD} $MAINDB | grep -v Wildcard | grep -o $MAINDB` || true;
 if [ "$RESULT" == "$MAINDB" ]; then
 echo "Database $MAINDB already exists"
 else
 echo "Database not found, creating..."
 mysql -uroot -p${MYSQLROOTPASSWD} -e "CREATE DATABASE ${MAINDB} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
-#mysql -uroot -p${MYSQLROOTPASSWD} -e "CREATE USER ${MAINDB}@localhost IDENTIFIED BY '${PASSWDDB}';"
-#mysql -uroot -p${MYSQLROOTPASSWD} -e "GRANT ALL PRIVILEGES ON ${MAINDB}.* TO '${MAINDB}'@'localhost';"
+mysql -uroot -p${MYSQLROOTPASSWD} -e "CREATE USER ${MAINDBUSER}@localhost IDENTIFIED BY '${MYSQLROOTPASSWD}';"
+mysql -uroot -p${MYSQLROOTPASSWD} -e "GRANT ALL PRIVILEGES ON ${MAINDB}.* TO '${MAINDBUSER}'@'%';"
 mysql -uroot -p${MYSQLROOTPASSWD} -e "FLUSH PRIVILEGES;"
 fi
 
 
+###### START CREATE DATABASE TABLES ######
 
 if [ $(mysql -N -s -u root -p${MYSQLROOTPASSWD} -e "select count(*) from information_schema.tables where table_schema='$MAINDB' and table_name='IncDonationTable';") -eq 1 ]; then
 	echo "IncDonationTable already exists."
@@ -150,19 +153,25 @@ else
 		);"
 fi
 
+###### END CREATE DATABASE TABLES ######
+
 
 echo -e "Mysql-server config complete.\n"
 
-# Pre-populate the root password for apache2 before install
+# Check if apache2 is installed
 PKG_OK=$(dpkg-query -W --showformat='${Status}\n' apache2|grep "install ok installed") || true
 echo Checking for apache2: $PKG_OK
 if [ "" == "$PKG_OK" ]; then
 # Get apache2
 echo ""
-apt-get -y install apache2 php5
+apt-get -y install apache2 php5 php-pear php5-mysql
+a2enmod ssl php5
 echo ""
 fi
 
+
+# Move web application to default webroot.
+# TODO: ask for webroot in script
 cd $WEBROOT
 echo "Packing up old webroot..."
 tar czf oldwebroot-$DATE.tar.gz * --exclude="oldwebroot[.]*" || true
