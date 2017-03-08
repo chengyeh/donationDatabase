@@ -1,7 +1,10 @@
 #!/bin/bash
 
-WEBROOT="/var/www/html"
+WEBROOT="/var/www/donation/"
 WORKINGDIR=`pwd`
+
+MAINDBUSER="donation"
+MAINDB="donation"
 
 # Exit on any error non-zero
 set -e
@@ -45,8 +48,6 @@ apt-get -y install mysql-server
 echo ""
 fi
 
-MAINDBUSER="donation"
-MAINDB="donation"
 # Check if database exists
 RESULT=`mysqlshow --user=root --password=${MYSQLROOTPASSWD} $MAINDB | grep -v Wildcard | grep -o $MAINDB` || true;
 if [ "$RESULT" == "$MAINDB" ]; then
@@ -54,8 +55,13 @@ echo "Database $MAINDB already exists"
 else
 echo "Database not found, creating..."
 mysql -uroot -p${MYSQLROOTPASSWD} -e "CREATE DATABASE ${MAINDB} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
-mysql -uroot -p${MYSQLROOTPASSWD} -e "CREATE USER ${MAINDBUSER}@localhost IDENTIFIED BY '${MYSQLROOTPASSWD}';"
+if [ $(mysql -N -s -u root -p${MYSQLROOTPASSWD} -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = '$MAINDBUSER');") -eq 1 ]; then
+	echo "Creating privileged database user $MAINDBUSER..."
+	mysql -uroot -p${MYSQLROOTPASSWD} -e "CREATE USER ${MAINDBUSER}@localhost IDENTIFIED BY '${MYSQLROOTPASSWD}';"
+fi
+echo "Granting required privileges..."
 mysql -uroot -p${MYSQLROOTPASSWD} -e "GRANT ALL PRIVILEGES ON ${MAINDB}.* TO '${MAINDBUSER}'@'%';"
+echo "Flushing..."
 mysql -uroot -p${MYSQLROOTPASSWD} -e "FLUSH PRIVILEGES;"
 fi
 
@@ -124,7 +130,7 @@ CREATE TABLE UserTable (
     Gender VARCHAR(1),
     Income INT,
     Active INT,
-		PRIMARY KEY ( UserID )
+    PRIMARY KEY ( UserID )
 		);"
 fi
 
@@ -155,10 +161,12 @@ else
 		);"
 fi
 
+echo -e "Mysql-server config complete.\n"
+
 ###### END CREATE DATABASE TABLES ######
 
 
-echo -e "Mysql-server config complete.\n"
+
 
 # Check if apache2 is installed
 PKG_OK=$(dpkg-query -W --showformat='${Status}\n' apache2|grep "install ok installed") || true
@@ -172,12 +180,29 @@ echo ""
 fi
 
 
+
+
+# Create webroot if not exists
+if [ ! -d $WEBROOT ]; then
+  mkdir -p $WEBROOT;
+fi
+
 # Move web application to default webroot.
 # TODO: ask for webroot in script
 cd $WEBROOT
 echo "Packing up old webroot..."
 tar czf oldwebroot-$DATE.tar.gz * --exclude="oldwebroot[.]*" || true
 echo "Installing new web components..."
-cp $WORKINGDIR/html/* $WEBROOT/ -r
+cp $WORKINGDIR/html $WEBROOT/ -r
+
+# Place config files
+cp $WORKINGDIR/config* $WEBROOT/
+
+# Git swiftmailer current version
+cd $WEBROOT
+echo "Getting latest version of Swiftmailer..."
+git clone https://github.com/swiftmailer/swiftmailer.git
+mv swiftmailer swiftmailer-5.x
+
 
 echo -e "\nDone\n"
