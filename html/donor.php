@@ -19,20 +19,20 @@ else
 	if (!isset($_SESSION['id'])) {
 		$path = $config['path_web'] . 'html/login.php';
 		$err = 401;
-		header("Location:$path?err=$err");
+		header("Location:$path?err=$err&dest=donor");
 	} else { // !$_SESSION['donor']
 		$path = $config['path_web'] . 'html/profile.php';
 		$err = 5;
-		header("Location:$path?err=$err");
+		header("Location:$path?err=$err&dest=donor");
 	}
-	exit();
+	exit;
 }
 
 ?>
 <!DOCTYPE html>
 <html lang = "en">
 <?php
-    
+
 $sql = "SELECT * FROM CategoriesTable";
 $result_set = $mysqli->query($sql);
 $category_array = array();

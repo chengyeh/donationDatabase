@@ -117,5 +117,15 @@ if (!$result) {
 	die('MySQL error: ' . $mysqli->error);
 }
 
-header("Location:profile.php?msg=2$err");
+switch($dest) {
+	case 'donor':
+		header("Location:donor.php?msg=2$err");
+		break;
+	case 'donee':
+		header("Location:donee.php?msg=2$err");
+		break;
+	default:
+		header("Location:profile.php?msg=2$err");
+		break;
+}
 ?>

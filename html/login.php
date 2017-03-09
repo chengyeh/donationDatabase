@@ -8,7 +8,7 @@ require_once('helpers/crypto.php');
 require_once('helpers/captcha.php');
 
 $navbar_active = 'login';
-$navbar_title = 'Login';
+$navbar_title = 'Log in';
 include('layouts/navbar.php');
 
 ?>
@@ -16,6 +16,8 @@ include('layouts/navbar.php');
 <div class="container">
 	<?php
 	include('layouts/message.php');
+
+	$dest = isset($_GET['dest']) ? htmlspecialchars($_GET['dest']) : '';
 	?>
 	<h3>Login</h3>
 	<p>If you don't have an account, sign up <a href="signup/userSignup.php">here</a>.</p>
@@ -26,11 +28,10 @@ include('layouts/navbar.php');
 		captcha_field();
 		csrf_token_field();
 		?>
-		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-				<button class="btn btn-default">Log in</button>
-			</div>
-		</div>
+		<input type="hidden" name="dest" value="<?= $dest ?>">
+		<?php
+		form_submit_button('Log in');
+		?>
 	<hr>
 	</form>
 </div>

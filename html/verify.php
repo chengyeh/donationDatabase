@@ -11,6 +11,7 @@ verify_captcha();
 
 $email = mysqli_real_escape_string($mysqli, $_POST['email']);
 $inputPassword = $_POST['password'];
+$dest = htmlspecialchars($_POST['dest']);
 
 $query = <<<SQL
 SELECT
@@ -39,12 +40,20 @@ if (hash_password($inputPassword, $passwordSalt) === $passwordHash) {
 	$_SESSION['donor'] = $row['FlagDonor'];
 	$_SESSION['donee'] = $row['FlagDonee'];
 } else {
-	header('Location:login.php?err=1');
+	header("Location:login.php?err=1&dest=$dest");
 	exit;
 }
 
-
-header("Location:index.php?msg=4");
-exit();
+switch($dest) {
+	case 'donor':
+		header("Location:donor.php?msg=4");
+		break;
+	case 'donee':
+		header("Location:donee.php?msg=4");
+		break;
+	default:
+		header("Location:index.php?msg=4");
+		break;
+}
 
 ?>

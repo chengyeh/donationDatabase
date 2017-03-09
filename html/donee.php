@@ -15,11 +15,11 @@ else
 	if (!isset($_SESSION['id'])) {
 		$path = $config['path_web'] . 'html/login.php';
 		$err = 401;
-		header("Location:$path?err=$err");
+		header("Location:$path?err=$err&dest=donee");
 	} else { // !$_SESSION['donee']
 		$path = $config['path_web'] . 'html/profile.php';
 		$err = 6;
-		header("Location:$path?err=$err");
+		header("Location:$path?err=$err&dest=donee");
 	}
 	exit();
 }
