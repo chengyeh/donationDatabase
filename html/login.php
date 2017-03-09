@@ -17,7 +17,8 @@ include('layouts/navbar.php');
 	<?php
 	include('layouts/message.php');
 	?>
-	<h3>Login</h3> <br>
+	<h3>Login</h3>
+	<p>If you don't have an account, sign up <a href="signup/userSignup.php">here</a>.</p>
 	<form class="form-horizontal" action="verify.php" method="POST">
 		<?php
 		form_field('email', 'Email address', 'email');

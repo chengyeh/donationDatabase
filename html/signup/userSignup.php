@@ -21,14 +21,14 @@ include('../layouts/navbar.php');
 		<h4>Required for Donor/User</h4>
 		<?php
 		// be very thorough for now ..
-		form_field('firstname', 'First name');
-		form_field('lastname', 'Last name');
-		form_field('address', 'Address');
+		form_field('firstname', 'First name*', 'text', 'First name');
+		form_field('lastname', 'Last name*', 'text', 'First name');
+		form_field('address', 'Address*', 'text', 'Address');
 		form_field('address2', 'Address line 2');
-		form_field('city', 'City');
-		form_field('state', 'State');
-		form_field('zip', 'Zip code', 'number');
-		form_field('phone', 'Phone number', 'text', '(555) 555-5555');
+		form_field('city', 'City*', 'text', 'City');
+		form_field('state', 'State*', 'text', 'State');
+		form_field('zip', 'Zip code*', 'number', 'Zip code');
+		form_field('phone', 'Phone number*', 'text', '(555) 555-5555');
 		?> <hr> <h4>Required for Donee</h4><?php
 		form_field('age', 'Age', 'number');
 		form_field('gender', 'Gender');

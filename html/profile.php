@@ -8,8 +8,8 @@ require_once('helpers/crypto.php');
 if (!isset($_SESSION['id'])) {
 	// if not logged in, redirect to login page
 	// this shouldn't happen but it can't hurt to check
-	header('Location:' . $config['path_web'] . 'html/login.php');
-	exit();
+	header('Location:login.php?err=401');
+	exit;
 }
 $id = $_SESSION['id'];
 
@@ -110,8 +110,8 @@ $phoneclass = '';
 		form_field('phone', 'Phone number', 'text', '(555) 555-555', $phone, $phoneclass);
 		?> <hr> <?php
 		form_field('email', 'Email*', 'email', '', $email);
-		form_field('password', 'New password*', 'password', '(No change)');
-		form_field('passwordconf', 'Confirm new password*', 'password', '(No change)');
+		form_field('password', 'New password', 'password', '(No change)');
+		form_field('passwordconf', 'Confirm new password', 'password', '(No change)');
 		?> <hr> <?php
 		form_field('curpassword', 'Current password', 'password');
 		// captcha_field(true);

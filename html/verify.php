@@ -23,7 +23,8 @@ $result = $mysqli->query($query);
 if (!$result) {
 	die('MySQL error: ' . $mysqli->error);
 } else if ($result->num_rows == 0) {
-	die('No such user!');
+	header('Location:login.php?err=1');
+	exit;
 }
 
 $row = $result->fetch_assoc();
@@ -37,16 +38,13 @@ if (hash_password($inputPassword, $passwordSalt) === $passwordHash) {
 	$_SESSION['user'] = $row['FlagUser'];
 	$_SESSION['donor'] = $row['FlagDonor'];
 	$_SESSION['donee'] = $row['FlagDonee'];
-	?>
-	<p>Welcome. Your session ID is now <?= $userId ?>.</p>
-	<?php
 } else {
-	die('Incorrect password!');
+	header('Location:login.php?err=1');
+	exit;
 }
 
 
-$redirect_url = $config['path_web'] . 'html/index.php';
-header("Location:$redirect_url");
+header("Location:index.php?msg=4");
 exit();
 
 ?>
