@@ -6,6 +6,17 @@ WORKINGDIR=`pwd`
 MAINDBUSER="donation"
 MAINDB="donation"
 
+DATABASEADDR="127.0.0.1"
+WEBADDR="https://donation.nichnologist.net/"
+CAPTCHAS="false"
+EMAILVER="true"
+TZ="America/Chicago"
+
+EMAILRELAYUSER="kueecs.team10@gmail.com"
+EMAILRELAYPASSWD="passwordGoesHere"
+CONTACTEMAILADDR="kueecs.team10@gmail.com"
+COMPANYNAME='KU team 10'
+
 # Exit on any error non-zero
 set -e
 
@@ -192,6 +203,8 @@ fi
 cd $WEBROOT
 echo "Packing up old webroot..."
 tar czf oldwebroot-$DATE.tar.gz * --exclude="oldwebroot[.]*" || true
+rm -r html || true
+# TODO: delete old files after compress
 echo "Installing new web components..."
 cp $WORKINGDIR/html $WEBROOT/ -r
 
@@ -199,10 +212,32 @@ cp $WORKINGDIR/html $WEBROOT/ -r
 cp $WORKINGDIR/config* $WEBROOT/
 
 # Git swiftmailer current version
-cd $WEBROOT
+cd html/
 echo "Getting latest version of Swiftmailer..."
 git clone https://github.com/swiftmailer/swiftmailer.git
 mv swiftmailer swiftmailer-5.x
 
 
 echo -e "\nDone\n"
+
+
+cd $WEBROOT
+sed -i "s#\(mysql_addr=\).*#\1\"$DATABASEADDR\"#" config.ini
+sed -i "s/\(mysql_user=\).*/\1\"$MAINDBUSER\"/" config.ini
+sed -i "s/\(mysql_pass=\).*/\1\"$MYSQLROOTPASSWD\"/" config.ini
+sed -i "s/\(mysql_db=\).*/\1\"$MAINDB\"/" config.ini
+
+# Caution: webaddr has forward slashes
+sed -i "s#\(path_web=\).*#\1\"$WEBADDR\"#" config.ini
+sed -i "s/\(use_captchas=\).*/\1$CAPTCHAS/" config.ini
+sed -i "s/\(use_email_verification=\).*/\1$EMAILVER/" config.ini
+
+sed -i "s#\(time_zone=\).*#\1\"$TZ\"#" config.ini
+
+sed -i "s/\(No_Reply_email_address=\).*/\1\"$EMAILRELAYUSER\"/" config.ini
+sed -i "s/\(No_Reply_email_password=\).*/\1\"$EMAILRELAYPASSWD\"/" config.ini
+
+sed -i "s/\(contact_us_email=\).*/\1\"$CONTACTEMAILADDR\"/" config.ini
+
+sed -i "s/\(nonprofit_name=\).*/\1\"$COMPANYNAME\"/" config.ini
+
