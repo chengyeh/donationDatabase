@@ -33,7 +33,7 @@ else
 <!DOCTYPE html>
 <html lang = "en">
 <?php
-    
+
 $sql = "SELECT * FROM CategoriesTable";
 $result_set = $mysqli->query($sql);
 $category_array = array();
@@ -53,22 +53,22 @@ if(isset($_GET["input0"]) && isset($_SESSION["id"]))
 		while($row =  mysqli_fetch_array($result_set))
 		{
 			$inventory_array[] = $row;
-		}	
-		
+		}
+
 		$input_array = array();
 		$input_array = $_GET[$inputName];
-		
+
 		foreach($inventory_array as $index => $item)
-		{			
+		{
 			if($input_array[$index] != 0)
-			{			
+			{
 				$amount = $input_array[$index];
 				$itemId = $item["ItemID"];
 				$query = "INSERT INTO IncDonationTable (DonorID, ItemID, Amount, PledgeDate) VALUES ($id, $itemId, '$amount', NOW())";
-				
+
 				if($result = $mysqli->query($query))
 				{
-					
+
 				}
 				else
 				{
@@ -107,12 +107,13 @@ if(isset($_GET["input0"]) && isset($_SESSION["id"]))
 
 <div class="container">
 	<h3>Item Donation Form</h3> <br>
+
 	<form action="donor.php">
 		<?php
 		 foreach($category_array as $index => $category)
-		 {			 
+		 {
 			$inputName = "input" . $index;
-			 
+
 		 	echo '<div class="panel-group">
 					<div class="panel panel-default">
 						<div class="panel-heading">
@@ -128,7 +129,7 @@ if(isset($_GET["input0"]) && isset($_SESSION["id"]))
 										<th>Need</th>
 										<th>Quantity</th>
 									</tr>';
-									
+
 			$sql = "SELECT * FROM InventoryTable WHERE CategoryNum =" . $category['CategoryNum'] . " AND Amount != Threshold";
 			$result_set = $mysqli->query($sql);
 			$inventory_array = array();
@@ -136,16 +137,16 @@ if(isset($_GET["input0"]) && isset($_SESSION["id"]))
 			{
 				$inventory_array[] = $row;
 			}
-			
+
 			foreach($inventory_array as $item)
-			{				
+			{
 				echo '<tr><td>' . $item['Name'] . '</td><td>' . ($item['Threshold']-$item['Amount']) . '</td><td><input type="number" value="0" name="'. $inputName .'[]" min="0" scale="1"></td></tr>';
 			}
 			echo '</table></div></div></div></div>';
-		 	 	
+
 		 }
 		?>
-		
+
 		<hr>
 		<div class="form-group">
 			<label for="specialRequests" class="col-sm-2 control-label">Special Donations</label>
@@ -156,9 +157,18 @@ if(isset($_GET["input0"]) && isset($_SESSION["id"]))
 
 		</div>
 		<hr> <br>
-		
+
 		<input type="submit" value="Pledge Donation">
 	</form>
+
+	<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+	<input type="hidden" name="cmd" value="_s-xclick">
+	<input type="hidden" name="hosted_button_id" value="FZE3S3J459SF2">
+	<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+	<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+	</form>
+
+
 </div>
 
 </body>
