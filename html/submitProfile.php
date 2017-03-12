@@ -8,7 +8,7 @@ require_once('helpers/captcha.php');
 if (!isset($_SESSION['id'])) {
 	// if not logged in, redirect to login page
 	// this shouldn't happen but it can't hurt to check
-	header('Location:' . $config['path_web'] . 'html/login.php');
+	header('Location:' . $config['path_web'] . 'html/login.php?err=401');
 	exit();
 }
 $id = $_SESSION['id'];
@@ -55,8 +55,8 @@ if ($newpassword != '' || $oldrow['Email'] != $email) {
 	$salt = $oldrow['PassSalt'];
 	$hash = $oldrow['PassHash'];
 	if (hash_password($curpassword, $salt) != $hash) {
-		http_response_code(400);
-		die('Error 400: Incorrect password.');
+		header('Location:profile.php?err=9');
+		exit;
 	}
 }
 
@@ -78,16 +78,29 @@ $newquery_arr = [
 
 if ($newpassword != '') {
 	if ($newpassword != $newpasswordconf) {
-		http_response_code(400);
-		die('Error 400: New passwords don\'t match');
+		header('Location:profile.php?err=7');
+		exit;
 	}
 	// best practice is to regenerate the salt
 	$newsalt = substr(cs_prng(), 0, 16);
 	$newquery_arr['PassSalt'] = "'$newsalt'";
 	$newquery_arr['PassHash'] = "'".hash_password($newpassword, $newsalt)."'";
 }
+
 if ($email != $oldrow['Email']) {
-	$newquery_arr['Email'] = $email;
+	// make sure nobody has registered with this email yet
+	$query = <<<SQL
+SELECT Email from UserTable WHERE Email='$email';
+SQL;
+
+	$result = $mysqli->query($query);
+	if (!$result) {
+		die('MySQL error: ' . $mysqli->error);
+	} else if ($result->num_rows > 0) {
+		$err = '&err=3';
+	} else {
+		$newquery_arr['Email'] = "'$email'";
+	}
 }
 
 // build the new query
@@ -104,8 +117,15 @@ if (!$result) {
 	die('MySQL error: ' . $mysqli->error);
 }
 
-// TODO: some kind of success message
-die("Success!");
-header('Location:' . $config['path_web'] . 'html/profile.php');
-exit();
+switch($dest) {
+	case 'donor':
+		header("Location:donor.php?msg=2$err");
+		break;
+	case 'donee':
+		header("Location:donee.php?msg=2$err");
+		break;
+	default:
+		header("Location:profile.php?msg=2$err");
+		break;
+}
 ?>

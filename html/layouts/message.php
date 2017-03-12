@@ -11,6 +11,9 @@ $errors = [
 	4 => 'One or more fields contained invalid data.',
 	5 => 'We need donor information from you before you can do that.',
 	6 => 'We need donee information from you before you can do that.',
+	7 => 'Supplied passwords do not match.',
+	8 => 'Your input did not match the captcha.',
+	9 => 'Incorrect password.',
 	// generic HTML status codes
 	401 => 'You must be logged in to access the specified resource.',
 	403 => 'You are not currently permitted to access the specified resource.',
@@ -20,6 +23,16 @@ $errors = [
 	420 => 'Please wait a few minutes and try again.',
 	498 => 'Token mismatch. Please go back and try again.',
 	499 => 'Token not supplied. Please go back and try again.'
+];
+
+$messageCode = 0;
+
+$messages = [
+	// 0: no message
+	1 => '', // generic success
+	2 => 'Your information has been updated.',
+	3 => 'You have successfully registered an account.',
+    4 => 'You are now logged in.',
 ];
 
 if (isset($_GET['err'])) {
@@ -35,6 +48,21 @@ if (isset($_GET['err'])) {
 	?>
 	<div class="alert alert-danger">
 		<b>Error!</b> <?= $msg ?>
+	</div>
+	<?php
+}
+
+if (isset($_GET['msg'])) {
+	$msg = htmlspecialchars($_GET['msg']);
+
+	if (array_key_exists($msg, $messages)) {
+		$txt = $messages[$msg];
+		$messageCode = $msg;
+	}
+	// else: undefined message
+	?>
+	<div class = "alert alert-success">
+		<b>Success!</b> <?= $txt ?>
 	</div>
 	<?php
 }

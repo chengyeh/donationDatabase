@@ -1,7 +1,6 @@
 <?php
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
-
 session_start();
 
 $navbar_active = 'donate';
@@ -20,13 +19,13 @@ else
 	if (!isset($_SESSION['id'])) {
 		$path = $config['path_web'] . 'html/login.php';
 		$err = 401;
-		header("Location:$path?err=$err");
+		header("Location:$path?err=$err&dest=donor");
 	} else { // !$_SESSION['donor']
 		$path = $config['path_web'] . 'html/profile.php';
 		$err = 5;
-		header("Location:$path?err=$err");
+		header("Location:$path?err=$err&dest=donor");
 	}
-	exit();
+	exit;
 }
 
 ?>
@@ -89,20 +88,25 @@ if(isset($_GET["input0"]) && isset($_SESSION["id"]))
 <ul id="results"></ul>
 
 <script type="text/javascript">
-	$(document).ready(function(){
-		$('#search').on('input', function() {
-			var substr = $(this).val();
-			if(substr.length >= 2)
-			{
-				$.post('invSearch.php', {keywords: substr}, function(data) {
-					$('ul#results').empty();
-					$.each(data, function() {
-						$('ul#results').append('<li>' + this.name + ' can be found in ' + this.category + ', we currently need ' + this.need + '</li>');
-					});
-				}, "json");
-			}
-		});
+function tableToggle(category)
+{
+	$('#cat' + category + '').collapse('show');
+}
+
+$(document).ready(function(){
+	$('#search').on('input', function() {
+		var substr = $(this).val();
+		if(substr.length >= 2)
+		{
+			$.post('invSearch.php', {keywords: substr}, function(data) {
+				$('ul#results').empty();
+				$.each(data, function() {
+					$('ul#results').append('<li><a onclick=tableToggle(' + this.catNum + ') href=' + '#item' + this.id + '>' + this.name + '</a></li>');
+				});
+			}, "json");
+		}
 	});
+});
 </script>
 
 <div class="container">
@@ -139,8 +143,13 @@ if(isset($_GET["input0"]) && isset($_SESSION["id"]))
 			}
 
 			foreach($inventory_array as $item)
+<<<<<<< HEAD
 			{
 				echo '<tr><td>' . $item['Name'] . '</td><td>' . ($item['Threshold']-$item['Amount']) . '</td><td><input type="number" value="0" name="'. $inputName .'[]" min="0" scale="1"></td></tr>';
+=======
+			{				
+				echo '<tr id=item' . $item['ItemID'] . '><td>' . $item['Name'] . '</td><td>' . ($item['Threshold']-$item['Amount']) . '</td><td><input type="number" value="0" name="'. $inputName .'[]" min="0" scale="1"></td></tr>';
+>>>>>>> f8fff9999dc49080cb3714d8680c832914ea74cd
 			}
 			echo '</table></div></div></div></div>';
 

@@ -26,8 +26,12 @@ $income = mysqli_real_escape_string($mysqli, $_POST['income']);
 $email = mysqli_real_escape_string($mysqli, $_POST['email']);
 
 if ($email === '') {
-	http_response_code(400);
-	die('Error 400: Bad request (no email address provided).');
+	header('Location:userSignup.php?err=3');
+	exit;
+}
+else if ($firstname == '' || $lastname == '' || $address == '' || $city == '' || $state == '') {
+	header('Location:userSignup.php?err=2');
+	exit;
 }
 
 // make sure nobody has registered with this email yet
@@ -39,18 +43,17 @@ $result = $mysqli->query($query);
 if (!$result) {
 	die('MySQL error: ' . $mysqli->error);
 } else if ($result->num_rows > 0) {
-	http_response_code(400);
-	die('Error 400: A user with this email address already exists.');
+	header('Location:userSignup.php?err=3');
+	exit;
 }
 
 // grab passwords, compare, and hash
-// TODO: check whether sending passwords from client->server in plaintext is bad
 $password = $_POST['password'];
 $passwordconf = $_POST['passwordconf'];
 
 if ($password !== $passwordconf) {
-	http_response_code(400);
-	die('Error 400: Bad request (passwords don\'t match).');
+	header('Location:userSignup.php?err=7');
+	exit;
 }
 
 $passwordSalt = substr(cs_prng(), 0, 16);
@@ -58,20 +61,20 @@ $passwordHash = hash_password($password, $passwordSalt);
 
 //send account verification email
 if($config['use_email_verification']){
-	$subject = '' . $config['nonprofit_name'] . ' account verification';
+	$contact_us = $config['contact_us_email'];
+	$path_web = $config['path_web'] . 'html';
+	$subject = $config['nonprofit_name'] . ' account verification';
 	$to = $email;
-	$body = 'Hello ' . $firstname . ', <br><br>' .
-	'Thank you for signing up with ' . $config['nonprofit_name'] . '!<br>' . 
-	'Please use the following link to activate your account. <br><br>' .
-	'<a href="' . $config['path_web'] . 'html/verifyEmail.php?email=' .
-	$email . '&hash=' . $passwordHash .'">' . $config['path_web'] . 
-	'html/verifyEmail.php?email=' . $email . '&hash=' . $passwordHash . '</a>' .
-	'<br><br>' .
-	'<b>Note:</b> This message was sent from an unmonitored address.<br>' .
-	'Please do no respond to this message. <br>' .
-	'To contact us, please email ' . 
-	'<a href="mailto:' . $config['contact_us_email'] . '">' . 
-	$config['contact_us_email'] . '</a>';
+	$body = <<<HTM
+Hello $firstname, <br /><br />
+Thank you for signing up with $config['nonprofit_name']!<br />
+Please use the following link to activate your account. <br /><br />
+<a href="$path_web/verifyEmail.php?email=$email&hash=$passwordHash">
+$path_web/verifyEmail.php?email=$email&hash=$passwordHash</a><br /><br />
+<b>Note:</b> This message was sent from an unmonitored address.<br />
+Please do no respond to this message.<br />
+To contact us, please email <a href="mailto:$contact_us">$contact_us</a>.
+HTM;
 	require_once('../helpers/mail.php');
 }
 
@@ -90,11 +93,6 @@ if (!$result) {
 	die('MySQL error: ' . $mysqli->error);
 }
 
+header('Location:../index.php?msg=3');
 ?>
 
-
-
-<p>Congratulations! You have registered successfully.</p>
-<p>Your email address: <?= $email ?></p>
-<p>Your password salt: <?= $passwordSalt ?></p>
-<p>Your password hash: <?= $passwordHash ?></p>

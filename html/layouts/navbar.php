@@ -33,7 +33,6 @@ else
 $nav_liclass['signup'] = '';
 $nav_liclass['home'] = '';
 $nav_liclass['donate'] = '';
-$nav_liclass['getinvolved'] = '';
 $nav_liclass['about'] = '';
 $nav_liclass['request'] = '';
 $nav_liclass['login'] = '';
@@ -83,9 +82,6 @@ if (isset($navbar_active)) {
 					</ul>
 				</li>
 				<li class="<?= $nav_liclass['donate'] ?>"><a href="<?= $path ?>html/donor.php">Donate</a></li>
-				<!--
-				<li class="<?= $nav_liclass['getinvolved'] ?>"><a href="<?= $path ?>#getinvolved">Get Involved</a></li>
-				-->
 				<li class="<?= $nav_liclass['request'] ?>"><a href="<?= $path ?>html/donee.php">Request Services</a></li>
 				<?php if (!isset($_SESSION['id'])) { ?> <li class="<?= $nav_liclass['signup'] ?>"><a href="<?= $path ?>html/signup/userSignup.php"> Sign Up</a></li> <?php } ?>
 				<?php if (isset($_SESSION['id'])) { ?>

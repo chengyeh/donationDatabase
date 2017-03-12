@@ -27,7 +27,7 @@ if(!empty($_POST['keywords']))
 					$need = 0;
 				}
 				
-				$array[] = array('name' => $row['Name'], 'category' => $type['Name'], 'need' => $need, 'instock' => $row[Amount]);
+				$array[] = array('name' => $row['Name'], 'category' => $type['Name'], 'need' => $need, 'instock' => $row[Amount], 'id' => $row['ItemID'], 'catNum' => $type['CategoryNum']);
 			}
 		}
 	}

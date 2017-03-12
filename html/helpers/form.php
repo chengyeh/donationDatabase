@@ -24,20 +24,22 @@ function form_field($script_name, $nice_name, $type = 'text', $placeholder = '',
 {
 	if ($placeholder == '')
 		$placeholder = $nice_name;
-	$valueField = '';
+	$extra = '';
 	if ($value != '') {
 		if ($type == 'text')
-			$valueField = "value=\"$value\"";
+			$extra = "value=\"$value\"";
 		else if ($type != 'number' || $value != 0)
-			$valueField = "value=$value";
+			$extra = "value=$value";
 	}
+	if (substr($nice_name, -1) == '*')
+		$extra .= ' required';
 	?>
 	<div class="form-group">
 		<label for="<?= $script_name ?>" class="col-sm-2 control-label">
 			<?= $nice_name ?>
 		</label>
 		<div class="col-sm-10">
-			<input type="<?= $type ?>" class="form-control <?= $classes ?>" name="<?= $script_name ?>" placeholder="<?= $placeholder ?>" <?= $valueField ?>>
+			<input type="<?= $type ?>" class="form-control <?= $classes ?>" name="<?= $script_name ?>" placeholder="<?= $placeholder ?>" <?= $extra ?>>
 		</div>
 	</div>
 	<?php
