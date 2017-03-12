@@ -143,13 +143,8 @@ $(document).ready(function(){
 			}
 
 			foreach($inventory_array as $item)
-<<<<<<< HEAD
 			{
-				echo '<tr><td>' . $item['Name'] . '</td><td>' . ($item['Threshold']-$item['Amount']) . '</td><td><input type="number" value="0" name="'. $inputName .'[]" min="0" scale="1"></td></tr>';
-=======
-			{				
 				echo '<tr id=item' . $item['ItemID'] . '><td>' . $item['Name'] . '</td><td>' . ($item['Threshold']-$item['Amount']) . '</td><td><input type="number" value="0" name="'. $inputName .'[]" min="0" scale="1"></td></tr>';
->>>>>>> f8fff9999dc49080cb3714d8680c832914ea74cd
 			}
 			echo '</table></div></div></div></div>';
 
