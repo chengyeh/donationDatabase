@@ -4,6 +4,7 @@
 //admin panel user control page.
 require_once(__DIR__.'/helpers/mysqli.php');
 
+//TODO use post? Taylor needs to fix this.
 if(isset($_GET['email']) && !empty($_GET['email']) AND isset($_GET['hash']) && !empty($_GET['hash'])){
     //sanitize the strings
     $email = mysql_escape_string($_GET['email']);
@@ -11,22 +12,25 @@ if(isset($_GET['email']) && !empty($_GET['email']) AND isset($_GET['hash']) && !
     
     //find the unactivated account specified
     $result = $mysqli->query('SELECT * FROM UserTable WHERE Email="'.
-        $email.'" AND PassHash="'.$hash.'" AND Active IS NULL');
+        $email.'" AND PassSalt="'.$hash.'" AND Active IS NULL');
 
     //if a result is found, only 1 can match, activate the account
     if(($result->num_rows) > 0){
         // We have a match, activate the account
         $mysqli->query('UPDATE UserTable SET Active="1" WHERE Email="'.
             $email.'" AND PassHash="'.$hash.'"') or die(mysql_error());
-        //TODO make this message styled nicely
-        echo 'Your account has been activated, you can now login!';
+        //output good message
+        header('Location:login.php?msg=5');
+        exit;
     }else{
-        //TODO make this message styled nicely
-        echo 'The url is either invalid or you already have activated your account.';
+        //output error message for account already activated or invalid fields
+        header('Location:login.php?err=10');
+        exit;
     }
 
 }else{
-
-    echo 'Invalid action. Please use the link that has been sent to your email.';
+    //output error message for invalid action
+    header('Location:login.php?err=11');
+    exit;
 }
 ?>
