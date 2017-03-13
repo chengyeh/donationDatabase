@@ -70,8 +70,8 @@ if($config['use_email_verification']){
 Hello $firstname,<br /><br />
 Thank you for signing up with $nonprofit_name!<br />
 Please use the following link to activate your account. <br /><br />
-<a href="$path_web/verifyEmail.php?email=$email&hash=$passwordHash">
-$path_web/verifyEmail.php?email=$email&hash=$passwordHash</a><br /><br />
+<a href="$path_web/verifyEmail.php?email=$email&hash=$passwordSalt">
+$path_web/verifyEmail.php?email=$email&hash=$passwordSalt</a><br /><br />
 <b>Note:</b> This message was sent from an unmonitored address.<br />
 Please do no respond to this message.<br />
 To contact us, please email <a href="mailto:$contact_us">$contact_us</a>.

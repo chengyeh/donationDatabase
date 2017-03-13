@@ -14,6 +14,8 @@ $errors = [
 	7 => 'Supplied passwords do not match.',
 	8 => 'Your input did not match the captcha.',
 	9 => 'Incorrect password.',
+	10 => 'The url is either invalid or you have already activated your account.',
+	11 => 'Invalid action. Please use the link that has been sent to your email.',
 	// generic HTML status codes
 	401 => 'You must be logged in to access the specified resource.',
 	403 => 'You are not currently permitted to access the specified resource.',
@@ -33,6 +35,7 @@ $messages = [
 	2 => 'Your information has been updated.',
 	3 => 'You have successfully registered an account.',
     4 => 'You are now logged in.',
+    5 =>'Your account has been activated, you can now login!',
 ];
 
 if (isset($_GET['err'])) {
