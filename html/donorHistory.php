@@ -53,7 +53,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			}
 			else
 			{
-				$sql = "UPDATE IncDonationTable SET Amount = ActualAmount, ReceiveDate = NOW() WHERE RefNum =" . $reference_num;
+				//Set timezone
+				date_default_timezone_set('America/Chicago');
+				$date = new DateTime();
+				$fdate = $date->format('Y-m-d H:i:s');
+
+				$sql = "UPDATE IncDonationTable SET Amount = ActualAmount, ReceiveDate ='" . $fdate . "' WHERE RefNum =" . $reference_num;
 				$mysqli->query($sql);
 			}
 		}

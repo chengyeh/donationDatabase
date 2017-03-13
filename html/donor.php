@@ -61,9 +61,14 @@ if(isset($_GET["input0"]) && isset($_SESSION["id"]))
 		{
 			if($input_array[$index] != 0)
 			{
+				//Set timezone 
+				date_default_timezone_set('America/Chicago');
+				$date = new DateTime();
+				$fdate = $date->format('Y-m-d H:i:s');
+				
 				$amount = $input_array[$index];
 				$itemId = $item["ItemID"];
-				$query = "INSERT INTO IncDonationTable (DonorID, ItemID, Amount, PledgeDate) VALUES ($id, $itemId, '$amount', NOW())";
+				$query = "INSERT INTO IncDonationTable (DonorID, ItemID, Amount, PledgeDate) VALUES ($id, $itemId, '$amount', '$fdate')";
 
 				if($result = $mysqli->query($query))
 				{
