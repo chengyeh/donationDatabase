@@ -30,7 +30,7 @@ else
 }
 ?>
 <?php
-//Confirm delete button is clicked
+//Confirm cancel button is clicked
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
 	//If at least one checkbox is selected
@@ -99,7 +99,7 @@ while($row =  mysqli_fetch_array($result_set)){
 								<th class="text-center">Amount Pledged</th>
 								<th class="text-center">Amount Received</th>
 								<th>Pledge Date</th>
-								<th class="text-center">Delete</th>
+								<th class="text-center">Cancel</th>
 							</tr>
 							<?php
 							foreach($incompleteDonation_array as $item)
