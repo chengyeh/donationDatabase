@@ -63,11 +63,12 @@ $passwordHash = hash_password($password, $passwordSalt);
 if($config['use_email_verification']){
 	$contact_us = $config['contact_us_email'];
 	$path_web = $config['path_web'] . 'html';
-	$subject = $config['nonprofit_name'] . ' account verification';
+	$nonprofit_name = $config['nonprofit_name'];
+	$subject = $nonprofit_name . ' account verification';
 	$to = $email;
 	$body = <<<HTM
-Hello $firstname, <br /><br />
-Thank you for signing up with $config['nonprofit_name']!<br />
+Hello $firstname,<br /><br />
+Thank you for signing up with $nonprofit_name!<br />
 Please use the following link to activate your account. <br /><br />
 <a href="$path_web/verifyEmail.php?email=$email&hash=$passwordHash">
 $path_web/verifyEmail.php?email=$email&hash=$passwordHash</a><br /><br />
