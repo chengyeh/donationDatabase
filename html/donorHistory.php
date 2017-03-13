@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			}
 			else
 			{
-				$sql = "UPDATE IncDonationTable SET Amount = ActualAmount WHERE RefNum =" . $reference_num;
+				$sql = "UPDATE IncDonationTable SET Amount = ActualAmount, ReceiveDate = NOW() WHERE RefNum =" . $reference_num;
 				$mysqli->query($sql);
 			}
 		}
