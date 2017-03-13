@@ -15,6 +15,8 @@ $path = $config['path_web'];
 if(isset($_SESSION["id"]))
 {
 	//$id = $_SESSION['id'];
+	$isDonor = $_SESSION['donor'];
+	$isDonee = $_SESSION['donee'];
 	$isAdmin = $_SESSION['admin'];
 	// no use for this just yet
 	$isUser = $_SESSION['user'];
@@ -94,6 +96,12 @@ if (isset($navbar_active)) {
 								<li class=''><a href='<?= $path ?>html/user.php'>User</a></li>
 								-->
 							<?php } ?>
+							<?php if($isDonor) { ?>
+								<li><a href="<?= $path ?>html/donorHistory.php">Donation History</a></li>
+							<?php } ?>
+							<?php if($isDonee) { ?>
+								<li><a href="<?= $path ?>html/doneeHistory.php">Request History</a></li>
+							<?php } ?>															
 							<?php if($isUser) { ?>
 								<li><a href="<?= $path ?>html/user.php">Employee Page</a></li>
 							<?php } ?>
