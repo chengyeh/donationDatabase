@@ -31,5 +31,6 @@ if(isset($_GET['email']) && !empty($_GET['email']) AND isset($_GET['hash']) && !
 }else{
     //output error message for invalid action
     header('Location:login.php?err=11');
+    exit;
 }
 ?>
