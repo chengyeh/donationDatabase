@@ -96,7 +96,7 @@ if(isset($_GET["input0"]) && isset($_SESSION["id"]))
 function tableToggle(category, id)
 {
 	$('#cat' + category + '').collapse('show');
-	$('#item' + id + '').addClass(" alert-danger");
+	$('#item' + id + '').addClass(" alert-info");
 	
 }
 
