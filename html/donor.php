@@ -93,9 +93,11 @@ if(isset($_GET["input0"]) && isset($_SESSION["id"]))
 <ul id="results"></ul>
 
 <script type="text/javascript">
-function tableToggle(category)
+function tableToggle(category, id)
 {
 	$('#cat' + category + '').collapse('show');
+	$('#item' + id + '').addClass(" alert-danger");
+	
 }
 
 $(document).ready(function(){
@@ -106,7 +108,7 @@ $(document).ready(function(){
 			$.post('invSearch.php', {keywords: substr}, function(data) {
 				$('ul#results').empty();
 				$.each(data, function() {
-					$('ul#results').append('<li><a onclick=tableToggle(' + this.catNum + ') href=' + '#item' + this.id + '>' + this.name + '</a></li>');
+					$('ul#results').append('<li><a onclick=tableToggle(' + this.catNum + ',' + this.id + ') href=' + '#item' + this.id + '>' + this.name + '</a></li>');
 				});
 			}, "json");
 		}
