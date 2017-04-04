@@ -99,6 +99,9 @@ if (isset($navbar_active)) {
 							<?php if($isDonor) { ?>
 								<li><a href="<?= $path ?>html/donorHistory.php">Donation History</a></li>
 							<?php } ?>
+							<?php if($isDonor) { ?>
+								<li><a href="<?= $path ?>html/taxReceiptGen.php">Request Tax Receipt</a></li>
+							<?php } ?>	
 							<?php if($isDonee) { ?>
 								<li><a href="<?= $path ?>html/doneeHistory.php">Request History</a></li>
 							<?php } ?>															
