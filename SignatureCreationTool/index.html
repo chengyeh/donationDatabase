@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html lang = "en">
+
+<head>
+	<meta charset = "utf-8"/>
+	<title>Signature Creator</title>
+	<link rel = "stylesheet" href = "styles.css" type = "text/css"/>
+
+	<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+	<script src="sketch.js"></script>
+	<script src="pict.js"></script>
+</head>
+
+<body>
+	<div id = "container">
+		<h1>Signature Creation Tool</h1>
+		<p>Pen size (in pixels)</p>
+		<div class="tools">	</div>
+        <div>
+            <canvas id="sketch_area" width="500" height="130" style="background:#fff"></canvas>
+        </div>
+        <form>
+        	<button id = "eraseButton">Erase</button>
+        	<button id = "saveButton">Save</button>
+        </form>
+	</div>
+</body>
+
+</html>
