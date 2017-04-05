@@ -16,6 +16,8 @@ $errors = [
 	9 => 'Incorrect password.',
 	10 => 'The url is either invalid or you have already activated your account.',
 	11 => 'Invalid action. Please use the link that has been sent to your email.',
+	12 => 'No tax receipt was generated because no donations have been 
+			recieved since the last time you requested a tax receipt.',
 	// generic HTML status codes
 	401 => 'You must be logged in to access the specified resource.',
 	403 => 'You are not currently permitted to access the specified resource.',
