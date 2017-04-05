@@ -20,17 +20,25 @@ if(isset($_POST['itemquantity']) && isset($_POST['itemvalue']) && isset($_POST['
 	$refNum = $_POST['reference'];
 	$amount = $_POST['itemquantity'];
 	$value = $_POST['itemvalue'];
+	$id = 0;
 
-	$query = "UPDATE IncDonationTable SET ActualAmount='$amount', Value='$value', ReceiveDate=NOW() WHERE RefNum='$refNum'";
-
-	if($result = $mysqli->query($query))
-	{
-		
-	}
-	else
-	{
+	//get ItemId for the reference number
+	$sql = "SELECT ItemID FROM IncDonationTable WHERE RefNum ='$refNum'";
+	if($result_set = $mysqli->query($sql)){
+		while($row =  mysqli_fetch_array($result_set)){
+	    	$id = $row['ItemID'];
+		}
+	} 
+	else 
 		die("Error: " . $mysqli->error);
-	}
+
+	//update the incoming donation table
+	$query = "UPDATE IncDonationTable SET ActualAmount=ActualAmount+'$amount', Value='$value', ReceiveDate=NOW() WHERE RefNum='$refNum'";
+	if($result = $mysqli->query($query)){} else die("Error: " . $mysqli->error);
+
+	//update the inventory table
+	$query2 = "UPDATE InventoryTable SET Amount=Amount+'$amount' WHERE ItemId='$id'";
+	if($result = $mysqli->query($query2)){} else die("Error: " . $mysqli->error);
 }
 ?>
 
@@ -39,23 +47,11 @@ if(isset($_POST['itemquantity']) && isset($_POST['itemvalue']) && isset($_POST['
 	<form class="form-horizontal" action="user.php" method="POST">
 		<h4>Item Information</h4><br />
 		<?php
-		form_field('itemname', 'Item ID*', 'number');
+		form_field('reference', 'Donation Reference Number*', 'number');
+		?><hr>
+		<?php
 		form_field('itemquantity', 'Item Quantity*', 'number');
 		form_field('itemvalue', 'Item Value*', 'number');
-		?>
-		<hr>
-		<h4>Donor Information</h4><br />
-		<?php
-		form_field('reference', 'Donation Reference Number*', 'number');
-		form_field('donorid', 'Donor ID*', 'text');
-		?>
-		<b>- or -</b><br />
-		<?php
-		form_field('firstname', 'First Name*', 'text');
-		form_field('lastname', 'Last Name*', 'text');
-		form_field('address', 'Address*', 'text');
-		form_field('phone', 'Phone*', 'text');
-		form_field('email', 'Email*', 'email');
 		csrf_token_field();
 		?>
 		<input type="submit" value="Enter Item"> <br>
