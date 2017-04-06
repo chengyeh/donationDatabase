@@ -36,7 +36,7 @@ if (basename($_SERVER['REQUEST_URI']) === 'config.php') {
 		if ($lastchar !== '/')
 			echo('Problem detected: path_web in config.ini does not end in /<br />');
 	}
-} else if ($config['path_web'] === '') {
+} else if ($config['path_web'] == NULL) {
 	die('<span style=\"color:red\">Error detected: path_web in config.ini is empty</span><br />');
 }
 //phpinfo();

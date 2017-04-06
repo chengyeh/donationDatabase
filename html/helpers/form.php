@@ -46,6 +46,19 @@ function form_field($script_name, $nice_name, $type = 'text', $placeholder = '',
 }
 
 /*
+ * form_hidden_field
+ * Factory function that produces a hidden (invisible) form field.
+ * @param	string	$script_name	The label for this hidden field.
+ * @param		$value	The value to place in this hidden field.
+ */
+function form_hidden_field($script_name, $value)
+{
+	?>
+	<input type="hidden" name="<?= $script_name ?>" value="<?= $value ?>">
+	<?php
+}
+
+/*
  * form_submit_button
  * Factory function that produces a button to submit a form.
  * @param	string	$text	Text to use on the button. Defaults to "Submit".

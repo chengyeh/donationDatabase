@@ -30,7 +30,7 @@ $message = Swift_Message::newInstance($subject)
   ->setBody($body);
 
 //attach the attachment to the email if present
-if($attachment){
+if (isset($attachment)) {
 	$message->attach($attachment);
 }
 

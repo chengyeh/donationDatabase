@@ -26,7 +26,7 @@ $errors = [
 	419 => 'Cannot display webpage: I am a fox.',
 	420 => 'Please wait a few minutes and try again.',
 	498 => 'Token mismatch. Please go back and try again.',
-	499 => 'Token not supplied. Please go back and try again.'
+	499 => 'Token not supplied. Please go back and try again.',
 ];
 
 $messageCode = 0;
@@ -36,10 +36,12 @@ $messages = [
 	1 => '', // generic success
 	2 => 'Your information has been updated.',
 	3 => 'You have successfully registered an account.',
-    4 => 'You are now logged in.',
-    5 => 'Your account has been activated, you can now login!',
-    6 => 'Thank you for your donation. Your tax receipet document 
-    		has been sent to your registered email address.',
+	4 => 'You are now logged in.',
+	5 => 'Your account has been activated, you can now login!',
+	6 => 'Thank you for your donation. Your tax receipet document 
+			has been sent to your registered email address.',
+	7 => 'Password recovery instructions have been sent to your email address.',
+	8 => 'You have successfully reset your password.',
 ];
 
 if (isset($_GET['err'])) {

@@ -20,7 +20,8 @@ include('layouts/navbar.php');
 	$dest = isset($_GET['dest']) ? htmlspecialchars($_GET['dest']) : '';
 	?>
 	<h3>Login</h3>
-	<p>If you don't have an account, sign up <a href="signup/userSignup.php">here</a>.</p>
+	<p>If you don't have an account, sign up <a href="signup/userSignup.php">here</a>.
+	If you've forgotten your password, click <a href="recoverPassword.php">here</a>.</p>
 	<form class="form-horizontal" action="verify.php" method="POST">
 		<?php
 		form_field('email', 'Email address', 'email');
