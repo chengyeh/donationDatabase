@@ -35,7 +35,8 @@ $messages = [
 	// 0: no message
 	1 => '', // generic success
 	2 => 'Your information has been updated.',
-	3 => 'You have successfully registered an account.',
+	3 => 'You have successfully registered an account. Please use the email activation
+			link that was just sent to your email to finish activating your account.',
 	4 => 'You are now logged in.',
 	5 => 'Your account has been activated, you can now login!',
 	6 => 'Thank you for your donation. Your tax receipet document 
