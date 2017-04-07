@@ -39,7 +39,41 @@ function form_field($script_name, $nice_name, $type = 'text', $placeholder = '',
 			<?= $nice_name ?>
 		</label>
 		<div class="col-sm-10">
-			<input type="<?= $type ?>" class="form-control <?= $classes ?>" name="<?= $script_name ?>" placeholder="<?= $placeholder ?>" <?= $extra ?>>
+			<input id="<?= $script_name ?>" type="<?= $type ?>" class="form-control <?= $classes ?>" name="<?= $script_name ?>" placeholder="<?= $placeholder ?>" <?= $extra ?>>
+		</div>
+	</div>
+	<?php
+}
+
+/*
+ * form_ethnicity_field
+ * Provides a prepopulated dropdown ethnicity field for a form, with options for
+ * each of the ethnicities specified in NOT-OD-15-089.
+ * @param	boolean	required	Whether to mark this field as required (default
+ * 		false).
+ * @param	int	value	The default value of the form (as an index) (default 0).
+ * @param	string	classes	Additional CSS classes to apply to the field
+ * 		(default '').
+ */
+function form_ethnicity_field($required = false, $value = 0, $classes = '')
+{
+	$selected = ['', '', '', '', '', '', ''];
+	$selected[$value] = 'selected="selected"';
+	?>
+	<div class="form-group">
+		<label for="ethnicity" class="col-sm-2 control-label">
+			Ethnicity
+		</label>
+		<div class="col-sm-10">
+			<select id="ethnicity" name="ethnicity" class="form-control <?= $classes ?>" <?= $required ? 'required' : '' ?> value="<?= $value ?>">
+				<!-- NOT-OD-15-089 -->
+				<option value="0" <?= $selected[0] ?>></option>
+				<option value="1" <?= $selected[1] ?>>American Indian or Alaskan Native</option>
+				<option value="2" <?= $selected[2] ?>>Asian</option>
+				<option value="3" <?= $selected[3] ?>>Black or African American</option>
+				<option value="4" <?= $selected[4] ?>>Native Hawaiian or Other Pacific Islander</option>
+				<option value="5" <?= $selected[5] ?>>White</option>
+			</select>
 		</div>
 	</div>
 	<?php

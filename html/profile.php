@@ -68,28 +68,29 @@ $phoneclass = '';
 <div class="container">
 	<?php
 	include('layouts/message.php');
+	$successClasses = ''; // 'alert-success';
 	$errorClasses = 'alert-danger';
 	if ($errorCode == 6) { // need donee information
-		$firstnameclass = $firstname ? '' : $errorClasses;
-		$lastnameclass = $lastname ? '' : $errorClasses;
-		$ageclass = $age ? '' : $errorClasses;
-		$genderclass = $gender ? '' : $errorClasses;
-		$ethnicityclass = $ethnicity ? '' : $errorClasses;
-		$numInHouseclass = $numInHouse ? '' : $errorClasses;
-		$addressclass = $address ? '' : $errorClasses;
-		$cityclass = $city ? '' : $errorClasses;
-		$stateclass = $state ? '' : $errorClasses;
-		$zipclass = $zip ? '' : $errorClasses;
-		$phoneclass = $phone ? '' : $errorClasses;
+		$firstnameclass = $firstname ? $successClasses : $errorClasses;
+		$lastnameclass = $lastname ? $successClasses : $errorClasses;
+		$ageclass = $age ? $successClasses : $errorClasses;
+		$genderclass = $gender ? $successClasses : $errorClasses;
+		$ethnicityclass = $ethnicity ? $successClasses : $errorClasses;
+		$numInHouseclass = $numInHouse ? $successClasses : $errorClasses;
+		$addressclass = $address ? $successClasses : $errorClasses;
+		$cityclass = $city ? $successClasses : $errorClasses;
+		$stateclass = $state ? $successClasses : $errorClasses;
+		$zipclass = $zip ? $successClasses : $errorClasses;
+		$phoneclass = $phone ? $successClasses : $errorClasses;
 		// income
 	} else if ($errorCode == 5) { // need donor information
-		$firstnameclass = $firstname ? '' : $errorClasses;
-		$lastnameclass = $lastname ? '' : $errorClasses;
-		$addressclass = $address ? '' : $errorClasses;
-		$cityclass = $city ? '' : $errorClasses;
-		$stateclass = $state ? '' : $errorClasses;
-		$zipclass = $zip ? '' : $errorClasses;
-		$phoneclass = $phone ? '' : $errorClasses;
+		$firstnameclass = $firstname ? $successClasses : $errorClasses;
+		$lastnameclass = $lastname ? $successClasses : $errorClasses;
+		$addressclass = $address ? $successClasses : $errorClasses;
+		$cityclass = $city ? $successClasses : $errorClasses;
+		$stateclass = $state ? $successClasses : $errorClasses;
+		$zipclass = $zip ? $successClasses : $errorClasses;
+		$phoneclass = $phone ? $successClasses : $errorClasses;
 	}
 	?>
 	<h3>Edit profile</h3>
@@ -100,7 +101,8 @@ $phoneclass = '';
 		form_field('lastname', 'Last name', 'text', '', $lastname, $lastnameclass);
 		form_field('age', 'Age', 'number', '', $age, $ageclass);
 		form_field('gender', 'Gender', 'text', '', $gender, $genderclass);
-		form_field('ethnicity', 'Ethnicity', 'number', '', $ethnicity, $ethnicityclass);
+		//form_field('ethnicity', 'Ethnicity', 'number', '', $ethnicity, $ethnicityclass);
+		form_ethnicity_field(false, $ethnicity, $ethnicityclass);
 		form_field('numInHouse', 'Number in household', 'number', '', $numInHouse, $numInHouseclass);
 		form_field('address', 'Address', 'text', '', $address, $addressclass);
 		form_field('address2', 'Address line 2', 'text', '', $address2);
