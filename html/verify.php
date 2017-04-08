@@ -16,7 +16,7 @@ $dest = htmlspecialchars($_POST['dest']);
 $query = <<<SQL
 SELECT
 	UserId, FirstName, PassSalt, PassHash, FlagAdmin, FlagUser, FlagDonor,
-	FlagDonee
+	FlagDonee, Active
 FROM UserTable WHERE Email = '$email';
 SQL;
 
@@ -39,6 +39,7 @@ if (hash_password($inputPassword, $passwordSalt) === $passwordHash) {
 	$_SESSION['user'] = $row['FlagUser'];
 	$_SESSION['donor'] = $row['FlagDonor'];
 	$_SESSION['donee'] = $row['FlagDonee'];
+	$_SESSION['active'] = $row['Active'];
 } else {
 	header("Location:login.php?err=1&dest=$dest");
 	exit;

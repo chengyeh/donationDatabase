@@ -19,7 +19,7 @@ $errors = [
 	12 => 'No tax receipt was generated because no donations have been 
 			recieved since the last time you requested a tax receipt.',
 	// generic HTML status codes
-	401 => 'You must be logged in to access the specified resource.',
+	401 => 'You must be logged in to an active account to access the specified resource.',
 	403 => 'You are not currently permitted to access the specified resource.',
 	404 => 'The specified resource was not found.',
 	418 => 'Cannot brew coffee: I am a teapot.',
