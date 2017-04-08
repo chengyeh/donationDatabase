@@ -122,7 +122,7 @@ if (isset($navbar_active)) {
 					<li class="<?= $nav_liclass['login'] ?>"><a href="<?= $path ?>html/login.php">Log in</a></li>
 				<?php } ?>
 				<?php if(isset($_SESSION['admin']) && $isAdmin) { ?>
-					<li class="<?= $nav_liclass['request'] ?>">
+					<li class="<?= $nav_liclass['admin'] ?>">
 						<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
 						<ul class="dropdown-menu">
 							<li><a href="<?= $path ?>html/admin/index.php">Admin Panel</a></li>
