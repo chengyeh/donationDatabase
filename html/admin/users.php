@@ -143,7 +143,8 @@ function count_all($table_name)
 											$user_array = get_rows("UserTable", "UserID");
 											foreach($user_array as $user)
 											{
-												echo '<tr href="http://google.com"><td>' . $user['UserID'] . '</td><td>' . $user['FirstName'] . '</td><td>' . $user['LastName'] 
+												$user_id = $user['UserID'];
+												echo '<tr href="user_detail.php?id=' . $user['UserID'] . '"><td>' . $user['UserID'] . '</td><td>' . $user['FirstName'] . '</td><td>' . $user['LastName'] 
 													. '</td><td>' . $user['Email'] . '</td><td>' . $user['Telephone'] . '</td><td>' . $user['AddressLine1'] 
 													. " " . $user['AddressLine2'] . ", " . $user['City'] . ", " . $user['State'] . " " . $user['Zip'] . '</td></tr>';
 											}
