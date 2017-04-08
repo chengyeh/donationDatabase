@@ -109,7 +109,7 @@ if (isset($navbar_active)) {
 								<li><a href="<?= $path ?>html/user.php">Employee Page</a></li>
 							<?php } ?>
 							<?php if ($isAdmin) { ?>
-								<li><a href="<?= $path ?>admin/index.php">Admin panel</a></li>
+								<li><a href="<?= $path ?>html/admin/index.php">Admin panel</a></li>
 							<?php } ?>
 							<li><a href="<?= $path ?>html/logout.php">Log out</a></li>
 				<?php } else { ?>
