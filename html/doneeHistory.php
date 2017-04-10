@@ -4,7 +4,7 @@ ini_set("display_errors", 1);
 
 session_start();
 
-$navbar_active = 'donate';
+$navbar_active = 'request';
 $navbar_title = 'Request History';
 include('layouts/navbar.php');
 require_once('helpers/mysqli.php');
