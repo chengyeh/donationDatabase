@@ -46,6 +46,58 @@ function form_field($script_name, $nice_name, $type = 'text', $placeholder = '',
 }
 
 /*
+ * form_number_field
+ */
+function form_number_field($script_name, $nice_name, $placeholder, $max,
+	$min = 0, $value = 0, $classes = '')
+{
+	if ($placeholder == '')
+		$placeholder = $nice_name;
+	$extra = $value ? "value=$value" : '';
+	if (substr($nice_name, -1) == '*')
+		$extra .= ' required';
+	?>
+	<div class="form-group">
+		<label for="<?= $script_name ?>" class="col-sm-2 control-label">
+			<?= $nice_name ?>
+		</label>
+		<div class="col-sm-10">
+			<input id="<?= $script_name ?>" type="number" class="form-control <?= $classes ?>" name="<?= $script_name ?>" placeholder="<?= $placeholder ?>" min="<?= $min ?>" max="<?= $max ?>" <?= $extra ?>>
+		</div>
+	</div>
+	<?php
+}
+
+/*
+ * form_gender_field
+ */
+function form_gender_field($required = false, $value = '', $classes = '')
+{
+	$selected = ['', '', '', ''];
+	switch ($value) {
+		case 'm': $selected[1] = 'selected="selected"'; break;
+		case 'f': $selected[2] = 'selected="selected"'; break;
+		case 'o': $selected[3] = 'selected="selected"'; break;
+		default: $selected[0] = 'selected="selected"'; break;
+	}
+	?>
+	<div class="form-group">
+		<label for="gender" class="col-sm-2 control-label">
+			Gender
+		</label>
+		<div class="col-sm-10">
+			<select id="gender" name="gender" class="form-control <?= $classes ?>" <?= $required ? 'required' : '' ?> value="<?= $value ?>">
+				<option value="" <?= $selected[0] ?>></option>
+				<option value="m" <?= $selected[1] ?>>Male</option>
+				<option value="f" <?= $selected[2] ?>>Female</option>
+				<option value="o" <?= $selected[3] ?>>Other</option>
+			</select>
+		</div>
+	</div>
+	<?php
+}
+
+/*
  * form_ethnicity_field
  * Provides a prepopulated dropdown ethnicity field for a form, with options for
  * each of the ethnicities specified in NOT-OD-15-089.

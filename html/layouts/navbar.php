@@ -80,14 +80,14 @@ if (isset($navbar_active)) {
 			<ul class="nav navbar-nav">
 				<li class="<?= $nav_liclass['home'] ?>"><a href="<?= $path ?>html/index.php">Home</a></li>
 				<li class="<?= $nav_liclass['about'] ?>">
-					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About Us</a>
+					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-chevron-down" style="font-size:smaller"></span> About Us</a>
 					<ul class="dropdown-menu">
 						<li><a href="<?= $path ?>#contact">Contact Us</a></li>
 						<li><a href="<?= $path ?>#newsletter">Newsletter</a></li>
 					</ul>
 				</li>
 				<li class="<?= $nav_liclass['donate'] ?>" >
-					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Donate</a>
+					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-chevron-down" style="font-size:smaller"></span> Donate</a>
 					<ul class="dropdown-menu">
 						<li><a href="<?= $path ?>html/donor.php">Donate</a></li>
 						<li><a href="<?= $path ?>html/donorHistory.php">Donation History</a></li>
@@ -95,7 +95,7 @@ if (isset($navbar_active)) {
 					</ul>
 				</li>
 				<li class="<?= $nav_liclass['request'] ?>">
-					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Request Services</a>
+					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-chevron-down" style="font-size:smaller"></span> Request Services</a>
 					<ul class="dropdown-menu">
 						<li><a href="<?= $path ?>html/donee.php">Request Services</a></li>
 						<li><a href="<?= $path ?>html/doneeHistory.php">Request History</a></li>
@@ -104,14 +104,14 @@ if (isset($navbar_active)) {
 				<?php if (!isset($_SESSION['id'])) { ?> <li class="<?= $nav_liclass['signup'] ?>"><a href="<?= $path ?>html/signup/userSignup.php"> Sign Up</a></li> <?php } ?>
 				<?php if (isset($_SESSION['id'])) { ?>
 					<li>
-						<a data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $helloString ?></a>
+						<a data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-chevron-down" style="font-size:smaller"></span> <?= $helloString ?></a>
 						<ul class="dropdown-menu">
 							<li><a href="<?= $path ?>html/profile.php">Edit information</a></li>
 							<?php if (isset($isUser) && $isUser) { ?>
 								<!--
 								<li class=''><a href='<?= $path ?>html/user.php'>User</a></li>
 								-->
-							<?php } ?>														
+							<?php } ?>
 							<?php if($isUser) { ?>
 								<li><a href="<?= $path ?>html/user.php">Employee Page</a></li>
 							<?php } ?>

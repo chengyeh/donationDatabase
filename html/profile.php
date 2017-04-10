@@ -24,7 +24,7 @@ include('layouts/navbar.php');
 $query = <<<SQL
 SELECT
 	FirstName, LastName, State, City, Zip, AddressLine1, AddressLine2,
-	Telephone, Email, Age, HouseholdSize, Ethnicity, Gender
+	Telephone, Email, Age, HouseholdSize, Ethnicity, Gender, Income
 FROM `UserTable`
 WHERE UserID=$id;
 SQL;
@@ -42,6 +42,7 @@ $age = $row['Age'];
 $gender = $row['Gender'];
 $ethnicity = $row['Ethnicity'];
 $numInHouse = $row['HouseholdSize'];
+$income = $row['Income'];
 $address = $row['AddressLine1'];
 $address2 = $row['AddressLine2'];
 $city = $row['City'];
@@ -56,6 +57,7 @@ $ageclass = '';
 $genderclass = '';
 $ethnicityclass = '';
 $numInHouseclass = '';
+$incomeclass = '';
 $addressclass = '';
 $cityclass = '';
 $stateclass = '';
@@ -82,7 +84,7 @@ $phoneclass = '';
 		$stateclass = $state ? $successClasses : $errorClasses;
 		$zipclass = $zip ? $successClasses : $errorClasses;
 		$phoneclass = $phone ? $successClasses : $errorClasses;
-		// income
+		$incomeclass = $income ? $successClasses : $errorClasses;
 	} else if ($errorCode == 5) { // need donor information
 		$firstnameclass = $firstname ? $successClasses : $errorClasses;
 		$lastnameclass = $lastname ? $successClasses : $errorClasses;
@@ -99,22 +101,24 @@ $phoneclass = '';
 		<?php
 		form_field('firstname', 'First name', 'text', '', $firstname, $firstnameclass);
 		form_field('lastname', 'Last name', 'text', '', $lastname, $lastnameclass);
-		form_field('age', 'Age', 'number', '', $age, $ageclass);
-		form_field('gender', 'Gender', 'text', '', $gender, $genderclass);
-		//form_field('ethnicity', 'Ethnicity', 'number', '', $ethnicity, $ethnicityclass);
+		form_number_field('age', 'Age', 'Age', 127, 13, $age, $ageclass);
+		form_gender_field(false, $gender, $genderclass);
 		form_ethnicity_field(false, $ethnicity, $ethnicityclass);
-		form_field('numInHouse', 'Number in household', 'number', '', $numInHouse, $numInHouseclass);
+		form_number_field('numInHouse', 'Number in household', 'Number in household', 127, 1, $numInHouse, $numInHouseclass);
+		form_number_field('income', 'Income', 'Income', PHP_INT_MAX, 0, $income, $incomeclass);
 		form_field('address', 'Address', 'text', '', $address, $addressclass);
 		form_field('address2', 'Address line 2', 'text', '', $address2);
 		form_field('city', 'City', 'text', '', $city, $cityclass);
 		form_field('state', 'State', 'text', '', $state, $stateclass);
-		form_field('zip', 'Zip code', 'number', '', $zip, $zipclass);
+		form_number_field('zip', 'Zip code', 'Zip code', 99999, 10000, $zip, $zipclass);
 		form_field('phone', 'Phone number', 'text', '(555) 555-555', $phone, $phoneclass);
 		?> <hr> <?php
 		form_field('email', 'Email*', 'email', '', $email);
 		form_field('password', 'New password', 'password', '(No change)');
 		form_field('passwordconf', 'Confirm new password', 'password', '(No change)');
-		?> <hr> <?php
+		?> <hr>
+		<p>If you are changing your email or password, you must enter your current password.</p>
+		<?php
 		form_field('curpassword', 'Current password', 'password');
 		// captcha_field(true);
 		csrf_token_field();
@@ -122,3 +126,9 @@ $phoneclass = '';
 		?>
 	</form>
 </div>
+
+<script type="text/javascript" src="jquery.maskedinput.min.js"></script>
+<script type="text/javascript">
+	$("#phone").mask("(999) 999-9999");
+</script>
+</html>

@@ -18,3 +18,8 @@ body {
 	/* Same width as captcha image */
 	width: 215px;
 }
+
+/* for donee page: make alert-info color striped rows correctly */
+.table-striped>tbody>tr:nth-of-type(odd).alert-info {
+	background-color: #d4e7f1;
+}
