@@ -78,11 +78,13 @@ fi
 # Create database user if not exists
 if [ $(mysql -N -s -u root -p${MYSQLROOTPASSWD} -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = '$MAINDBUSER');") -eq 1 ]; then
   echo "Creating privileged database user $MAINDBUSER..."
-  mysql -uroot -p${MYSQLROOTPASSWD} -e "CREATE USER ${MAINDBUSER}@localhost IDENTIFIED BY '${MYSQLROOTPASSWD}';"
+  mysql -uroot -p${MYSQLROOTPASSWD} -e "DROP USER '${MAINDBUSER}'@'localhost';"
+  mysql -uroot -p${MYSQLROOTPASSWD} -e "FLUSH PRIVILEGES;"
+  mysql -uroot -p${MYSQLROOTPASSWD} -e "CREATE USER '${MAINDBUSER}'@'localhost' IDENTIFIED BY '${MYSQLROOTPASSWD}';"
 fi
 # Grant privileges to database user
 echo "Granting required privileges..."
-mysql -uroot -p${MYSQLROOTPASSWD} -e "GRANT ALL PRIVILEGES ON ${MAINDB}.* TO '${MAINDBUSER}'@'%';"
+mysql -uroot -p${MYSQLROOTPASSWD} -e "GRANT ALL PRIVILEGES ON ${MAINDB}.* TO '${MAINDBUSER}'@'localhost';"
 echo "Flushing..."
 mysql -uroot -p${MYSQLROOTPASSWD} -e "FLUSH PRIVILEGES;"
 
@@ -186,6 +188,29 @@ fi
 
 echo -e "Mysql-server config complete.\n"
 
+# Check whether UserTable is empty
+FRESHTABLE=$(mysql -uroot -p${MYSQLROOTPASSWD} -e "use donation;select * from UserTable;")
+
+if [[ ! -z $FRESHTABLE ]]; then
+  echo "Users already exist, skipping admin user."
+else
+  echo "Creating root admin..."
+
+  # Create random 32 char password
+  ADMINPASS=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+  # Create random 16 char salt
+  ADMINSALT=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
+  ADMINHASH=$(echo -n $ADMINSALT$ADMINPASS | openssl dgst -sha256 | sed 's/^.* //')
+  ADMINEMAIL="admin@example.com"
+
+  mysql -uroot -p${MYSQLROOTPASSWD} -e "
+  use donation;
+  INSERT INTO UserTable
+    (FirstName, LastName, Email, PassHash, PassSalt, FlagAdmin, FlagUser, FlagDonor, FlagDonee, lastTaxGenDate)
+    VALUES
+	('admin', 'admin', '$ADMINEMAIL', '$ADMINHASH', '$ADMINSALT', 1, 1, 0, 0, now());";
+fi
+
 ###### END CREATE DATABASE TABLES ######
 
 
@@ -257,6 +282,9 @@ sed -i "s/\(No_Reply_email_password=\).*/\1\"$EMAILRELAYPASSWD\"/" config.ini
 sed -i "s/\(contact_us_email=\).*/\1\"$CONTACTEMAILADDR\"/" config.ini
 sed -i "s/\(nonprofit_name=\).*/\1\"$COMPANYNAME\"/" config.ini
 
+if [[ -z $FRESHTABLE ]]; then
+  echo "Admin user $ADMINEMAIL created with password $ADMINPASS. You may wish to change this through the user profile page after logging in."
+fi
 
 echo -e "\nDone\n"
 
