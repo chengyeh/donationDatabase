@@ -70,20 +70,20 @@
                 <!-- left, vertical navbar -->
                 <div class="col-md-2 bootstrap-admin-col-left">
                     <ul class="nav navbar-collapse collapse bootstrap-admin-navbar-side">
+                        <li>
+                            <a href="index.php"><i class="glyphicon glyphicon-chevron-right"></i> Recently Added</a>
+                        </li>
+                        <li>
+                            <a href="users.php"><span class="badge pull-right"> 6 </span> Users</a>
+                        </li>
                         <li class="active">
-                            <a href="index.html"><i class="glyphicon glyphicon-chevron-right"></i> Recently Added</a>
+                            <a href="inventory.php"><span class="badge pull-right"> 4 </span> Inventory</a>
                         </li>
                         <li>
-                            <a href="users.html"><span class="badge pull-right"> 6 </span> Users</a>
+                            <a href="incDonation.php"><span class="badge pull-right"> 4 </span> Incoming Donation</a>
                         </li>
                         <li>
-                            <a href="donors.html"><span class="badge pull-right"> 4 </span> Donors</a>
-                        </li>
-                        <li>
-                            <a href="donees.html"><span class="badge pull-right"> 4 </span> Donees</a>
-                        </li>
-                        <li>
-                            <a href="inventory.html"><span class="badge pull-right"> 20 </span> Inventory</a>
+                            <a href="outDonation.php"><span class="badge pull-right"> 20 </span> Outgoing Donation</a>
                         </li>
                     </ul>
                 </div>

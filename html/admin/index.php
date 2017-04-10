@@ -98,13 +98,13 @@ function count_all($table_name)
                             <a href="users.php"><span class="badge pull-right"><?php echo count_all("UserTable"); ?></span> User</a>
                         </li>
                         <li>
-                            <a href="donors.php"><span class="badge pull-right"><?php echo count_all("InventoryTable"); ?></span> Inventory</a>
+                            <a href="inventory.php"><span class="badge pull-right"><?php echo count_all("InventoryTable"); ?></span> Inventory</a>
                         </li>
                         <li>
-                            <a href="donees.php"><span class="badge pull-right"><?php echo count_all("IncDonationTable"); ?></span> Incoming Donation</a>
+                            <a href="incDonation.php"><span class="badge pull-right"><?php echo count_all("IncDonationTable"); ?></span> Incoming Donation</a>
                         </li>
                         <li>
-                            <a href="inventory.php"><span class="badge pull-right"><?php echo count_all("OutDonationTable"); ?></span> Outgoing Donation</a>
+                            <a href="outDonation.php"><span class="badge pull-right"><?php echo count_all("OutDonationTable"); ?></span> Outgoing Donation</a>
                         </li>
                     </ul>
                 </div>
