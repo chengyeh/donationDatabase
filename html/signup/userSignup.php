@@ -45,10 +45,10 @@ function validateForm() {
 		form_number_field('zip', 'Zip code*', 'Zip code', 99999, 10000);
 		form_field('phone', 'Phone number*', 'text', '(555) 555-5555');
 		?> <hr> <h4>Required for Donee</h4><?php
-		form_number_field('age', 'Age', 'Age', 127, 13, $age, $ageclass);
+		form_number_field('age', 'Age', 'Age', 127, 13);
 		form_gender_field();
 		form_ethnicity_field();
-		form_number_field('numInHouse', 'Number in household', 'Number in household', 127, 1, $numInHouse, $numInHouseclass);
+		form_number_field('numInHouse', 'Number in household', 'Number in household', 127, 1);
 		form_number_field('income', 'Income', 'Income', 0);
 		?> <hr> <?php
 		form_field('email', 'Email*', 'email', 'yourname@example.com');
