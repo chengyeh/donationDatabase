@@ -250,9 +250,13 @@ fi
 # TODO: ask for webroot in script
 cd $WEBROOT
 echo "Packing up old webroot..."
+#TODO check if this czf is actually excluding, I'm suspicious it's not
 tar czf oldwebroot-$DATE.tar.gz * --exclude="oldwebroot[.]*" || true
+rm -r fpdf || true
+rm -r swiftmailer* || true
 rm -r html || true
 rm config.* || true
+
 
 echo "Installing new web components..."
 cp $WORKINGDIR/html $WEBROOT/ -r
@@ -261,10 +265,13 @@ cp $WORKINGDIR/html $WEBROOT/ -r
 cp $WORKINGDIR/config* $WEBROOT/
 
 # Git swiftmailer current version
-cd html/
+cd $WEBROOT
 echo "Getting latest version of Swiftmailer..."
 git clone https://github.com/swiftmailer/swiftmailer.git
 mv swiftmailer swiftmailer-5.x
+# Git FPDF
+echo "Getting latest version of FPDF..."
+git clone https://github.com/Setasign/FPDF.git fpdf
 
 
 # Substitute script values into config file
