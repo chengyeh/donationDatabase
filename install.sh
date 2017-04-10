@@ -189,9 +189,10 @@ fi
 echo -e "Mysql-server config complete.\n"
 
 # Check whether UserTable is empty
-FRESHTABLE=$(mysql
 
-if [[ $(mysql -uroot -ppassword -s -e "use donation; select count(*) from UserTable where FlagAdmin='1';") > 0 ]]; then
+ADMINEXISTS=$(mysql -uroot -ppassword -s -e "use donation; select count(*) from UserTable where FlagAdmin='1';")
+
+if [[ $ADMINEXISTS > 0 ]]; then
   echo "An admin user already exist, skipping admin creation."
 else
   echo "Creating root admin..."
@@ -206,9 +207,9 @@ else
   mysql -uroot -p${MYSQLROOTPASSWD} -e "
   use donation;
   INSERT INTO UserTable
-    (FirstName, LastName, Email, PassHash, PassSalt, FlagAdmin, FlagUser, FlagDonor, FlagDonee, lastTaxGenDate)
+    (FirstName, LastName, Email, PassHash, PassSalt, FlagAdmin, FlagUser, FlagDonor, FlagDonee, Active, lastTaxGenDate)
     VALUES
-	('admin', 'admin', '$ADMINEMAIL', '$ADMINHASH', '$ADMINSALT', 1, 1, 0, 0, now());";
+	('admin', 'admin', '$ADMINEMAIL', '$ADMINHASH', '$ADMINSALT', 1, 1, 0, 0, 1, now());";
 fi
 
 ###### END CREATE DATABASE TABLES ######
@@ -251,7 +252,7 @@ cd $WEBROOT
 echo "Packing up old webroot..."
 tar czf oldwebroot-$DATE.tar.gz * --exclude="oldwebroot[.]*" || true
 rm -r html || true
-rm config.*
+rm config.* || true
 
 echo "Installing new web components..."
 cp $WORKINGDIR/html $WEBROOT/ -r
@@ -282,7 +283,7 @@ sed -i "s/\(No_Reply_email_password=\).*/\1\"$EMAILRELAYPASSWD\"/" config.ini
 sed -i "s/\(contact_us_email=\).*/\1\"$CONTACTEMAILADDR\"/" config.ini
 sed -i "s/\(nonprofit_name=\).*/\1\"$COMPANYNAME\"/" config.ini
 
-if [[ -z $FRESHTABLE ]]; then
+if [[ $ADMINEXISTS == 0 ]]; then
   echo "Admin user $ADMINEMAIL created with password $ADMINPASS. You may wish to change this through the user profile page after logging in."
 fi
 
