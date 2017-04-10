@@ -13,6 +13,7 @@ $numDonors = 0;
 $numDonees = 0;
 $numMale = 0;	//genders
 $numFemale = 0;
+$numOther = 0;
 $numSub18 = 0;	//age ranges
 $numSub25 = 0;
 $numSub35 = 0;
@@ -47,48 +48,52 @@ while($row =  mysqli_fetch_array($result))
 		if($row['FlagDonee'])
 		{
 			$numDonees++;
+
+			//add each donees zip code to the array
 			$zipcodes[] = $row['Zip'];
+
+			//get the genders of users
+			if($row['Gender'] == 'm')
+				$numMale++;
+			elseif($row['Gender'] == 'f')
+				$numFemale++;
+			elseif($row['Gender'] == 'o')
+				$numOther++;
+
+			//categorize the age of each user
+			if($row['Age'] < 18)
+				$numSub18++;
+			elseif($row['Age'] < 25)
+				$numSub25++;
+			elseif($row['Age'] < 35)
+				$numSub35++;
+			elseif($row['Age'] < 45)
+				$numSub45++;
+			elseif($row['Age'] >= 45)
+				$numGrt45++;
+
+			//categorize ethnicity
+			if($row['Ethnicity'] == 1)
+				$numEth0++;
+			elseif($row['Ethnicity'] == 2)
+				$numEth1++;
+			elseif($row['Ethnicity'] == 3)
+				$numEth2++;
+			elseif($row['Ethnicity'] == 4)
+				$numEth3++;
+			elseif($row['Ethnicity'] == 5)
+				$numEth4++;
+
+			//categorize income
+			if($row['Income'] < 5000)
+				$numIncSub5k++;
+			elseif($row['Income'] < 15000)
+				$numIncSub15k++;
+			elseif($row['Income'] < 30000)
+				$numIncSub30k++;
+			elseif($row['Income'] >= 30000)
+				$numIncGrt30k++;
 		}
-
-		//get the genders of users
-		if($row['Gender'] == 'M')
-			$numMale++;
-		elseif($row['Gender'] == 'F')
-			$numFemale++;
-
-		//categorize the age of each user
-		if($row['Age'] < 18)
-			$numSub18++;
-		elseif($row['Age'] < 25)
-			$numSub25++;
-		elseif($row['Age'] < 35)
-			$numSub35++;
-		elseif($row['Age'] < 45)
-			$numSub45++;
-		elseif($row['Age'] >= 45)
-			$numGrt45++;
-
-		//categorize ethnicity
-		if($row['Ethnicity'] == 0)
-			$numEth0++;
-		elseif($row['Ethnicity'] == 1)
-			$numEth1++;
-		elseif($row['Ethnicity'] == 2)
-			$numEth2++;
-		elseif($row['Ethnicity'] == 3)
-			$numEth3++;
-		elseif($row['Ethnicity'] == 4)
-			$numEth4++;
-
-		//categorize income
-		if($row['Income'] < 5000)
-			$numIncSub5k++;
-		elseif($row['Income'] < 15000)
-			$numIncSub15k++;
-		elseif($row['Income'] < 30000)
-			$numIncSub30k++;
-		elseif($row['Income'] >= 30000)
-			$numIncGrt30k++;
 	}
 }
 
@@ -113,7 +118,6 @@ $pdf->Ln();
 $pdf->SetFont('Arial','B',11);
 $pdf->Cell(40,8,$date);
 $pdf->SetFont('Arial','',10);
-$pdf->Ln();
 $pdf->Ln();
 
 //value of donations
@@ -159,6 +163,10 @@ $pdf->Ln();
 $pdf->Cell(100,8,"Number of female donees",1,0,'L',0);
 $pdf->Cell(40,8,$numFemale,1,0,'L',0);
 $pdf->Cell(40,8,(($numFemale/$numDonees)*100)."%",1,0,'L',0);
+$pdf->Ln();
+$pdf->Cell(100,8,"Number of other or unspecified gender donees",1,0,'L',0);
+$pdf->Cell(40,8,$numOther,1,0,'L',0);
+$pdf->Cell(40,8,(($numOther/$numDonees)*100)."%",1,0,'L',0);
 $pdf->Ln();
 $pdf->Ln();
 
