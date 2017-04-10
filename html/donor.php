@@ -28,6 +28,8 @@ else
 	exit;
 }
 
+$paypal_id = $config['paypal_hosted_button_id'];
+
 ?>
 <!DOCTYPE html>
 <html lang = "en">
@@ -61,11 +63,11 @@ if(isset($_GET["input0"]) && isset($_SESSION["id"]))
 		{
 			if($input_array[$index] != 0)
 			{
-				//Set timezone 
+				//Set timezone
 				date_default_timezone_set('America/Chicago');
 				$date = new DateTime();
 				$fdate = $date->format('Y-m-d H:i:s');
-				
+
 				$amount = $input_array[$index];
 				$itemId = $item["ItemID"];
 				$query = "INSERT INTO IncDonationTable (DonorID, ItemID, Amount, PledgeDate) VALUES ($id, $itemId, '$amount', '$fdate')";
@@ -97,7 +99,7 @@ function tableToggle(category, id)
 {
 	$('#cat' + category + '').collapse('show');
 	$('#item' + id + '').addClass(" alert-info");
-	
+
 }
 
 $(document).ready(function(){
@@ -121,6 +123,8 @@ $(document).ready(function(){
 
 	<form action="donor.php">
 		<?php
+
+
 		 foreach($category_array as $index => $category)
 		 {
 			$inputName = "input" . $index;
@@ -176,7 +180,7 @@ $(document).ready(function(){
 
 	<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 	<input type="hidden" name="cmd" value="_s-xclick">
-	<input type="hidden" name="hosted_button_id" value="FZE3S3J459SF2">
+	<input type="hidden" name="hosted_button_id" value=<?php echo $paypal_id;?>>
 	<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
 	<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 	</form>
