@@ -11,6 +11,7 @@ ini_set("display_errors", 1);
 require_once(__DIR__.'/../../config.php');
 
 $path = $config['path_web'];
+$active = 0;
 
 if(isset($_SESSION["id"]))
 {
@@ -20,6 +21,7 @@ if(isset($_SESSION["id"]))
 	$isAdmin = $_SESSION['admin'];
 	// no use for this just yet
 	$isUser = $_SESSION['user'];
+	$active = $_SESSION['active'];
 	
 	$logPage = "logout.php";
 	$logTitle = "Logout";
@@ -38,6 +40,7 @@ $nav_liclass['donate'] = '';
 $nav_liclass['about'] = '';
 $nav_liclass['request'] = '';
 $nav_liclass['login'] = '';
+$nav_liclass['admin'] = '';
 
 if (isset($navbar_active)) {
     $nav_liclass[$navbar_active] .= 'active';
@@ -83,8 +86,21 @@ if (isset($navbar_active)) {
 						<li><a href="<?= $path ?>#newsletter">Newsletter</a></li>
 					</ul>
 				</li>
-				<li class="<?= $nav_liclass['donate'] ?>"><a href="<?= $path ?>html/donor.php">Donate</a></li>
-				<li class="<?= $nav_liclass['request'] ?>"><a href="<?= $path ?>html/donee.php">Request Services</a></li>
+				<li class="<?= $nav_liclass['donate'] ?>" >
+					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Donate</a>
+					<ul class="dropdown-menu">
+						<li><a href="<?= $path ?>html/donor.php">Donate</a></li>
+						<li><a href="<?= $path ?>html/donorHistory.php">Donation History</a></li>
+						<li><a href="<?= $path ?>html/taxReceiptGen.php">Request Tax Receipt</a></li>
+					</ul>
+				</li>
+				<li class="<?= $nav_liclass['request'] ?>">
+					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Request Services</a>
+					<ul class="dropdown-menu">
+						<li><a href="<?= $path ?>html/donee.php">Request Services</a></li>
+						<li><a href="<?= $path ?>html/doneeHistory.php">Request History</a></li>
+					</ul>
+				</li>
 				<?php if (!isset($_SESSION['id'])) { ?> <li class="<?= $nav_liclass['signup'] ?>"><a href="<?= $path ?>html/signup/userSignup.php"> Sign Up</a></li> <?php } ?>
 				<?php if (isset($_SESSION['id'])) { ?>
 					<li>
@@ -95,25 +111,23 @@ if (isset($navbar_active)) {
 								<!--
 								<li class=''><a href='<?= $path ?>html/user.php'>User</a></li>
 								-->
-							<?php } ?>
-							<?php if($isDonor) { ?>
-								<li><a href="<?= $path ?>html/donorHistory.php">Donation History</a></li>
-							<?php } ?>
-							<?php if($isDonor) { ?>
-								<li><a href="<?= $path ?>html/taxReceiptGen.php">Request Tax Receipt</a></li>
-							<?php } ?>	
-							<?php if($isDonee) { ?>
-								<li><a href="<?= $path ?>html/doneeHistory.php">Request History</a></li>
-							<?php } ?>															
+							<?php } ?>														
 							<?php if($isUser) { ?>
 								<li><a href="<?= $path ?>html/user.php">Employee Page</a></li>
 							<?php } ?>
-							<?php if ($isAdmin) { ?>
-								<li><a href="<?= $path ?>admin/index.php">Admin panel</a></li>
-							<?php } ?>
 							<li><a href="<?= $path ?>html/logout.php">Log out</a></li>
+						</ul>
+					<li>
 				<?php } else { ?>
 					<li class="<?= $nav_liclass['login'] ?>"><a href="<?= $path ?>html/login.php">Log in</a></li>
+				<?php } ?>
+				<?php if(isset($_SESSION['admin']) && $isAdmin) { ?>
+					<li class="<?= $nav_liclass['admin'] ?>">
+						<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+						<ul class="dropdown-menu">
+							<li><a href="<?= $path ?>html/admin/index.php">Admin Panel</a></li>
+						</ul>
+					</li>
 				<?php } ?>
 			</ul>
 		</div><!--/.nav-collapse -->

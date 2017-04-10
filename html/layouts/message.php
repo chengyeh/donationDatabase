@@ -19,14 +19,14 @@ $errors = [
 	12 => 'No tax receipt was generated because no donations have been 
 			recieved since the last time you requested a tax receipt.',
 	// generic HTML status codes
-	401 => 'You must be logged in to access the specified resource.',
+	401 => 'You must be logged in to an active account to access the specified resource.',
 	403 => 'You are not currently permitted to access the specified resource.',
 	404 => 'The specified resource was not found.',
 	418 => 'Cannot brew coffee: I am a teapot.',
 	419 => 'Cannot display webpage: I am a fox.',
 	420 => 'Please wait a few minutes and try again.',
 	498 => 'Token mismatch. Please go back and try again.',
-	499 => 'Token not supplied. Please go back and try again.'
+	499 => 'Token not supplied. Please go back and try again.',
 ];
 
 $messageCode = 0;
@@ -35,11 +35,14 @@ $messages = [
 	// 0: no message
 	1 => '', // generic success
 	2 => 'Your information has been updated.',
-	3 => 'You have successfully registered an account.',
-    4 => 'You are now logged in.',
-    5 => 'Your account has been activated, you can now login!',
-    6 => 'Thank you for your donation. Your tax receipet document 
-    		has been sent to your registered email address.',
+	3 => 'You have successfully registered an account. Please use the email activation
+			link that was just sent to your email to finish activating your account.',
+	4 => 'You are now logged in.',
+	5 => 'Your account has been activated, you can now login!',
+	6 => 'Thank you for your donation. Your tax receipet document 
+			has been sent to your registered email address.',
+	7 => 'Password recovery instructions have been sent to your email address.',
+	8 => 'You have successfully reset your password.',
 ];
 
 if (isset($_GET['err'])) {

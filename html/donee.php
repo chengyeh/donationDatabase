@@ -6,13 +6,13 @@ $navbar_title = 'Donee Page';
 include('layouts/navbar.php');
 require_once('helpers/mysqli.php');
 
-if (isset($_SESSION['id']) && $_SESSION['donee'])
+if (isset($_SESSION['id']) && $_SESSION['donee'] && $_SESSION['active'])
 {
 	$id = $_SESSION['id'];
 }
 else
 {
-	if (!isset($_SESSION['id'])) {
+	if (!isset($_SESSION['id']) || !$_SESSION['active']) {
 		$path = $config['path_web'] . 'html/login.php';
 		$err = 401;
 		header("Location:$path?err=$err&dest=donee");

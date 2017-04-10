@@ -18,7 +18,7 @@ if(isset($_GET['email']) && !empty($_GET['email']) AND isset($_GET['hash']) && !
     if(($result->num_rows) > 0){
         // We have a match, activate the account
         $mysqli->query('UPDATE UserTable SET Active="1" WHERE Email="'.
-            $email.'" AND PassHash="'.$hash.'"') or die(mysql_error());
+            $email.'" AND PassSalt="'.$hash.'"') or die(mysql_error());
         //output good message
         header('Location:login.php?msg=5');
         exit;

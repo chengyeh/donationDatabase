@@ -11,13 +11,13 @@ require_once('helpers/mysqli.php');
 
 $id = '';
 
-if (isset($_SESSION['id']) && $_SESSION['donor'])
+if (isset($_SESSION['id']) && $_SESSION['donor'] && $_SESSION['active'])
 {
 	$id = $_SESSION['id'];
 }
 else
 {
-	if (!isset($_SESSION['id'])) {
+	if (!isset($_SESSION['id']) || !$_SESSION['active']) {
 		$path = $config['path_web'] . 'html/login.php';
 		$err = 401;
 		header("Location:$path?err=$err&dest=donor");

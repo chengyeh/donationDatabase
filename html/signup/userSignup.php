@@ -11,13 +11,27 @@ include('../layouts/navbar.php');
 
 ?>
 
+<script type="text/javascript">
+function validateForm() {
+	// var fname = document.forms["signup"]["firstname"];
+	var emailPattern = /\w@\w\.\w/i;
+	var email = document.forms["signup"]["email"];
+	if (emailPattern.exec(email)) {
+		alert('!!!');
+	} else {
+		alert('???');
+	}
+}
+</script>
+
 <div class="container">
 	<?php
 	include('../layouts/message.php');
 	?>
 	<h3>User Sign Up</h3>
 	<p>Fields marked with an asterisk (*) are required.</p>
-	<form class="form-horizontal" action="submitUserSignup.php" method="POST">
+	<!-- <button onclick="validateForm()">Button</button> -->
+	<form name = "signup" class="form-horizontal" action="submitUserSignup.php" method="POST">
 		<h4>Required for Donor/User</h4>
 		<?php
 		// be very thorough for now ..
@@ -32,7 +46,8 @@ include('../layouts/navbar.php');
 		?> <hr> <h4>Required for Donee</h4><?php
 		form_field('age', 'Age', 'number');
 		form_field('gender', 'Gender');
-		form_field('ethnicity', 'Ethnicity', 'number');
+		//form_field('ethnicity', 'Ethnicity', 'number');
+		form_ethnicity_field();
 		form_field('numInHouse', 'Number in household', 'number');
 		form_field('income', 'Income', 'number');
 		?> <hr> <?php
@@ -47,4 +62,9 @@ include('../layouts/navbar.php');
 </div>
 
 </body>
+
+<script type="text/javascript" src="../jquery.maskedinput.min.js"></script>
+<script type="text/javascript">
+	$("#phone").mask("(999) 999-9999");
+</script>
 </html>
