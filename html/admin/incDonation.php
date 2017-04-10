@@ -30,24 +30,6 @@ else
 }
 ?>
 <?php
-if($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-	//If the edit button is clicked, update the item amount and threshold
-	if($_POST['action'] == 'edit')
-	{	
-	    $sql = "UPDATE InventoryTable SET Amount = " . $_POST['amount'] . ", Threshold = " . $_POST['threshold'] . " WHERE ItemID = " . $_POST['item_id'];
-	    $mysqli->query($sql);
-	}
-	
-	// If the delete button is clicked, delete the item from the inventory table
-    if($_POST['action'] == 'delete')
-    {
-    	$sql = "DELETE FROM InventoryTable WHERE ItemID =" . $_POST['item_id'];
-    	$mysqli->query($sql);
-    }
-}
-?>
-<?php
 //Query all the rows from the table
 function get_rows($table_name, $order)
 {
