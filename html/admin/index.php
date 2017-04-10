@@ -134,7 +134,7 @@ function count_all($table_name)
                                             	<th>User ID</th>
                                                 <th>Name</th>
                                                 <th>Email</th>
-                                                <th>Telephone</th>
+                                                <th>Phone number</th>
                                             </tr>
                                         </thead>
                                         <tbody>                             
@@ -164,7 +164,7 @@ function count_all($table_name)
                                         <thead>
                                             <tr>
                                            		<th>Item ID</th>
-                                                <th>Item Name</th>
+                                                <th>Item name</th>
                                                 <th>Category</th>
                                                 <th>Amount</th>
                                                 <th>Threshold</th>
@@ -205,11 +205,11 @@ function count_all($table_name)
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
-                                                <th>Reference Number</th>
+                                                <th>Reference number</th>
                                                 <th>From</th>
-                                                <th>Item Name</th>
+                                                <th>Item name</th>
                                                 <th>Amount</th>
-                                                <th>Pledge Date</th>
+                                                <th>Pledge date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -252,11 +252,11 @@ function count_all($table_name)
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
-                                                <th>Reference Number</th>
+                                                <th>Reference number</th>
                                                 <th>To</th>
-                                                <th>Item Name</th>
+                                                <th>Item name</th>
                                                 <th>Amount</th>
-                                                <th>Fulfill Date</th>
+                                                <th>Fulfill date</th>
                                             </tr>
                                         </thead>
                                         <tbody>

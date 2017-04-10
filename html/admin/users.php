@@ -128,14 +128,14 @@ function count_all($table_name)
                                     <div class="pull-right"><span class="badge"><?php echo count_all("UserTable"); ?></span></div>
                                 </div>
                                 <div class="bootstrap-admin-panel-content">
-                                    <table class="table table-bordered table-hover">
+                                    <table class="table table-hover">
                                         <thead>
                                             <tr>
                                                 <th>User ID</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
+                                                <th>First name</th>
+                                                <th>Last name</th>
                                                 <th>Email</th>
-                                                <th>Telephone</th>
+                                                <th>Phone number</th>
                                                 <th>Address</th>
                                         </thead>
                                         <tbody>
