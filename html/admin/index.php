@@ -298,7 +298,7 @@ function count_all($table_name)
                 <div class="row">
                     <div class="col-lg-12">
                         <footer role="contentinfo">
-                            <p class="right">&copy; 2017 <a href="#">Donation Database</a></p>
+                            <p class="right">&copy; 2017 <a href="#">Donation database</a></p>
                         </footer>
                     </div>
                 </div>
