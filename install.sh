@@ -1,21 +1,28 @@
 #!/bin/bash
 
-WEBROOT="/var/www/donation/"
-WORKINGDIR=`pwd`
 
+
+APACHEWEBROOT="/var/www"
+DNSNAME="donation.nichnologist.net"
 MAINDBUSER="donation"
 MAINDB="donation"
-
 DATABASEADDR="127.0.0.1"
-WEBADDR="https://donation.nichnologist.net/"
-CAPTCHAS="false"
-EMAILVER="true"
-TZ="America/Chicago"
 
 EMAILRELAYUSER="kueecs.team10@gmail.com"
 EMAILRELAYPASSWD="passwordGoesHere"
 CONTACTEMAILADDR="kueecs.team10@gmail.com"
 COMPANYNAME='KU team 10'
+
+TZ="America/Chicago"
+
+
+WEBROOT="$APACHEWEBROOT/donation/"
+WORKINGDIR=`pwd`
+
+WEBADDR="https://$DNSNAME/"
+CAPTCHAS="false"
+EMAILVER="true"
+
 
 # Exit on any error non-zero
 set -e
@@ -188,8 +195,16 @@ if [ "" == "$PKG_OK" ]; then
 echo ""
 apt-get -y install apache2 php5 php-pear php5-mysql
 a2enmod ssl php5
-echo ""
 fi
+echo "Inserting new apache virtualhost..."
+cp ${WORKINGDIR}/apachetemplate.conf /etc/apache2/sites-available/${DNSNAME}.conf
+cd /etc/apache2/sites-available/
+sed -i "s#SITENAMETARGET#$DNSNAME#" ${DNSNAME}.conf
+sed -i "s#WEBROOTTARGET#$WEBROOT#" ${DNSNAME}.conf
+echo "Enabling apache host..."
+a2ensite ${DNSNAME}.conf
+service apache2 reload
+echo ""
 
 
 

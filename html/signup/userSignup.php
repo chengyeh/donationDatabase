@@ -36,7 +36,7 @@ function validateForm() {
 		<?php
 		// be very thorough for now ..
 		form_field('firstname', 'First name*', 'text', 'First name');
-		form_field('lastname', 'Last name*', 'text', 'First name');
+		form_field('lastname', 'Last name*', 'text', 'Last name');
 		form_field('address', 'Address*', 'text', 'Address');
 		form_field('address2', 'Address line 2');
 		form_field('city', 'City*', 'text', 'City');
