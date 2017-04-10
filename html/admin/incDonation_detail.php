@@ -124,7 +124,7 @@ function count_all($table_name)
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="page-header">
-                                <h1>Donation Detail</h1>
+                                <h1>Incoming Donation Detail</h1>
                             </div>
                         </div>
                     </div>

@@ -177,7 +177,7 @@ function count_all($table_name)
                                                 <td>
                                                 	<input type="hidden" name="item_id" value="<?php echo $item['ItemID']; ?>">
                                                 	<button type="submit" class="btn btn-sm btn-primary" name="action" value="edit">Edit</button>
-                                                	<button type="submit" class="btn btn-sm btn-danger" name="action" value="delete">Deletet</button>
+                                                	<button type="submit" class="btn btn-sm btn-danger" name="action" value="delete">Delete</button>
 	                                            </td>
                                             </tr></form>
                                         <?php } ?>                                            

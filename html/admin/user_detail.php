@@ -5,7 +5,7 @@ ini_set("display_errors", 1);
 session_start();
 
 $navbar_active = 'admin';
-$navbar_title = 'Admin panel - User Detail';
+$navbar_title = 'Admin panel - User detail';
 include('../layouts/navbar.php');
 require_once('../helpers/mysqli.php');
 
