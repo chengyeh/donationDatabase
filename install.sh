@@ -148,7 +148,7 @@ CREATE TABLE UserTable (
     Gender VARCHAR(1),
     Income INT,
     Active INT,
-    lastTaxGenDate TIMESTAMP NOT NULL
+    lastTaxGenDate TIMESTAMP NOT NULL,
     PRIMARY KEY ( UserID )
 		);"
 fi
