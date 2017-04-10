@@ -189,10 +189,10 @@ fi
 echo -e "Mysql-server config complete.\n"
 
 # Check whether UserTable is empty
-FRESHTABLE=$(mysql -uroot -p${MYSQLROOTPASSWD} -e "use donation;select * from UserTable;")
+FRESHTABLE=$(mysql
 
-if [[ ! -z $FRESHTABLE ]]; then
-  echo "Users already exist, skipping admin user."
+if [[ $(mysql -uroot -ppassword -s -e "use donation; select count(*) from UserTable where FlagAdmin='1';") > 0 ]]; then
+  echo "An admin user already exist, skipping admin creation."
 else
   echo "Creating root admin..."
 
