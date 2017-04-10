@@ -125,7 +125,14 @@ function count_all($table_name)
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="page-header">
-                                <h1>Inventory<div class="pull-right"><form action="add_item.php"><input type="submit" class="btn btn-success" value="Insert new item" /></form></div></h1>
+                                <h1>Inventory
+                                    <div class="col-md-2 pull-right">
+                                		<form action="add_category.php"><input type="submit" class="btn btn-success" value="Insert new category" /></form>
+                                	</div>
+                                	<div class="col-md-2 pull-right">
+                                		<form action="add_item.php"><input type="submit" class="btn btn-success" value="Insert new item" /></form>
+                                	</div>
+                                </h1>
                             </div>
                         </div>
                     </div>
