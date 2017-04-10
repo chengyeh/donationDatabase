@@ -72,6 +72,16 @@ function count_all($table_name)
            <script type="text/javascript" src="js/html5shiv.js"></script>
            <script type="text/javascript" src="js/respond.min.js"></script>
         <![endif]-->
+        
+        <!-- Make table row clickable and redirect to the assigned link -->
+        <script>
+        	$(document).ready(function(){
+			    $('table tr').click(function(){
+			        window.location = $(this).attr('href');
+			        return false;
+			    });
+			});
+		</script>
     </head>
     <body class="bootstrap-admin-with-small-navbar">
     
@@ -85,16 +95,16 @@ function count_all($table_name)
                             <a href="index.php"><i class="glyphicon glyphicon-chevron-right"></i> Recently Added</a>
                         </li>
                         <li>
-                            <a href="users.html"><span class="badge pull-right"><?php echo count_all("UserTable"); ?></span> User</a>
+                            <a href="users.php"><span class="badge pull-right"><?php echo count_all("UserTable"); ?></span> User</a>
                         </li>
                         <li>
-                            <a href="donors.html"><span class="badge pull-right"><?php echo count_all("InventoryTable"); ?></span> Inventory</a>
+                            <a href="donors.php"><span class="badge pull-right"><?php echo count_all("InventoryTable"); ?></span> Inventory</a>
                         </li>
                         <li>
-                            <a href="donees.html"><span class="badge pull-right"><?php echo count_all("IncDonationTable"); ?></span> Incoming Donation</a>
+                            <a href="donees.php"><span class="badge pull-right"><?php echo count_all("IncDonationTable"); ?></span> Incoming Donation</a>
                         </li>
                         <li>
-                            <a href="inventory.html"><span class="badge pull-right"><?php echo count_all("OutDonationTable"); ?></span> Outgoing Donation</a>
+                            <a href="inventory.php"><span class="badge pull-right"><?php echo count_all("OutDonationTable"); ?></span> Outgoing Donation</a>
                         </li>
                     </ul>
                 </div>
@@ -132,7 +142,7 @@ function count_all($table_name)
 											$recent_user_array = recently_created("UserTable", "UserID");
 											foreach($recent_user_array as $user)
 											{
-												echo '<tr><td>' . $user['UserID'] . '</td><td>' . $user['FirstName'] . " " . $user['LastName'] 
+												echo '<tr href="user_detail.php?id=' . $user['UserID'] . '"><td>' . $user['UserID'] . '</td><td>' . $user['FirstName'] . " " . $user['LastName'] 
 													. '</td><td>' . $user['Email'] . '</td><td>' . $user['Telephone'] . '</td></tr>';
 											}
 											?>
