@@ -182,7 +182,7 @@ function count_all($table_name)
 												     $category[] = $row;
 												}
 								
-												echo '<tr><td>' . $item['ItemID'] . '</td><td>' . $item['Name'] . '</td><td>' . $category[0]['Name'] . '</td><td>' 
+												echo '<tr href="inventory.php"><td>' . $item['ItemID'] . '</td><td>' . $item['Name'] . '</td><td>' . $category[0]['Name'] . '</td><td>' 
 													. $item['Amount'] . '</td><td>' . $item['Threshold'] . '</td></tr>';
 											}
 											?>
@@ -231,7 +231,7 @@ function count_all($table_name)
 												     $item[] = $row;
 												}
 								
-												echo '<tr><td>' . $donation['RefNum'] . '</td><td>' . $donor[0]['FirstName'] . " " . $donor[0]['LastName'] 
+												echo '<tr href="incDonation_detail.php?id=' . $donation['RefNum'] . '"><td>' . $donation['RefNum'] . '</td><td>' . $donor[0]['FirstName'] . " " . $donor[0]['LastName'] 
 													. '</td><td>' . $item[0]['Name'] . '</td><td>' . $donation['Amount'] . '</td><td>' . $donation['PledgeDate'] . '</td></tr>';
 											}
 											?>
@@ -278,7 +278,7 @@ function count_all($table_name)
 												     $item[] = $row;
 												}
 								
-												echo '<tr><td>' . $donation['RefNum'] . '</td><td>' . $donee[0]['FirstName'] . " " . $donee[0]['LastName'] 
+												echo '<tr href="outDonation_detail.php?id=' . $donation['RefNum'] . '"><td>' . $donation['RefNum'] . '</td><td>' . $donee[0]['FirstName'] . " " . $donee[0]['LastName'] 
 													. '</td><td>' . $item[0]['Name'] . '</td><td>' . $donation['Amount'] . '</td><td>' . $donation['FulfillDate'] . '</td></tr>';
 											}
 											?>                                        	
