@@ -3,8 +3,8 @@
  * implements functions used to seed the database with test data.
  */
 
-require_once('./mysqli.php');
-require_once('./crypto.php');
+require_once(__DIR__.'./mysqli.php');
+require_once(__DIR__.'./crypto.php');
 
 /*
  * seed_address
@@ -124,8 +124,26 @@ function seed_identity()
 
 function seed_phone()
 {
-	$phone = rand(1000000000, 9999999999);
+	$area_code = rand(100, 999);
+	$part_1 = rand(100, 999);
+	$part_2 = rand(1000, 9999);
+	$phone = "($area_code) $part_1-$part_2";
 	return $phone;
+}
+
+function seed_income()
+{
+	return rand(1, 10) * 10000;
+}
+
+function seed_gender()
+{
+	switch (rand(0, 2)) {
+		case 0: $gender = 'm'; break;
+		case 1: $gender = 'f'; break;
+		case 2: $gender = 'o'; break;
+	}
+	return $gender;
 }
 
 function seed_user()
@@ -135,26 +153,31 @@ function seed_user()
 	// we only escape to prevent characters like the apostrophe in Hawai'i from
 	// breaking the query string - our seed data shouldn't generate injections
 	$identity = seed_identity();
+	$email = mysqli_real_escape_string($mysqli, $identity['email']);
 	$firstname = mysqli_real_escape_string($mysqli, $identity['first']);
 	$lastname = mysqli_real_escape_string($mysqli, $identity['last']);
 	$address = mysqli_real_escape_string($mysqli, seed_address());
 	$city = mysqli_real_escape_string($mysqli, seed_city());
 	$state = mysqli_real_escape_string($mysqli, seed_state());
-	$zip = mysqli_real_escape_string($mysqli, seed_zip());
-	$phone = mysqli_real_escape_string($mysqli, seed_phone());
-	$email = mysqli_real_escape_string($mysqli, $identity['email']);
-	// TODO: will want to salt this eventually
-	$password = hash('sha256', $firstname . '123'); // bad user! bad!
+	$zip = seed_zip();
+	$phone = seed_phone();
+	$gender = seed_gender();
+	$income = seed_income();
+	$numInHouse = rand(1, 6);
+	$salt = substr(cs_prng(), 0, 16);
+	$password = $firstname . '123'; // bad user! bad!
+	$passHash = hash_password($password, $salt);
 
 	//add to database
 	$query = <<<SQL
-INSERT INTO `Users`
-	(FirstName, LastName, Telephone, Email, Address, City, State, Zip, Password)
+INSERT INTO `UserTable`
+	(FirstName, LastName, Email, AddressLine1, City, State, Zip, Telephone, Gender, Income, HouseholdSize, PassSalt, PassHash)
 	VALUES
-	('$firstname', '$lastname', '$phone', '$email', '$address', '$city', '$state', '$zip', '$password');
+	('$firstname', '$lastname', '$email', '$address', '$city', '$state', '$zip', '$phone', '$gender', '$income', '$numInHouse', '$salt', '$passHash');
 SQL;
 	$result = $mysqli->query($query);
 	if (!$result) {
+		var_dump($query);
 		die('MySQL error: ' . $mysqli->error);
 	}
 }
