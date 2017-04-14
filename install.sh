@@ -121,6 +121,7 @@ else
     ItemID VARCHAR(30) NOT NULL,
     Amount INT,
     FulfillDate TIMESTAMP,
+    RequestDate TIMESTAMP,
     PRIMARY KEY ( RefNum )
     );"
 fi
