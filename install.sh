@@ -120,6 +120,7 @@ else
     DoneeID INT NOT NULL,
     ItemID VARCHAR(30) NOT NULL,
     Amount INT,
+    AmountGranted INT DEFAULT 0,
     FulfillDate TIMESTAMP,
     RequestDate TIMESTAMP,
     PRIMARY KEY ( RefNum )
