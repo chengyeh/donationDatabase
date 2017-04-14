@@ -6,6 +6,9 @@ $navbar_title = 'Donee Page';
 include('layouts/navbar.php');
 require_once('helpers/mysqli.php');
 
+//set time zone to get proper time back
+date_default_timezone_set($config['time_zone']);
+
 if (isset($_SESSION['id']) && $_SESSION['donee'] && $_SESSION['active'])
 {
 	$id = $_SESSION['id'];
@@ -59,7 +62,9 @@ if(isset($_GET["input0"]) && isset($_SESSION["id"]))
 			{			
 				$amount = $input_array[$index];
 				$itemId = $item["ItemID"];
-				$query = "INSERT INTO OutDonationTable (DoneeID, ItemID, Amount) VALUES ('$id', '$itemId', $amount)";
+				$date = new DateTime();
+				$fdate = $date->format('Y-m-d H:i:s');
+				$query = "INSERT INTO OutDonationTable (DoneeID, ItemID, Amount, RequestDate) VALUES ('$id', '$itemId', $amount, '$fdate')";
 				
 				if($result = $mysqli->query($query))
 				{
