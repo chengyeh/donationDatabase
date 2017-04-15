@@ -284,7 +284,7 @@ function count_all($table_name)
 						   	 	</div>					   	 	
 						  	</div>
 						  	<div class="form-group">
-						    	<label for="user_flag" class="col-sm-2 control-label">User</label>
+						    	<label for="user_flag" class="col-sm-2 control-label">Employee</label>
 						    	<div class="col-sm-4">
 						      		<select class="form-control" id="user_flag" name="is_user" >
 						      			<?php
@@ -337,19 +337,5 @@ function count_all($table_name)
                 </div>
             </div>
         </div>
-
-        <!-- footer -->
-        <div class="navbar navbar-footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <footer role="contentinfo">
-                            <p class="right">&copy; 2017 <a href="#">Donation database</a></p>
-                        </footer>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </body>    
 </html>

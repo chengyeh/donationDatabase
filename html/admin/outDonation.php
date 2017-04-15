@@ -176,19 +176,5 @@ function count_all($table_name)
                 </div>
             </div>
         </div>
-
-        <!-- footer -->
-        <div class="navbar navbar-footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <footer role="contentinfo">
-                            <p class="right">&copy; 2017 <a href="#">Donation database</a></p>
-                        </footer>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </body>
 </html>
