@@ -18,6 +18,8 @@ $errors = [
 	11 => 'Invalid action. Please use the link that has been sent to your email.',
 	12 => 'No tax receipt was generated because no donations have been 
 			recieved since the last time you requested a tax receipt.',
+	13 => 'No new requests by donees have been made or the inventory has not changed
+			since the last time a report was generated. Therefore no new report was created.',
 	// generic HTML status codes
 	401 => 'You must be logged in to an active account to access the specified resource.',
 	403 => 'You are not currently permitted to access the specified resource.',
@@ -43,6 +45,7 @@ $messages = [
 			has been sent to your registered email address.',
 	7 => 'Password recovery instructions have been sent to your email address.',
 	8 => 'You have successfully reset your password.',
+	9 => 'Donation allocation report has been sent to your email.',
 ];
 
 if (isset($_GET['err'])) {
