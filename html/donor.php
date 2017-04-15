@@ -154,8 +154,9 @@ $(document).ready(function(){
 			}
 
 			foreach($inventory_array as $item)
-			{
-				echo '<tr id=item' . $item['ItemID'] . '><td>' . $item['Name'] . '</td><td>' . ($item['Threshold']-$item['Amount']) . '</td><td><input type="number" value="0" name="'. $inputName .'[]" min="0" scale="1"></td></tr>';
+			{	
+				if(($item['Threshold']-$item['Amount']) > 0)
+					echo '<tr id=item' . $item['ItemID'] . '><td>' . $item['Name'] . '</td><td>' . ($item['Threshold']-$item['Amount']) . '</td><td><input type="number" value="0" name="'. $inputName .'[]" min="0" scale="1"></td></tr>';
 			}
 			echo '</table></div></div></div></div>';
 
