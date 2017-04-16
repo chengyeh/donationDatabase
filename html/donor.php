@@ -154,28 +154,24 @@ $(document).ready(function(){
 			}
 
 			foreach($inventory_array as $item)
-			{	
-				if(($item['Threshold']-$item['Amount']) > 0)
+			{
+				if(($item['Threshold']-$item['Amount']) <= 0)
+					echo '<tr id=item' . $item['ItemID'] . '><td>' . $item['Name'] . '</td><td>' . 0 . '</td><td><input type="number" value="0" name="'. $inputName .'[]" min="0" scale="1"></td></tr>';
+				else
 					echo '<tr id=item' . $item['ItemID'] . '><td>' . $item['Name'] . '</td><td>' . ($item['Threshold']-$item['Amount']) . '</td><td><input type="number" value="0" name="'. $inputName .'[]" min="0" scale="1"></td></tr>';
 			}
 			echo '</table></div></div></div></div>';
 
 		 }
 		?>
-
 		<hr>
-		<div class="form-group">
-			<label for="specialRequests" class="col-sm-2 control-label">Special Donations</label>
-			<div class="col-sm-10">
-				<input type="text" class="form-control input" name="specialRequests" placeholder="[Name of special item not available above]">
-				<input type="number" class="form-control input" value="item1" min="0" scale="1" placeholder="[Number of item]">
-			</div>
-
-		</div>
-		<hr> <br>
-
 		<input type="submit" value="Pledge Donation">
 	</form>
+	
+	<?php
+		$contact_us = $config['contact_us_email'];
+		echo '<p>To donate any items that are not listed above, please contact the administrator at <a href="mailto:'.$contact_us.'">'.$contact_us.'</a>.';
+	?>
 
 	<br> <h3>Donate using PayPal</h3> <br>
 

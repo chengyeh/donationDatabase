@@ -152,16 +152,12 @@ $(document).ready(function(){
 		 }
 		?>
 		<hr>
-		<div class="form-group">
-			<label for="specialRequests" class="col-sm-2 control-label">Special Requests</label>
-			<div class="col-sm-10">
-				<input type="text" class="form-control input" name="specialRequests" placeholder="Request special items not shown above">
-			</div>
-		</div>
-		<hr> <br>
-		
 		<input type="submit" value="Request Donation">
 	</form>
+	<?php
+		$contact_us = $config['contact_us_email'];
+		echo '<p>To request any items that are not listed above, please contact the administrator at <a href="mailto:'.$contact_us.'">'.$contact_us.'</a>.';
+	?>
 </div>
 
 <script type="text/javscript" source="js/bootstrap.min.js"></script>
