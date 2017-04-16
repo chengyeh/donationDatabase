@@ -28,21 +28,17 @@ SQL;
 	$result = $result->fetch_assoc();
 	$seed_metadata['UserTable_count'] = (int)$result['COUNT(*)'];
 
-	// get all items in inventory
+	// count number of items in inventory
 	$query = <<<SQL
-SELECT ItemID FROM InventoryTable;
+SELECT COUNT(*) FROM InventoryTable;
 SQL;
 	$result = $mysqli->query($query);
 	if (!$result) {
 		var_dump($query);
 		die('MySQL error: ' . $mysqli->error);
 	}
-	$arr = [];
-	for ($i = 0; $i < $result->num_rows; $i++) {
-		$row = $result->fetch_assoc();
-		$arr[$i] = $row['ItemID'];
-	}
-	$seed_metadata['Inventory'] = $arr;
+	$result = $result->fetch_assoc();
+	$seed_metadata['InventoryTable_count'] = (int)$result['COUNT(*)'];
 
 	// count number of categories
 	$query = <<<SQL
@@ -342,16 +338,16 @@ function seed_inventory()
 		init_seed_metadata();
 	global $seed_metadata, $mysqli;
 
-	$item = seed_item();
+	$item_name = seed_item();
 	$category = rand(1, $seed_metadata['CategoriesTable_count']);
 	$threshold = rand(1, 10) * 100;
 	$amount = rand(0, $threshold);
 
 	$query = <<<SQL
 INSERT INTO `InventoryTable`
-	(ItemID, Category, Amount, Threshold)
+	(Name, CategoryNum, Amount, Threshold)
 VALUES
-	('$item', '$category', '$amount', '$threshold');
+	('$item_name', '$category', '$amount', '$threshold');
 SQL;
 	$result = $mysqli->query($query);
 	if (!$result) {
@@ -367,14 +363,11 @@ function seed_incoming_donation()
 		init_seed_metadata();
 	global $seed_metadata, $mysqli;
 
-	$inventory = $seed_metadata['Inventory'];
-
 	$donor_id = rand(1, $seed_metadata['UserTable_count']);
-	$item_id = $inventory[rand(0, count($inventory)-1)];
+	$item_id = rand(1, $seed_metadata['InventoryTable_count']);
 	$amount = rand(1, 10);
 	$actualAmount = rand(0, $amount);
 	$value = $amount * rand(1, 20);
-	$received = $actualAmount;
 	$pledgeDate = seed_recent_date(0, 2);
 	if ($actualAmount > 0)
 		$receiveDate = seed_recent_date(0, 1);
@@ -383,10 +376,9 @@ function seed_incoming_donation()
 	
 	$query = <<<SQL
 INSERT INTO `IncDonationTable`
-	(DonorID, ItemID, Amount, ActualAmount, Value, Received, PledgeDate,
-	ReceiveDate)
+	(DonorID, ItemID, Amount, ActualAmount, Value, PledgeDate, ReceiveDate)
 	VALUES
-	('$donor_id', '$item_id', '$amount', '$actualAmount', '$value', '$received',
+	('$donor_id', '$item_id', '$amount', '$actualAmount', '$value',
 	'$pledgeDate', '$receiveDate');
 SQL;
 	$result = $mysqli->query($query);
@@ -394,3 +386,34 @@ SQL;
 		die('MySQL error: ' . $mysqli->error);
 	}
 }
+
+function seed_outgoing_donation()
+{
+	if (!isset($seed_metadata))
+		init_seed_metadata();
+	global $seed_metadata, $mysqli;
+
+	$donee_id = rand(1, $seed_metadata['UserTable_count']);
+	$item_id = rand(1, $seed_metadata['InventoryTable_count']);
+	$amount = rand(1, 10);
+	$amountGranted = rand(0, $amount);
+	$value = $amount * rand(1, 20);
+	$requestDate = seed_recent_date(0, 2);
+	if ($amountGranted > 0)
+		$fulfillDate = seed_recent_date(0, 1);
+	else
+		$fulfillDate = 'NULL';
+
+	$query = <<<SQL
+INSERT INTO `OutDonationTable`
+	(DoneeID, ItemID, Amount, AmountGranted, RequestDate, FulfillDate)
+	VALUES
+	('$donee_id', '$item_id', '$amount', '$amountGranted', '$requestDate',
+	'$fulfillDate');
+SQL;
+	$result = $mysqli->query($query);
+	if (!$result) {
+		die('MySQL error: ' . $mysqli->error);
+	}
+}
+

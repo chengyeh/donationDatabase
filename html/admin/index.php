@@ -106,6 +106,9 @@ function count_all($table_name)
                         <li>
                             <a href="outDonation.php"><span class="badge pull-right"><?php echo count_all("OutDonationTable"); ?></span> Outgoing Donation</a>
                         </li>
+						<li>
+							<a href="tools.php">Tools</a>
+						</li>
                     </ul>
                 </div>
 

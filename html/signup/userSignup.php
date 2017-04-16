@@ -11,19 +11,6 @@ include('../layouts/navbar.php');
 
 ?>
 
-<script type="text/javascript">
-function validateForm() {
-	// var fname = document.forms["signup"]["firstname"];
-	var emailPattern = /\w@\w\.\w/i;
-	var email = document.forms["signup"]["email"];
-	if (emailPattern.exec(email)) {
-		alert('!!!');
-	} else {
-		alert('???');
-	}
-}
-</script>
-
 <div class="container">
 	<?php
 	include('../layouts/message.php');

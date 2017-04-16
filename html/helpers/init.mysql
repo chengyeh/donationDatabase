@@ -1,68 +1,78 @@
-# initializes database with parameters extracted from the ER diagram
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
-CREATE DATABASE donation;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
-USE donation;
 
-CREATE TABLE UserTable (
-	UserID INT NOT NULL AUTO_INCREMENT,
-	FirstName VARCHAR(50) DEFAULT NULL,
-	LastName VARCHAR(50) DEFAULT NULL,
-	Age INT DEFAULT NULL,
-	HouseholdSize INT DEFAULT NULL,
-	Ethnicity INT DEFAULT NULL,
-	Gender CHAR(1) DEFAULT NULL,
-	Email VARCHAR(255) NOT NULL,
-	City VARCHAR(50) DEFAULT NULL,
-	State VARCHAR(50) DEFAULT NULL,
-	Zip CHAR(5) DEFAULT NULL,
-	AddressLine1 VARCHAR(100) DEFAULT NULL,
-	AddressLine2 VARCHAR(100) DEFAULT NULL,
-	Telephone VARCHAR(40) DEFAULT NULL,
-	PassHash CHAR(64) NOT NULL,
-	PassSalt CHAR(16) NOT NULL,
-	FlagAdmin INT DEFAULT FALSE,
-	FlagUser INT DEFAULT FALSE,
-	FlagDonor INT DEFAULT FALSE,
-	FlagDonee INT DEFAULT FALSE,
-	Income INT,
-	Active INT,
-	lastTaxGenDate TIMESTAMP NOT NULL,
-	PRIMARY KEY ( UserID )
-);
+CREATE TABLE `CategoriesTable` (
+  `CategoryNum` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(30) NOT NULL,
+  PRIMARY KEY (`CategoryNum`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-CREATE TABLE IncDonationTable (
-	RefNum INT NOT NULL AUTO_INCREMENT,
-	DonorID INT NOT NULL,
-	ItemID VARCHAR(30) NOT NULL,
-	Amount INT NOT NULL,
-	ActualAmount INT NOT NULL,
-	Value INT DEFAULT NULL,
-	Received INT DEFAULT NULL,
-	PledgeDate TIMESTAMP NOT NULL,
-	ReceiveDate TIMESTAMP,
-	PRIMARY KEY ( RefNum )
-);
+CREATE TABLE `IncDonationTable` (
+  `RefNum` int(11) NOT NULL AUTO_INCREMENT,
+  `DonorID` int(11) NOT NULL,
+  `ItemID` varchar(30) NOT NULL,
+  `Amount` int(11) NOT NULL,
+  `ActualAmount` int(11) NOT NULL,
+  `Value` int(11) NOT NULL,
+  `PledgeDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `ReceiveDate` timestamp NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`RefNum`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-CREATE TABLE OutDonations (
-	RefNum INT NOT NULL,
-	DoneeID INT NOT NULL,
-	ItemID VARCHAR(30) NOT NULL,
-	Amount INT NOT NULL,
-	FulfillDate DATE DEFAULT NULL,
-	PRIMARY KEY ( RefNum )
-);
+CREATE TABLE `InventoryTable` (
+  `ItemID` int(11) NOT NULL AUTO_INCREMENT,
+  `CategoryNum` int(11) NOT NULL,
+  `Name` varchar(30) NOT NULL,
+  `Amount` int(11) NOT NULL DEFAULT '0',
+  `Threshold` int(11) NOT NULL,
+  PRIMARY KEY (`ItemID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-CREATE TABLE InventoryTable (
-	ItemID VARCHAR(30) NOT NULL,
-	Category INT NOT NULL,
-	Amount INT DEFAULT NULL,
-	Threshold INT DEFAULT 0,
-	PRIMARY KEY ( ItemID )
-);
+CREATE TABLE `OutDonationTable` (
+  `RefNum` int(11) NOT NULL AUTO_INCREMENT,
+  `DoneeID` int(11) NOT NULL,
+  `ItemID` varchar(30) NOT NULL,
+  `Amount` int(11) DEFAULT NULL,
+  `FulfillDate` timestamp NULL DEFAULT NULL,
+  `RequestDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `AmountGranted` int(11) NOT NULL,
+  PRIMARY KEY (`RefNum`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-CREATE TABLE CategoriesTable (
-	CategoryNum INT NOT NULL AUTO_INCREMENT,
-	Name VARCHAR(30) NOT NULL,
-	PRIMARY KEY ( CategoryNum )
-);
+CREATE TABLE `UserTable` (
+  `UserID` int(11) NOT NULL AUTO_INCREMENT,
+  `FirstName` varchar(50) NOT NULL,
+  `LastName` varchar(50) NOT NULL,
+  `State` varchar(50) DEFAULT NULL,
+  `City` varchar(50) DEFAULT NULL,
+  `Zip` int(11) DEFAULT NULL,
+  `AddressLine1` varchar(100) DEFAULT NULL,
+  `AddressLine2` varchar(100) DEFAULT NULL,
+  `CumulativeRecValue` int(11) DEFAULT NULL,
+  `Telephone` varchar(40) DEFAULT NULL,
+  `Email` varchar(255) NOT NULL,
+  `PassHash` varchar(100) NOT NULL,
+  `PassSalt` varchar(100) NOT NULL,
+  `FlagAdmin` bit(1) NOT NULL,
+  `FlagUser` bit(1) NOT NULL,
+  `FlagDonor` bit(1) NOT NULL,
+  `FlagDonee` bit(1) NOT NULL,
+  `Age` int(11) DEFAULT NULL,
+  `HouseholdSize` int(11) DEFAULT NULL,
+  `Ethnicity` int(11) DEFAULT NULL,
+  `Gender` varchar(1) DEFAULT NULL,
+  `Income` int(11) DEFAULT NULL,
+  `Active` int(11) DEFAULT NULL,
+  `lastTaxGenDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`UserID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

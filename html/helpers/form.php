@@ -49,11 +49,11 @@ function form_field($script_name, $nice_name, $type = 'text', $placeholder = '',
  * form_number_field
  */
 function form_number_field($script_name, $nice_name, $placeholder, $max,
-	$min = 0, $value = 0, $classes = '')
+	$min = 0, $value = '', $classes = '')
 {
 	if ($placeholder == '')
 		$placeholder = $nice_name;
-	$extra = $value ? "value=$value" : '';
+	$extra = $value !== '' ? "value=$value" : '';
 	if (substr($nice_name, -1) == '*')
 		$extra .= ' required';
 	?>
