@@ -7,6 +7,57 @@ require_once(__DIR__.'./mysqli.php');
 require_once(__DIR__.'./crypto.php');
 
 /*
+ * init_seed_metadata
+ * Called by various seed functions that create database entries that require
+ * relationships to other tables in the database to determine what parameters
+ * to use for these relationships.
+ */
+function init_seed_metadata()
+{
+	global $seed_metadata, $mysqli;
+
+	// count number of users
+	$query = <<<SQL
+SELECT COUNT(*) FROM UserTable;
+SQL;
+	$result = $mysqli->query($query);
+	if (!$result) {
+		var_dump($query);
+		die('MySQL error: ' . $mysqli->error);
+	}
+	$result = $result->fetch_assoc();
+	$seed_metadata['UserTable_count'] = (int)$result['COUNT(*)'];
+
+	// get all items in inventory
+	$query = <<<SQL
+SELECT ItemID FROM InventoryTable;
+SQL;
+	$result = $mysqli->query($query);
+	if (!$result) {
+		var_dump($query);
+		die('MySQL error: ' . $mysqli->error);
+	}
+	$arr = [];
+	for ($i = 0; $i < $result->num_rows; $i++) {
+		$row = $result->fetch_assoc();
+		$arr[$i] = $row['ItemID'];
+	}
+	$seed_metadata['Inventory'] = $arr;
+
+	// count number of categories
+	$query = <<<SQL
+SELECT COUNT(*) FROM CategoriesTable;
+SQL;
+	$result = $mysqli->query($query);
+	if (!$result) {
+		var_dump($query);
+		die('MySQL error: ' . $mysqli->error);
+	}
+	$result = $result->fetch_assoc();
+	$seed_metadata['CategoriesTable_count'] = (int)$result['COUNT(*)'];
+}
+
+/*
  * seed_address
  * Produces a random street address, e.g. '5432 Jayhawk Blvd.'
  * @return	string
@@ -20,7 +71,7 @@ function seed_address()
 	];
 	$streetTitles = [ 'St.', 'Ave.', 'Blvd.', 'Ln.', 'Pkwy.' ];
 	$number = rand(100, 9999);
-	if (rand(0, 1) == 0)
+	if (rand(0, 1))
 		$street = rand(10, 60) . 'th';
 	else
 		$street = $streets[rand(0, count($streets)-1)];
@@ -106,6 +157,27 @@ function seed_name_part()
 }
 
 /*
+ * seed_item
+ * Produces the name of an item.
+ * @return	string
+ */
+function seed_item()
+{
+	$bases = [
+		'Fruit', 'Milk', 'Butter', 'Cheese', 'Meat', 'Slime', 'Water', 'Rock',
+		'Powder', 'Fish', 'Prickle', 'Mold', 'Paste', 'Dirt', 'Crumble',
+		'Blood', 'Spice', 'Leather', 'Lemon', 'Worm', 'Crisp', 'Wood', 'Ice',
+		'Grain', 'Chunk'
+	];
+	$base1 = $bases[rand(0, count($bases)-1)];
+	if (substr($base1, -1) == 'e')
+		$base1 = substr($base1, 0, -1);
+	$base2 = $bases[rand(0, count($bases)-1)];
+	$item = $base1 . 'y ' . $base2;
+	return $item;
+}
+
+/*
  * seed_identity
  * Produces an array containing a first name, a last name, and an email address
  * @return	array
@@ -122,6 +194,10 @@ function seed_identity()
 	];
 }
 
+/*
+ * seed_phone
+ * @return	A randomly generated phone number in the form "(XXX) XXX-XXXX"
+ */
 function seed_phone()
 {
 	$area_code = rand(100, 999);
@@ -131,11 +207,18 @@ function seed_phone()
 	return $phone;
 }
 
+/*
+ * seed_income
+ */
 function seed_income()
 {
 	return rand(1, 10) * 10000;
 }
 
+/*
+ * seed_gender
+ * @return	A character: m, f, or o.
+ */
 function seed_gender()
 {
 	switch (rand(0, 2)) {
@@ -146,9 +229,16 @@ function seed_gender()
 	return $gender;
 }
 
+/*
+ * seed_user
+ * Calls the other seed functions to generate an example user, then adds the
+ * example user to the database.
+ */
 function seed_user()
 {
-	global $mysqli;
+	if (!isset($seed_metadata))
+		init_seed_metadata();
+	global $seed_metadata, $mysqli;
 	// generate data
 	// we only escape to prevent characters like the apostrophe in Hawai'i from
 	// breaking the query string - our seed data shouldn't generate injections
@@ -162,6 +252,7 @@ function seed_user()
 	$zip = seed_zip();
 	$phone = seed_phone();
 	$gender = seed_gender();
+	$ethnicity = rand(1, 5);
 	$income = seed_income();
 	$numInHouse = rand(1, 6);
 	$salt = substr(cs_prng(), 0, 16);
@@ -171,14 +262,135 @@ function seed_user()
 	//add to database
 	$query = <<<SQL
 INSERT INTO `UserTable`
-	(FirstName, LastName, Email, AddressLine1, City, State, Zip, Telephone, Gender, Income, HouseholdSize, PassSalt, PassHash)
+	(FirstName, LastName, Email, AddressLine1, City, State, Zip, Telephone,
+	Gender, Ethnicity, Income, HouseholdSize, PassSalt, PassHash, Active,
+	FlagDonor, FlagDonee, lastTaxGenDate)
 	VALUES
-	('$firstname', '$lastname', '$email', '$address', '$city', '$state', '$zip', '$phone', '$gender', '$income', '$numInHouse', '$salt', '$passHash');
+	('$firstname', '$lastname', '$email', '$address', '$city', '$state', '$zip',
+	'$phone', '$gender', '$ethnicity', '$income', '$numInHouse', '$salt',
+	'$passHash', True, True, True, NOW());
 SQL;
 	$result = $mysqli->query($query);
 	if (!$result) {
-		var_dump($query);
+		die('MySQL error: ' . $mysqli->error);
+	}
+	$seed_metadata['UserTable_count']++;
+}
+
+/*
+ * seed_recent_date
+ * Creates a date prior to the present date/time in a format that MySQL will
+ * accept.
+ * @param	int	timescale	The scale of time to alter (lower is higher). 0 is
+ * 		years, 1 is months, 2 is days, ... (max 5, default 2)
+ * @return	string	A date in a format acceptable for use in a MySQL query.
+ */
+function seed_recent_date($timescale = 2, $magnitude = 5)
+{
+	$unit_arr = ['years', 'months', 'days', 'hours', 'minutes', 'seconds'];
+	$unit = $unit_arr[$timescale];
+	$date = date_create('now');
+	if ($magnitude > 1) {
+		$magnitude = rand(1, $magnitude - 1);
+		date_modify($date, "-$magnitude $unit");
+	}
+	if ($timescale < 1) {
+		$magnitude = rand(1, 12);
+		date_modify($date, "-$magnitude months");
+	}
+	if ($timescale < 2) {
+		$magnitude = rand(1, 28);
+		date_modify($date, "-$magnitude days");
+	}
+	if ($timescale < 3) {
+		$magnitude = rand(1, 24);
+		date_modify($date, "-$magnitude hours");
+	}
+	if ($timescale < 4) {
+		$magnitude = rand(1, 60);
+		date_modify($date, "-$magnitude minutes");
+	}
+	if ($timescale < 5) {
+		$magnitude = rand(1, 60);
+		date_modify($date, "-$magnitude seconds");
+	}
+	return date_format($date, 'Y-m-d H:i:s');
+}
+
+function seed_category()
+{
+	if (!isset($seed_metadata))
+		init_seed_metadata();
+	global $seed_metadata, $mysqli;
+
+	$category = seed_item() . ' Category';
+
+	$query = <<<SQL
+INSERT INTO `CategoriesTable` (Name) VALUES ('$category');
+SQL;
+	$result = $mysqli->query($query);
+	if (!$result) {
+		die('MySQL error: ' . $mysqli->error);
+	}
+
+	$seed_metadata['CategoriesTable_count']++;
+}
+
+function seed_inventory()
+{
+	if (!isset($seed_metadata))
+		init_seed_metadata();
+	global $seed_metadata, $mysqli;
+
+	$item = seed_item();
+	$category = rand(1, $seed_metadata['CategoriesTable_count']);
+	$threshold = rand(1, 10) * 100;
+	$amount = rand(0, $threshold);
+
+	$query = <<<SQL
+INSERT INTO `InventoryTable`
+	(ItemID, Category, Amount, Threshold)
+VALUES
+	('$item', '$category', '$amount', '$threshold');
+SQL;
+	$result = $mysqli->query($query);
+	if (!$result) {
+		die('MySQL error: ' . $mysqli->error);
+	}
+
+	$seed_metadata['InventoryTable_count']++;
+}
+
+function seed_incoming_donation()
+{
+	if (!isset($seed_metadata))
+		init_seed_metadata();
+	global $seed_metadata, $mysqli;
+
+	$inventory = $seed_metadata['Inventory'];
+
+	$donor_id = rand(1, $seed_metadata['UserTable_count']);
+	$item_id = $inventory[rand(0, count($inventory)-1)];
+	$amount = rand(1, 10);
+	$actualAmount = rand(0, $amount);
+	$value = $amount * rand(1, 20);
+	$received = $actualAmount;
+	$pledgeDate = seed_recent_date(0, 2);
+	if ($actualAmount > 0)
+		$receiveDate = seed_recent_date(0, 1);
+	else
+		$receiveDate = 'NULL';
+	
+	$query = <<<SQL
+INSERT INTO `IncDonationTable`
+	(DonorID, ItemID, Amount, ActualAmount, Value, Received, PledgeDate,
+	ReceiveDate)
+	VALUES
+	('$donor_id', '$item_id', '$amount', '$actualAmount', '$value', '$received',
+	'$pledgeDate', '$receiveDate');
+SQL;
+	$result = $mysqli->query($query);
+	if (!$result) {
 		die('MySQL error: ' . $mysqli->error);
 	}
 }
-
