@@ -170,7 +170,7 @@ $(document).ready(function(){
 	
 	<?php
 		$contact_us = $config['contact_us_email'];
-		echo '<p>To donate any items that are not listed above, please contact the administrator at <a href="mailto:'.$contact_us.'">'.$contact_us.'</a>.';
+		echo '<p>To donate any items that are not listed above, please contact us at <a href="mailto:'.$contact_us.'">'.$contact_us.'</a>.';
 	?>
 
 	<br> <h3>Donate using PayPal</h3> <br>

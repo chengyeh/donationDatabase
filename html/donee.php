@@ -156,7 +156,7 @@ $(document).ready(function(){
 	</form>
 	<?php
 		$contact_us = $config['contact_us_email'];
-		echo '<p>To request any items that are not listed above, please contact the administrator at <a href="mailto:'.$contact_us.'">'.$contact_us.'</a>.';
+		echo '<p>To request any items that are not listed above, please contact us at <a href="mailto:'.$contact_us.'">'.$contact_us.'</a>.';
 	?>
 </div>
 
