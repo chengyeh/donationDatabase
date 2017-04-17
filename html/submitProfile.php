@@ -21,6 +21,7 @@ verify_csrf_token();
 $firstname = mysqli_real_escape_string($mysqli, $_POST['firstname']);
 $lastname = mysqli_real_escape_string($mysqli, $_POST['lastname']);
 $age = mysqli_real_escape_string($mysqli, $_POST['age']);
+$income = mysqli_real_escape_string($mysqli, $_POST['income']);
 $gender = mysqli_real_escape_string($mysqli, $_POST['gender']);
 $ethnicity = mysqli_real_escape_string($mysqli, $_POST['ethnicity']);
 $numInHouse = mysqli_real_escape_string($mysqli, $_POST['numInHouse']);
@@ -34,6 +35,15 @@ $email = mysqli_real_escape_string($mysqli, $_POST['email']);
 $curpassword = $_POST['curpassword'];
 $newpassword = $_POST['password'];
 $newpasswordconf = $_POST['passwordconf'];
+
+$donor_flag = $firstname && $lastname && $address && $city && $state && $zip &&
+		$phone;
+
+$donee_flag = $donor_flag && $gender && $ethnicity && $numInHouse && $age &&
+		$income;
+
+$_SESSION['donor'] = $donor_flag;
+$_SESSION['donee'] = $donee_flag;
 
 // grab current data for comparison
 $oldquery = <<<SQL
@@ -71,9 +81,12 @@ $newquery_arr = [
 	'AddressLine2' => "'$address2'",
 	'Telephone' => "'$phone'",
 	'Age' => "'$age'",
+	'Income' => "'$income'",
 	'HouseholdSize' => "'$numInHouse'",
 	'Ethnicity' => "'$ethnicity'",
-	'Gender' => "'$gender'"
+	'Gender' => "'$gender'",
+	'FlagDonor' => "$donor_flag",
+	'FlagDonee' => "$donee_flag"
 ];
 
 if ($newpassword != '') {

@@ -79,32 +79,27 @@ HTM;
 	require_once('../helpers/mail.php');
 }
 
-$query = '';
-// add the donee flag if the user has all donee fields completed
 // create this user in the database
-if($age != '' && $gender != '' && $ethnicity != '' && $numInHouse != '' && $income != '')
-{
+$donor_flag = $firstname && $lastname && $address && $city && $state && $zip &&
+		$phone;
+
+$donee_flag = $donor_flag && $gender && $ethnicity && $numInHouse && $age &&
+		$income;
+
+$active = !$config['use_email_verification'];
+
 $query = <<<SQL
 INSERT INTO `UserTable`
-	(FirstName, LastName, State, City, Zip, AddressLine1, AddressLine2, CumulativeRecValue,
-	    Telephone, Email, PassHash, PassSalt, FlagAdmin, FlagUser, FlagDonor, FlagDonee, Age, HouseholdSize, Ethnicity, Gender, Income)
+	(FirstName, LastName, State, City, Zip, AddressLine1, AddressLine2,
+	CumulativeRecValue, Telephone, Email, PassHash, PassSalt, FlagAdmin,
+	FlagUser, FlagDonor, FlagDonee, Active, Age, HouseholdSize, Ethnicity,
+	Gender, Income)
 	VALUES
-	('$firstname', '$lastname', '$state', '$city', '$zip', '$address', '$address2', 
-	    0, '$phone', '$email', '$passwordHash', '$passwordSalt', 0, 0, 1, 1, '$age', '$numInHouse', '$ethnicity', '$gender', '$income');
+	('$firstname', '$lastname', '$state', '$city', '$zip', '$address',
+	'$address2', 0, '$phone', '$email', '$passwordHash', '$passwordSalt',
+	False, False, '$donor_flag', '$donee_flag', '$active', '$age',
+	'$numInHouse', '$ethnicity', '$gender', '$income');
 SQL;
-}
-//otherwise only add donor flag
-else
-{
-$query = <<<SQL
-INSERT INTO `UserTable`
-	(FirstName, LastName, State, City, Zip, AddressLine1, AddressLine2, CumulativeRecValue,
-	    Telephone, Email, PassHash, PassSalt, FlagAdmin, FlagUser, FlagDonor, FlagDonee, Age, HouseholdSize, Ethnicity, Gender, Income)
-	VALUES
-	('$firstname', '$lastname', '$state', '$city', '$zip', '$address', '$address2', 
-	    0, '$phone', '$email', '$passwordHash', '$passwordSalt', 0, 0, 1, 0, '$age', '$numInHouse', '$ethnicity', '$gender', '$income');
-SQL;
-}
 
 $result = $mysqli->query($query);
 if (!$result) {

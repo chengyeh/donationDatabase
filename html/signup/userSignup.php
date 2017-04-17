@@ -36,7 +36,7 @@ include('../layouts/navbar.php');
 		form_gender_field();
 		form_ethnicity_field();
 		form_number_field('numInHouse', 'Number in household', 'Number in household', 127, 1);
-		form_number_field('income', 'Income', 'Income', 0);
+		form_number_field('income', 'Income', 'Income', PHP_INT_MAX);
 		?> <hr> <?php
 		form_field('email', 'Email*', 'email', 'yourname@example.com');
 		form_field('password', 'Password*', 'password');

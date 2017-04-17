@@ -56,5 +56,6 @@ switch($dest) {
 		header("Location:index.php?msg=4");
 		break;
 }
+exit();
 
 ?>
