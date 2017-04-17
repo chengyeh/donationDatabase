@@ -202,39 +202,14 @@ if(isset($_GET["input0"]) && isset($_SESSION["id"]))
 }
 ?>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"> </script>
-
-<form role="form" method="post">
-	<input type="text" class="form-control" id="search" placeholder="Search for an item">
-</form>
-
-<ul id="results"></ul>
-
-<script type="text/javascript">
-function tableToggle(category, id)
-{
-	$('#cat' + category + '').collapse('show');
-	$('#item' + id + '').addClass(" alert-info");
-
-}
-
-$(document).ready(function(){
-	$('#search').on('input', function() {
-		var substr = $(this).val();
-		if(substr.length >= 2)
-		{
-			$.post('invSearch.php', {keywords: substr}, function(data) {
-				$('ul#results').empty();
-				$.each(data, function() {
-					$('ul#results').append('<li><a onclick=tableToggle(' + this.catNum + ',' + this.id + ') href=' + '#item' + this.id + '>' + this.name + '</a></li>');
-				});
-			}, "json");
-		}
-	});
-});
-</script>
-
 <div class="container">
+
+	<form role="form" method="post">
+		<input type="text" class="form-control" id="search" placeholder="Search for an item">
+	</form>
+
+	<ul id="results"></ul>
+
 	<h3>Item Donation Form</h3> <br>
 
 	<form action="donor.php">
@@ -300,6 +275,31 @@ $(document).ready(function(){
 
 </div>
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"> </script>
+
+<script type="text/javascript">
+function tableToggle(category, id)
+{
+	$('#cat' + category + '').collapse('show');
+	$('#item' + id + '').addClass(" alert-info");
+
+}
+
+$(document).ready(function(){
+	$('#search').on('input', function() {
+		var substr = $(this).val();
+		if(substr.length >= 2)
+		{
+			$.post('invSearch.php', {keywords: substr}, function(data) {
+				$('ul#results').empty();
+				$.each(data, function() {
+					$('ul#results').append('<li><a onclick=tableToggle(' + this.catNum + ',' + this.id + ') href=' + '#item' + this.id + '>' + this.name + '</a></li>');
+				});
+			}, "json");
+		}
+	});
+});
+</script>
 
 </body>
 </html>
