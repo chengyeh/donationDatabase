@@ -130,10 +130,10 @@ function count_all($table_name)
                             <div class="page-header">
                                 <h1>Inventory
                                     <div class="col-md-2 pull-right">
-                                		<form action="add_category.php"><input type="submit" class="btn btn-success" value="Insert new category" /></form>
+                                    	<a href="add_category.php" class="btn btn-success" role="button">Insert new category</a>
                                 	</div>
                                 	<div class="col-md-2 pull-right">
-                                		<form action="add_item.php"><input type="submit" class="btn btn-success" value="Insert new item" /></form>
+                                		<a href="add_item.php" class="btn btn-success" role="button">Insert new item</a>
                                 	</div>
                                 </h1>
                             </div>
