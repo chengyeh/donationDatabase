@@ -117,7 +117,17 @@ function count_all($table_name)
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="page-header">
-                                <h1>Recently Added</h1>
+                                <h1>Recently Added
+                                	<div class="col-md-2 pull-right">
+                                		<a href="match.php" target="_blank" class="btn btn-primary" role="button">Matching Algorithm</a>
+                                	</div>
+                                	<div class="col-md-2 pull-right">
+                                		<a href="InventoryReportGenerator.php" target="_blank" class="btn btn-primary" role="button">Inventory Report</a>                
+                                	</div>
+                                	<div class="col-md-2 pull-right">
+                                		<a href="MetricsReportGenerator.php" target="_blank" class="btn btn-primary" role="button">Grant Metrics</a>                                		
+                                	</div>
+                                </h1>
                             </div>
                         </div>
                     </div>
