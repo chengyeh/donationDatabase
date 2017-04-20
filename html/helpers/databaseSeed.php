@@ -3,8 +3,8 @@
  * implements functions used to seed the database with test data.
  */
 
-require_once(__DIR__.'./mysqli.php');
-require_once(__DIR__.'./crypto.php');
+require_once(__DIR__.'/mysqli.php');
+require_once(__DIR__.'/crypto.php');
 
 /*
  * init_seed_metadata
